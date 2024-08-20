@@ -13,7 +13,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.cuongsolution.manageproperty.front.web.DTO.AccountDTO;
+import com.cuongsolution.manageproperty.front.web.Model.Account;
+import com.cuongsolution.manageproperty.front.web.Model.Authority;
 import com.cuongsolution.manageproperty.front.web.Service.Account.AccountService;
 
 
@@ -23,10 +24,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private AccountService accountDAO;
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		AccountDTO account=this.accountDAO.findByUsername(username);
+		Account account=this.accountDAO.findByUsername(username);
 		//Account account=this.accountDAO.findByUsername_Production(username);
 		
-       if (account.getUsername() == null) {
+       if (account.getUser().getUserFirstName() == null) {
            System.out.println("User not found! " + username);
            throw new UsernameNotFoundException("User " + username + " was not found in the database");
        }
@@ -37,9 +38,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
        List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
        if (account.getAuthorities() != null) {
            //load user from db
-    	   for (String roleName: account.getRoles()) {
+    	   for (Authority author: account.getUser().getAuthorities()) {
                // ROLE_USER, ROLE_ADMIN,..
-               GrantedAuthority authority = new SimpleGrantedAuthority(roleName);
+               GrantedAuthority authority = new SimpleGrantedAuthority(author.getRole().getRoleName());
                grantList.add(authority);
            }
        }

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/manage_debt_by_land_layout">
+
+<head>
+<title>Layout</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<main role="main"  >
+	       <div class="table-responsive">
+	       		<div class="row">
+		            <div class="col-12">
+						<div style="align-items: center; justify-content: space-between; display: flex; position: relative;">
+							<form  th:action="@{/quan-ly-cong-no}" method="post">
+								Tìm kiếm <input type="text" id="searchDebt" name="searchKeyword" >
+						        <button type="submit">Tìm kiếm</button>
+						    </form>
+						</div>
+						<div style="align-items: center; justify-content: space-between; display: flex; position: relative;">
+							<form  th:action="@{/quan-ly-cong-no}" method="post" id="previousPaginationForm">
+								<input type="hidden" th:value="${pagination.currentPage}-1" name="selectedPage" />
+								<input type="hidden" th:value="${pagination.totalPage}" name="totalPage" />
+								<input type="hidden" name="searchKeyword">
+						        <button type="submit">Trang trước </button>
+						    </form>
+						    <p>Trang hiện tại:<p th:text="${pagination.currentPage}+1" ></p></p>
+						    <form  th:action="@{/quan-ly-cong-no}" method="post" id="nextPaginationForm">
+								<input type="hidden" th:value="${pagination.currentPage}+1" name="selectedPage" />
+								<input type="hidden" th:value="${pagination.totalPage}" name="totalPage" />
+						        <input type="hidden" name="searchKeyword">
+						        <button type="submit">Trang kế</button>
+						    </form>
+						</div>
+		                <div style="align-items: center; justify-content: space-between; display: flex; position: relative;">
+							<table class="table table-sm table-bordered">
+					        	<thead>	
+					        		<tr>
+					        			<th class="content-table-header" rowspan="2">Tên tài sản</th>
+					        			<th class="content-table-header" rowspan="2">Tổng thu tháng này</th>
+					        			<th class="content-table-header" rowspan="2">Cần thu</th>
+					        			<th class="content-table-header" rowspan="2">Trạng thái</th>
+					        			<th class="content-table-header" colspan="3">Giá cho thuê</th>
+					        			<th:block th:each="expanse : ${expanseHeaderList}">
+				                        	<th class="content-table-header" colspan="3" th:text="${expanse.expanseName}+' ( '+${expanse.expansePrice}+'đ )'"></th>
+				                        	<input type="hidden" name="expanseHeader" th:value="${expanse.expanseName}"/>
+				                        </th:block>
+					        			<th class="content-table-header" rowspan="2">Cộng thêm/Giảm trừ</th>
+				                        <th class="content-table-header" rowspan="2"></th>
+					        		</tr>
+					        		<tr>
+					        			<th class="content-table-header">Số tháng</th>
+					        			<th class="content-table-header">Số ngày</th>
+					        			<th class="content-table-header">Tổng tiền</th>
+					        			<th:block th:each="expanse : ${expanseHeaderList}">
+				                        	<th class="content-table-header">Số đầu</th>
+				                        	<th class="content-table-header">Số cuối</th>
+				                        	<th class="content-table-header">Thành tiền</th>
+				                        </th:block>
+					        		</tr>
+					        	</thead>
+					          	
+								 <tbody id="debtList">
+								      <tr th:each="order: ${debtList}">
+								      			<input type="hidden" th:name="orderID" th:value="${order.getOrderID()}" />
+								                <input type="hidden" name="deligatedTenantName" th:value="${order.getDeligatedTenantName()}"/>
+								                <input type="hidden" name="deligatedTenantPhoneNumber" th:value="${order.getDeligatedTenantPhoneNumber()}" /> 
+								                <input type="hidden" name="expanseNote" th:value="${order.getExpanseNote()}"/>
+								                <input type="hidden" name="orderStatus" th:value="${order.getOrderStatus()}" />
+								                <input type="hidden" name="debtAmount" th:value="${order.getDebtAmount()}" />
+								                <td name="propertyName" class="content-table-data">
+								                    <p th:text="${order.getPropertyName()}" />
+								                    <th:block th:switch="${order.getOrderType()}">
+														<th:block th:case="0">
+															<p>Thu tiền cọc</p>
+														</th:block>
+														<th:block th:case="1">
+															<p>Thu theo chu kỳ</p>
+								                            <p th:text="'( '+${#temporals.format(order.getOrderStartChargeDate(), 'dd-MM-yyyy')}+' )'" />
+														</th:block>
+														<th:block th:case="2">
+															<p>Thu kết thúc hợp đồng</p>
+														    <p th:text="'( '+${#temporals.format(order.getOrderStartChargeDate(), 'dd-MM-yyyy')}+' )'" />
+														</th:block>
+													</th:block>
+								                </td>
+								                <td name="totalAmount">
+								                	<p th:text="${order.getTotalAmount()}"></p>
+								                	Đã thu:<p th:text="${order.getTotalAmount()-order.getRemainingAmount()}"></p>
+								                </td>
+								                <td name="remainingAmount">
+								                	<p th:text="${order.getRemainingAmount()}"></p>
+								                </td>
+								                <td>
+								                	<div th:switch="${order.getOrderStatus()}" >
+								                		<div th:case="1">
+															<p>Đã bị hủy</p>
+								                		</div>
+								                		<div th:case="2">
+								                			<p>Chưa thanh toán</p>
+								                		</div>
+								                		<div th:case="3">
+								                			<p>Chưa thanh toán hết</p>
+								                		</div>
+								                		<div th:case="4">
+								                			<p>Đã thanh toán</p>
+								                		</div>
+								                	</div>
+								                </td>
+								                <td name="totalMonth" class="content-table-data">
+								                	<p th:text="${order.getTotalMonth()}" />
+								                </td>
+								                <td name="totalDay" class="content-table-data">
+								                	<p th:text="${order.getTotalDay()}" />
+								                </td>
+								                <input type="hidden" name="propertyRentPrice" th:value="${order.getPropertyRentPrice()}"/>
+								                <td name="totalRentCost" class="content-table-data">
+ 													<p></p>
+ 								                </td>
+								                <th:block th:each="expanse : ${order.getExpanseList()}">
+								                	<td name="previousReadingValue" class="content-table-data">
+								                		<p th:text="${expanse.getPreviousReadingValue()}"></p>
+								                	</td>
+								                	<td name="currentReadingValue" class="content-table-data">
+								                		<p th:text="${expanse.getCurrentReadingValue()}"></p>
+								                	</td>
+								                	<td name="totalExpanseCost" class="content-table-data">
+								                		<p th:text="${expanse.getTotalCost()}"></p>
+								                	</td>
+								                	<input type="hidden" name="expanseQuantity" th:value="${expanse.getQuantity()}" />
+								                	<input type="hidden" name="expansePrice" th:value="${expanse.getExpansePrice()}" />
+								                </th:block>
+								                <td class="content-table-data">
+								                	<input type="hidden" name="expanseType" th:value="${order.isExpanseType()}" />
+								                	<p name="expanseCost" th:text="${order.getExpanseCost()}"></p>
+								                </td>
+								                <td>
+								                	<div class="btn-group">
+													  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
+													    Chức năng
+													  </button>
+													  <ul class="dropdown-menu">
+														<li th:if="${order.getOrderStatus()==2 OR order.getOrderStatus()==3}" class="dropdown-item">
+														    	<div data-bs-toggle="modal" th:data-bs-target="'#payOrderModal-'+${order.getOrderID()}">
+																  Thu tiền
+																</div>
+														</li>
+														<li class="dropdown-item">
+														    	<button name="printButton">
+																  	In phiếu thu tiền
+																</button>
+														</li>
+													    <li th:if="${order.getOrderStatus()!=1}"  class="dropdown-item">
+													    	<div data-bs-toggle="modal" th:data-bs-target="'#deleteOrderModal-'+${order.getOrderID()}">
+															  Hủy hóa đơn
+															</div>
+													    </li>
+													    <li th:if="${order.getOrderStatus()==1}"  class="dropdown-item">
+													    	<div data-bs-toggle="modal" th:data-bs-target="'#hardDeleteOrderModal-'+${order.getOrderID()}">
+															  Xóa hóa đơn
+															</div>
+													    </li>
+													  </ul>
+													</div>
+								                </td>
+								       </tr>
+				              </tbody>
+					        </table>
+										                
+		                </div>
+		            </div>
+		        </div>
+	       		
+	      </div>
+	    </main>
+	    <!-- create receipt -->
+	    <th:block th:each="order: ${debtList}">
+	    		<div class="modal fade" th:id="'payOrderModal-'+${order.getOrderID()}" tabindex="-1" aria-labelledby="createreceiptLabel" aria-hidden="true">
+													  <div class="modal-dialog">
+													    <div class="modal-content">
+													      <div class="modal-header">
+													        <h5 class="modal-title" id="createreceiptLabel">Thu tiền <span th:text=${order.getPropertyName()}></span></h5> 
+													        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+													      </div>
+														  <div class="modal-body">
+														  	<form  th:action="@{/quan-ly-cong-no/thanh-toan}"  method="post" th:object="${newReceipt}" th:id="'receiptForm-'+${order.getOrderID()}">
+													          		<input type="hidden"  name="orderID" th:value="${order.getOrderID()}" />
+														      		<div class="form-floating mb-3 mt-3">
+																      <input type="number" class="form-control" name="receiptAmount" th:id="'receiptAmount-'+${order.getOrderID()}" th:value="${order.getRemainingAmount()}" required min="0" th:max="${order.getRemainingAmount()}" step="any">
+																      <label th:for="'receiptAmount-'+${order.getOrderID()}">Nhập số tiền khách thuê thanh toán</label>
+																	</div>
+																	<div class="form-floating mb-3 mt-3">
+																      <select class="form-control" name="receiptType" th:id="'receiptType-'+${order.getOrderID()}">
+																	    <option th:value="1" selected>Trả bằng tiền mặt</option>
+																	    <option th:value="2" >Chuyển khoản</option>
+																	  </select>
+																      <label th:for="'receiptType-'+${order.getOrderID()}">Phương thức thanh toán</label>
+																	</div>
+																	<div class="form-floating mb-3 mt-3">
+																      <input type="text" class="form-control" name="receiptNote" th:id="'receiptNote-'+${order.getOrderID()}" >
+																      <label th:for="'receiptNote-'+${order.getOrderID()}">Ghi chú</label>
+																	</div>
+																	<div class="form-floating mb-3 mt-3">
+																      <input type="date" class="form-control" name="receiptDate" th:id="'receiptDate-'+${order.getOrderID()}" required>
+																      <label th:for="'receiptDate-'+${order.getOrderID()}">Ngày ghi nhận thu chi</label>
+																	</div>
+															</form>
+														  </div>
+														  <div class="modal-footer">
+														  		<p th:text="'Tổng nợ: '+${order.getDebtAmount()}"></p>
+														        <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Đóng</button>
+																<input type="submit" value="Thu tiền" class="btn btn-primary" th:form="'receiptForm-'+${order.getOrderID()}" />
+														  </div>
+														  
+													    </div>
+													  </div>
+				</div>
+	    </th:block>
+	    <!-- END create receipt -->
+	    <!-- delete order select modal -->
+	    <th:block th:each="order: ${debtList}">
+			<div th:if="${order.getOrderStatus()!=1}"  class="modal fade" th:id="'deleteOrderModal-'+${order.getOrderID()}" tabindex="-1"  aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-body" style="text-align:center;item-align:center;">
+							  <div>
+							  	<i style="width:100px;height:100px;" data-feather="alert-triangle">Alert</i>
+							  	
+							  	
+							  </div>
+							  <p>Bạn có chắc chắn muốn xóa hóa đơn này chứ ? ( Lưu ý tất cả phiếu thu của đơn này vẫn sẽ bị vô hiệu hóa)</p> 	
+						 </div>
+						 <div class="modal-footer">
+						 	 <form th:action="@{/quan-ly-cong-no/xoa-hoa-don}" method="post">
+									<input type="hidden" name="orderID" th:value="${order.getOrderID()}">
+									<button type="submit" class="btn btn-danger">Xóa</button>
+					          </form>
+					          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+						 </div>
+					</div>
+				</div>
+			</div>
+			 
+		</th:block>
+	    <!-- END delete order modal -->
+	    <!-- hard delete order select modal -->
+	    <th:block th:each="order: ${debtList}">
+			<div th:if="${order.getOrderStatus()==1}"  class="modal fade" th:id="'hardDeleteOrderModal-'+${order.getOrderID()}" tabindex="-1"  aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-body" style="text-align:center;item-align:center;">
+							  <div>
+							  	<i style="width:100px;height:100px;" data-feather="alert-triangle">Alert</i>
+							  	
+							  </div>
+							  <p>Bạn có chắc chắn muốn xóa hóa đơn này hoàn toàn chứ ? ( Lưu ý tất cả tất cả dữ liệu này sẽ bị xóa hoàn toàn)</p> 	
+						 </div>
+						 <div class="modal-footer">
+						 	 <form th:action="@{/quan-ly-cong-no/xoa-hoan-toan-hoa-don}" method="post">
+									<input type="hidden" name="orderID" th:value="${order.getOrderID()}">
+									<button type="submit" class="btn btn-danger">Xóa</button>
+					          </form>
+					          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+						 </div>
+					</div>
+				</div>
+			</div>
+			 
+		</th:block>
+	    <!-- END hard delete order modal -->
+	    <!--table for export to Excel-->
+	    <table id="data-table" hidden>
+			<thead>
+				<tr>
+					<th>Tên tài sản</th>
+					<th>Cần thu</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="order: ${debtList}">
+					<td th:text="${order.getPropertyName()}"></td>
+					<td th:text="${order.getRemainingAmount()}"></td>
+				</tr>
+			</tbody>
+		</table>
+	    <!-- END table for export to Excel-->
+	    <!-- js to activate feature-icon -->
+	    <!--statistic totalUnpaiddebtList totalPaiddebtList-->
+	    <div>
+			<p>Tổng công nợ: <p id="debtAmount"></p> VND   </p>
+		    <p>Tổng tiền chưa thu: <p id="unpaidDebtAmount"></p> VND  </p>
+		    <p>Tổng tiền đã thu: <p id="paidAmount"></p> VND  </p>
+		</div>
+	    <!--statistic totalUnpaiddebtList totalPaiddebtList-->
+	    <script>
+	      //activate icon-feather
+	      feather.replace()
+	      //activate icon-feather
+	      
+	      //activate tooltip
+	      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		   return new bootstrap.Tooltip(tooltipTriggerEl)
+		  })
+	      //activate tooltip
+	    </script>
+	    
+	</div>
+
+</body>
+</html>

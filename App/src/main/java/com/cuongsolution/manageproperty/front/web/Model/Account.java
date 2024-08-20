@@ -1,4 +1,4 @@
-package com.cuongsolution.manageproperty.front.web.DTO;
+package com.cuongsolution.manageproperty.front.web.Model;
 
 import java.util.Collection;
 import java.util.List;
@@ -7,12 +7,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
-public class AccountDTO implements UserDetails{
+public class Account implements UserDetails{
 	private long account_ID;
 	private String username;
 	private String password;
-	private List<String> roles;
-	
+	private User user;
 	public long getAccountID() {
 		return account_ID;
 	}
@@ -31,12 +30,12 @@ public class AccountDTO implements UserDetails{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public AccountDTO(String username, String password) {
+	public Account(String username, String password) {
 		super();
 		this.username = username;
 		this.password = password;
 	}
-	public AccountDTO() {
+	public Account() {
 		super();
 	}
 	@Override
@@ -70,11 +69,12 @@ public class AccountDTO implements UserDetails{
 	public void setAccount_ID(long account_ID) {
 		this.account_ID = account_ID;
 	}
-	public List<String> getRoles() {
-		return roles;
+	
+	public User getUser() {
+		return user;
 	}
-	public void setRoles(List<String> roles) {
-		this.roles = roles;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	

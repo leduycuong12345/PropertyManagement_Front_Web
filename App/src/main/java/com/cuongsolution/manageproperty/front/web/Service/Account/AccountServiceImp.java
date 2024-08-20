@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.cuongsolution.manageproperty.front.web.DTO.AccountDTO;
+import com.cuongsolution.manageproperty.front.web.Model.Account;
 import com.cuongsolution.manageproperty.front.web.Service.Utils.RequestAPI_Service;
 
 import reactor.core.publisher.Mono;
@@ -18,11 +18,11 @@ public class AccountServiceImp implements AccountService {
 	@Autowired
 	private RequestAPI_Service apiCaller;
 	@Override
-	public AccountDTO findByUsername(String username) {
+	public Account findByUsername(String username) {
 		// POST request
 		String fullPostURL = kafkaBaseURL+"/userserivce/findbyusername?username="+username;
         String requestJson = "{\"account_ID\":\"username\", \"password\":\"bar\", \"userId\":1}";
-        Mono<AccountDTO> postMonoResponse = apiCaller.post(fullPostURL, requestJson, AccountDTO.class);
+        Mono<Account> postMonoResponse = apiCaller.post(fullPostURL, requestJson, Account.class);
         
         AtomicBoolean errorOccurred = new AtomicBoolean(false);
         postMonoResponse.doOnError(error -> errorOccurred.set(true))
@@ -37,17 +37,17 @@ public class AccountServiceImp implements AccountService {
         }
         else
         {
-        	return new AccountDTO();
+        	return new Account();
         }
 	}
 
 
 	@Override
-	public AccountDTO findByUsername_Production(String username) {
+	public Account findByUsername_Production(String username) {
 		// POST request
 		String fullPostURL = kafkaBaseURL+"/userserivce/findbyusername?username="+username;
 		String requestJson = "{\"account_ID\":\"username\", \"password\":\"bar\", \"userId\":1}";
-		Mono<AccountDTO> postMonoResponse = apiCaller.post(fullPostURL, requestJson, AccountDTO.class);
+		Mono<Account> postMonoResponse = apiCaller.post(fullPostURL, requestJson, Account.class);
 		        
 		AtomicBoolean errorOccurred = new AtomicBoolean(false);
 		postMonoResponse.doOnError(error -> errorOccurred.set(true))
@@ -62,7 +62,7 @@ public class AccountServiceImp implements AccountService {
 		}
 		else
 		{
-		    return new AccountDTO();
+		    return new Account();
 		}
 	}
 

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/manage_tenant_layout">
+
+<head>
+<title>Layout</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<main role="main"  >
+	       <div class="table-responsive">
+	       	
+	       	<div style="display: flex;align-items: center;justify-content: space-between;">
+	       		<h4 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+				Quản lý danh sách khách thuê
+	       		<i style="font-size: 14px;font-weight: normal;color: #444444;">Tất cả danh sách khách thuê trong Nhà trọ <span th:text="${selectedLandName}"></span> </i>
+	       		</h4>
+	       	</div>
+	       	<button id="printTenantListButton">
+						In danh sách người ở trọ
+			</button>
+	       	<table class="table table-sm table-bordered">
+	        	<thead>
+	        		<tr>
+	        			<th>Tên khách hàng</th>
+	        			<th>Số điện thoại</th>
+	        			<th>Ngày sinh</th>
+	        			<th>CMND/CCCD</th>
+	        			<th></th>
+	        		</tr>
+	        	</thead>
+	          	
+				 <tbody class="accordion" id="worksheetList">
+				      <th:block th:each="property: ${propertyList}" >
+				 		<div class="accordion-item">
+				 			<tr>
+					      		<td colspan="5">
+	    								<h2 class="accordion-header">
+							      			<button class="accordion-button" data-bs-toggle="collapse" th:data-bs-target="'#propertyCollapse-'+${property.getPropertyID()}">
+									          <p th:text="'Tài sản '+${property.getPropertyName()}"></p>
+									    	</button>
+									    </h2>
+					      		</td>
+					      	</tr>
+					      	<div class="accordion-body">
+					      		<tr name="roomDetails_printTenantList" th:each="tenant: ${property.tenantList}" th:id="'propertyCollapse-'+${property.getPropertyID()}" class="collapse show">
+									  	
+								     	<input type="hidden" name="propertyName_printTenantList" th:value="${property.getPropertyName()}"/>
+								     	<input type="hidden" name="tenantName_printTenantList" th:value="${tenant.getTenantName()}"/>
+								     	<input type="hidden" name="tenantPhoneNumber_printTenantList" th:value="${tenant.getTenantPhoneNumber()}"/>
+								     	<input type="hidden" name="tenantCI_printTenantList" th:value="${tenant.getTenantCI()}"/>
+								     	<td>
+								     		<p th:text="${tenant.getTenantName()}"></p>
+								     	</td>
+								     	<td>
+								     		<p th:text="${tenant.getTenantPhoneNumber()}"></p>
+								     	</td>
+								     	<td>
+								     		<p  th:text="${#temporals.format(tenant.getTenantBirthDate(), 'dd/MM/yyyy')}"></p>
+								     	</td>
+								     	<td>
+								     		<p th:text="${tenant.getTenantCI()}"></p>
+								     	</td>
+								     	<td>
+								     		<div class="remove-expanse-circle-button" data-bs-toggle="modal" th:data-bs-target="'#deleteTenantModal-'+${tenant.getTenantID()}">
+													  <div data-bs-toggle="tooltip" data-bs-placement="top" title="Xóa khách thuê">
+					              							<i data-feather="trash-2">Delete</i>
+					              					  </div>
+											</div>
+											<div class="circle-button" data-bs-toggle="modal" th:data-bs-target="'#editTenantModal-'+${tenant.getTenantID()}"  >
+					              						<div data-bs-toggle="tooltip" data-bs-placement="top" title="Chỉnh sửa thông tin khách thuê">
+					              							<i data-feather="edit">Edit</i>
+					              						</div>
+											</div>
+								     	</td>
+								 </tr>
+							</div>
+				 		 </div>
+				       </th:block>
+              </tbody>
+	        </table>
+	      </div>
+	    </main>
+	    <!-- delete tenant-->
+	    <th:block th:each="property: ${propertyList}">
+	    	<th:block th:each="tenant: ${property.tenantList}">
+	    		<div class="modal fade" th:id="'deleteTenantModal-'+${tenant.getTenantID()}" tabindex="-1"  aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align:center;item-align:center;">
+								  <div>
+								  	<i style="width:100px;height:100px;" data-feather="alert-triangle">Alert</i>
+								  </div>
+								  <p th:text="'Bạn có chắc chắn muốn xóa khách thuê ['+ ${tenant.getTenantName()} +'] của tài sản ['+${property.getPropertyName()} + '] không ?'"></p> 	
+							 </div>
+							 <div class="modal-footer">
+							 	 <form th:action="@{/quan-ly-khach-thue/xoa-khach-thue}" method="post">
+										<input type="hidden" name="contractID" th:value="${tenant.getContractID()}">
+										<button type="submit" class="btn btn-danger">Xóa</button>
+						          </form>
+						          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+							 </div>
+						</div>
+					</div>
+				</div>
+	    	</th:block>
+		</th:block>
+	    <!-- END delete tenant-->
+	    <!-- EDIT tenant-->
+	      <th:block th:each="property: ${propertyList}">
+	    	<th:block th:each="tenant: ${property.tenantList}">
+				<div class="modal fade" th:id="'editTenantModal-'+${tenant.getTenantID()}" tabindex="-1"  aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered">
+						<div class="modal-content">
+							 <div class="modal-body">
+															<form  th:action="@{/quan-ly-khach-thue/sua-thong-tin-khach-thue}" th:object="${editTenant}" method="post" th:id="'editTenantToWorksheetForm-'+${tenant.getTenantID()}" >
+													          	
+														        <h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+													       		Thông tin các nhân của khách thuê:
+													       		<i style="font-size: 14px;font-weight: normal;color: #444444;">Các thông tin về khách thuê</i>
+													       		</h5>
+													       		<input type="hidden" name="tenantID" th:value="${tenant.getTenantID()}" />
+													       		<div class="form-floating mb-3 mt-3">
+																      <input type="text" class="form-control" name="tenantName" th:value="${tenant.getTenantName()}" th:id="'tenantName-'+${tenant.getTenantID()}" required>
+																      <label th:for="'tenantName-'+${tenant.getTenantID()}">Tên khách thuê</label>
+																</div>
+																<div class="form-floating mb-3 mt-3">
+																      <input type="text" class="form-control" name="tenantPhoneNumber" th:value="${tenant.getTenantPhoneNumber()}" th:id="'tenantPhoneNumber-'+${tenant.getTenantID()}" required>
+																      <label th:for="'tenantPhoneNumber-'+${tenant.getTenantID()}">Số điện thoại</label>
+																</div>
+																<div class="form-floating mb-3 mt-3">
+																      <input type="text" class="form-control" name="tenantCI" th:value="${tenant.getTenantCI()}" th:id="'tenantCI-'+${tenant.getTenantID()}" required>
+																      <label th:for="'tenantCI-'+${tenant.getTenantID()}">CMND/CCCD</label>
+																</div>
+																<div class="form-floating mb-3 mt-3">
+																      <input type="date" class="form-control" name="tenantBirthDate" th:value="${#temporals.format(tenant.getTenantBirthDate(), 'yyyy-MM-dd')}" th:id="'tenantBirthDate-'+${tenant.getTenantID()}" required>
+																      <label th:for="'tenantBirthDate-'+${tenant.getTenantID()}">Ngày sinh</label>
+																</div>
+														       </form> 
+									</div>
+									 <div class="modal-footer">
+														        <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Đóng</button>
+																<input type="submit" value="Cập nhật thông tin khách thuê" class="btn btn-primary" th:form="'editTenantToWorksheetForm-'+${tenant.getTenantID()}" />
+									</div>
+								</div>
+						</div>
+					</div>
+	    	</th:block>
+		</th:block>
+	    <!-- END edit tenant-->
+	    <!-- review page to print -->
+	    <div id="printingTenantList"></div>
+	    <!-- END review page to print -->
+	    
+	    <!-- js to activate feature-icon -->
+	    <script>
+	      //activate icon-feather
+	      feather.replace()
+	      //activate icon-feather
+	      
+	      //activate tooltip
+	      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		   return new bootstrap.Tooltip(tooltipTriggerEl)
+		  })
+	      //activate tooltip
+	    </script>
+	</div>
+</body>
+</html>

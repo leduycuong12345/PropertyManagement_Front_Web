@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/new_user_layout">
+<head>
+<title>Layout</title>
+</head>
+
+<body>
+	<div  layout:fragment="content">
+			<main role="main">
+				<!-- Button trigger modal -->
+				<div class="col text-center">
+					<h1>Bạn chưa có nhà trọ nào xin khởi tạo một cái.</h1>
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createLandModal">
+					  Khởi tạo nhà trọ
+					</button>
+				</div>
+				
+				<!-- Modal -->
+				<!-- Modal create land  -->
+		<div class="modal fade" id="createLandModal" tabindex="-1" aria-pledby="createLandModal" aria-hidden="true">
+				  <div class="modal-dialog modal-lg">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="createLandModal">Thêm nhà trọ</h5>
+				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-p="Close"></button>
+				      </div>
+				      <form  th:action="@{/land/create}" th:object="${newLand}" method="post">
+					      <div class="modal-body">
+					      		<h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+									Thông tin nhà trọ
+								<i style="font-size: 14px;font-weight: normal;color: #444444;"> Các thông tin nhà trọ cơ bản</i>
+								</h5>
+								<div class="form-floating mb-3 mt-3">
+									<input type="text" class="form-control"  th:field="*{landName}" th:id="landName" >
+									<label th:for="landName">Tên nhà trọ</label>
+								</div>
+								<div class="form-floating mb-3 mt-3">
+									<input type="number" class="form-control"  th:field="*{propertyRentalPrice}" th:id="propertyRentalPrice" >
+									<label th:for="propertyRentalPrice">Giá cho thuê</label>
+								</div>
+								<div class="form-floating mb-3 mt-3">
+									<input type="number" class="form-control"  th:field="*{orderCreationDate}" th:id="orderCreationDate" >
+									<label th:for="orderCreationDate">Ngày lập phiếu tính tiền mỗi tháng</label>
+								</div>
+					        	<h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+									Tạo phòng tự động
+								<i style="font-size: 14px;font-weight: normal;color: #444444;"> Tạo phòng tự động theo tổng số phòng bạn nhập bên dưới sẽ giúp việc nhập dữ liệu nhanh hơn</i>
+								</h5>
+								<div class="form-floating mb-3 mt-3">
+									<input type="number" class="form-control"  th:field="*{tenantMax}" th:id="tenantMax" >
+									<label th:for="tenantMax">Số người ở tối đa:</label>
+								</div>
+								<div class="form-floating mb-3 mt-3">
+									<input type="number" class="form-control"  th:field="*{floorCount}" th:id="floorCount" >
+									<label th:for="floorCount">Số tầng</label>
+								</div>
+								<div class="form-floating mb-3 mt-3">
+									<input type="number" class="form-control"  th:field="*{propertyCountEachFloor}" th:id="propertyCountEachFloor" >
+									<label th:for="propertyCountEachFloor">Số phòng mỗi tầng</label>
+								</div>
+					        	<h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+									Cài đặt dịch vụ:
+								<i style="font-size: 14px;font-weight: normal;color: #444444;"> Thiết lập các dịch vụ khi khách thuê sử dụng khi thuê</i>
+								</h5>
+					        	
+					        	
+					        		<div class="row g-2">
+					        		   <div class="col-md">
+						        			 <div class="form-floating"> 
+						        				<select class="form-select form-select-sm" th:field="*{electricExpanseType}" id="electricExpanseType">
+													    <option th:value="0" >Không tính/miễn phí</option>
+													    <option th:value="1" >Tính theo đầu người</option>
+													    <option th:value="2" >Tính theo phòng</option>
+													    <option th:value="3" selected>Tính theo đồng hồ điện (tùy chọn phổ biển)</option>
+												</select>
+												<label th:for="electricExpanseType">Chi phí điện</label>
+						        			 </div>
+					        		    </div>
+					        			<div class="col-md">
+					        				<div class="form-floating">
+					        					<select class="form-select form-select-sm" th:field="*{waterExpanseType}" id="waterExpanseType">
+												    <option th:value="0" >Không tính/miễn phí</option>
+												    <option th:value="1" >Tính theo đầu người</option>
+												    <option th:value="2">Tính theo phòng</option>
+												    <option th:value="3" selected>Tính theo đồng hồ nước (tùy chọn phổ biển)</option>
+												</select>
+												<label th:for="waterExpanseType">Chi phí nước</label>
+					        				</div>
+					        			</div>
+					        		   
+					        		</div>
+					        		
+					        	
+					        	<div class="row g-2">
+					        			<div class="col-md">
+					        				<div class="form-floating">
+					        					<select class="form-select form-select-sm" th:field="*{ethernetExpanseType}" id="ethernetExpanseType">
+												    <option th:value="0" selected>Không tính/miễn phí</option>
+												    <option th:value="1" >Tính theo đầu người</option>
+												    <option th:value="2" >Tính theo phòng</option>
+												</select>
+												<label th:for="ethernetExpanseType">Chi phí Ethernet</label>
+					        				</div>
+					        			</div>
+					        			<div class="col-md">
+					        				<div class="form-floating">
+					        					<select class="form-select form-select-sm" th:field="*{trashExpanseType}" id="trashExpanseType">
+												    <option th:value="0" selected>Không tính/miễn phí</option>
+												    <option th:value="1" >Tính theo đầu người</option>
+												    <option th:value="2" >Tính theo phòng</option>
+												</select>
+												<label th:for="trashExpanseType">Chi phí rác</label>
+					        				</div>
+					        			</div>
+					        		
+					        	</div>   			
+							
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+					        <input type="submit" value="Khởi tạo nhà trọ" class="btn btn-primary"/>
+					      </div>
+				      </form>
+				    </div>
+				  </div>
+				</div>
+				  
+							     
+				<script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>			        	 
+								       			
+										
+				
+		  </main>
+	</div>
+</body>
+</html>

@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/manage_property_layout">
+
+<head>
+<title>Layout</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<main role="main"  >
+	       <div class="table-responsive">
+	       	
+	       	<div style="display: flex;align-items: center;justify-content: space-between;">
+	       		<h4 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+	       		Quản lý danh sách tài sản
+	       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Tất cả danh sách tài sản trong khu vực <span th:text="${selectedLand.landName}"></span> </i>
+	       		</h4>
+	       		<button data-bs-toggle="modal" data-bs-target="#fastCreateOrderList">
+	       			Tạo nhanh danh sách hóa đơn
+		        </button>
+		        <button data-bs-toggle="modal" data-bs-target="#addProperty">
+	       			Tạo tài sản mới
+		        </button>
+		        <div class="mb-3 form-check">
+				    <input type="checkbox" class="form-check-input" id="noWorksheetFilter">
+				    <label class="form-check-label" for="noWorksheetFilter">Tài sản chưa cho thuê</label>
+				</div>
+				<div class="mb-3 form-check">
+				    <input type="checkbox" class="form-check-input" id="bookedFilter">
+				    <label class="form-check-label" for="bookedFilter">Tài sản đã cọc giữ chỗ</label>
+				</div>
+				<div class="mb-3 form-check">
+				    <input type="checkbox" class="form-check-input" id="noDepositFilter">
+				    <label class="form-check-label" for="noDepositFilter">Tài sản chưa thu tiền cọc</label>
+				</div>
+				<div class="mb-3 form-check">
+				    <input type="checkbox" class="form-check-input" id="onDebtFilter">
+				    <label class="form-check-label" for="onDebtFilter">Tài sản đang nợ tiền</label>
+				</div>
+				<div class="mb-3 form-check">
+				    <input type="checkbox" class="form-check-input" id="usagePropetyFilter">
+				    <label class="form-check-label" for="usagePropetyFilter">Tài sản đang ở</label>
+				</div>
+	       	</div>
+	       	
+	       	<table class="table table-sm table-bordered" >
+	        	<thead>	
+	        		<tr>
+	        			<th>Tên tài sản</th>
+	        			<th>Giá thuê</th>
+	        			<th>Mức tiền đặt cọc</th>
+	        			<th>Ngày tạo hóa đơn</th>
+	        			<th>Chu kỳ thu tiền</th>
+	        			<th>Ngày bắt đầu thuê</th>
+	        			<th>Ngày kết thúc thuê</th>
+	        			<th>Tình trạng thuê</th>
+	        			<th>Tài chính</th>
+	        			<th>    </th>
+	        		</tr>
+	        	</thead>
+	          	
+				 <tbody id="propertyList" >
+				      <tr th:each="property: ${propertyList}">
+				      			<input type="hidden" th:name="propertyID" th:value="${property.getPropertyID()}" />
+				                <td>
+				                    <textarea class="editable_propertyName_textarea h-100 w-auto d-inline-block" onchange="allowToSave(this)" maxlength="254"  th:name="propertyName" th:text="${property.getPropertyName()}"></textarea>
+				                </td>
+				                <td>
+				                    <textarea  onchange="allowToSave(this)" class="editable_property_textarea h-100 w-auto d-inline-block" th:name="propertyRentalPrice" th:text="${#numbers.formatDecimal(property.getPropertyRentalPrice(), 0, 'COMMA', 0, 'POINT')}" ></textarea>
+				                </td>
+				                <td>
+				                	<div th:switch="${property.getRentStatus()}" >
+				                		<div th:case="0">
+				                			<span style="color:red;" class="h-100 w-auto d-inline-block" >Chưa lập hợp đồng</span>
+				                		</div>
+				                		<div th:case="*">
+				                			<textarea  onchange="allowToSave(this)" class="editable_property_textarea h-100 w-auto d-inline-block" th:name="worksheetTotalDeposit" th:text="${#numbers.formatDecimal(property.getWorksheetTotalDeposit(), 0, 'COMMA', 0, 'POINT')}" ></textarea>
+				                		</div>
+				                	</div>
+				                    
+				                </td>
+				                <td>
+				                	<!--  <input type="text" onchange="allowToSave(this)" th:name="worksheetOrderCreationDate" th:value="${property.getWorksheetOrderCreationDate()}" />
+				                	 -->
+				                   <div th:switch="${property.getRentStatus()}" >
+				                   		<div th:case="0">
+				                   			<p style="color:black;" class="h-100 w-auto d-inline-block" th:text="'Ngày '+${property.getWorksheetOrderCreationDate()}"></p>
+				                   		</div>
+				                   		<div  th:case="*">
+				                   			 <select  onchange="allowToSave(this)" class="h-100 w-auto d-inline-block" th:name="worksheetOrderCreationDate">
+											    <option th:value="1" th:selected="(${property.getWorksheetOrderCreationDate()} == 1)">Ngày 1</option>
+												<option th:value="2" th:selected="(${property.getWorksheetOrderCreationDate()} == 2)">Ngày 2</option>
+												<option th:value="3" th:selected="(${property.getWorksheetOrderCreationDate()} == 3)">Ngày 3</option>
+												<option th:value="4" th:selected="(${property.getWorksheetOrderCreationDate()} == 4)">Ngày 4</option>
+												<option th:value="5" th:selected="(${property.getWorksheetOrderCreationDate()} == 5)">Ngày 5</option>
+												<option th:value="6" th:selected="(${property.getWorksheetOrderCreationDate()} == 6)">Ngày 6</option>
+												<option th:value="7" th:selected="(${property.getWorksheetOrderCreationDate()} == 7)">Ngày 7</option>
+												<option th:value="8" th:selected="(${property.getWorksheetOrderCreationDate()} == 8)">Ngày 8</option>
+												<option th:value="9" th:selected="(${property.getWorksheetOrderCreationDate()} == 9)">Ngày 9</option>
+												<option th:value="10" th:selected="(${property.getWorksheetOrderCreationDate()} == 10)">Ngày 10</option>
+											    <option th:value="11" th:selected="(${property.getWorksheetOrderCreationDate()} == 11)">Ngày 11</option>
+												<option th:value="12" th:selected="(${property.getWorksheetOrderCreationDate()} == 12)">Ngày 12</option>
+												<option th:value="13" th:selected="(${property.getWorksheetOrderCreationDate()} == 13)">Ngày 13</option>
+												<option th:value="14" th:selected="(${property.getWorksheetOrderCreationDate()} == 14)">Ngày 14</option>
+												<option th:value="15" th:selected="(${property.getWorksheetOrderCreationDate()} == 15)">Ngày 15</option>
+												<option th:value="16" th:selected="(${property.getWorksheetOrderCreationDate()} == 16)">Ngày 16</option>
+												<option th:value="17" th:selected="(${property.getWorksheetOrderCreationDate()} == 17)">Ngày 17</option>
+												<option th:value="18" th:selected="(${property.getWorksheetOrderCreationDate()} == 18)">Ngày 18</option>
+												<option th:value="19" th:selected="(${property.getWorksheetOrderCreationDate()} == 19)">Ngày 19</option>
+												<option th:value="20" th:selected="(${property.getWorksheetOrderCreationDate()} == 20)">Ngày 20</option>
+											    <option th:value="21" th:selected="(${property.getWorksheetOrderCreationDate()} == 21)">Ngày 21</option>
+												<option th:value="22" th:selected="(${property.getWorksheetOrderCreationDate()} == 22)">Ngày 22</option>
+												<option th:value="23" th:selected="(${property.getWorksheetOrderCreationDate()} == 23)">Ngày 23</option>
+												<option th:value="24" th:selected="(${property.getWorksheetOrderCreationDate()} == 24)">Ngày 24</option>
+												<option th:value="25" th:selected="(${property.getWorksheetOrderCreationDate()} == 25)">Ngày 25</option>
+												<option th:value="26" th:selected="(${property.getWorksheetOrderCreationDate()} == 26)">Ngày 26</option>
+												<option th:value="27" th:selected="(${property.getWorksheetOrderCreationDate()} == 27)">Ngày 27</option>
+												<option th:value="28" th:selected="(${property.getWorksheetOrderCreationDate()} == 28)">Ngày 28</option>
+												<option th:value="29" th:selected="(${property.getWorksheetOrderCreationDate()} == 29)">Ngày 29</option>
+												<option th:value="30" th:selected="(${property.getWorksheetOrderCreationDate()} == 30)">Ngày 30</option>
+												<option th:value="31" th:selected="(${property.getWorksheetOrderCreationDate()} == 31)">Ngày 31</option>
+											</select>
+				                   		</div>
+				                   </div>
+				                  
+				                </td>
+				                <td>
+				                	
+				                	 <div th:switch="${property.getWorksheettimeInverval()}" >
+				                	 	<span style="color:red;" class="h-100 w-auto d-inline-block" th:case="0">Chưa lập hợp đồng</span>
+				                	 	<div th:case="*">
+				                	 		<select  onchange="allowToSave(this)" class="h-100 w-auto d-inline-block"   th:name="WorksheetTimeInverval">
+											    <option th:value="1" th:selected="(${property.getWorksheettimeInverval()} == 1)">1 ngày</option>
+											    <option th:value="2" th:selected="(${property.getWorksheettimeInverval()} == 2)">1 tháng</option>
+											    <option th:value="3" th:selected="(${property.getWorksheettimeInverval()} == 3)">6 tháng</option>
+											    <option th:value="4" th:selected="(${property.getWorksheettimeInverval()} == 4)">1 năm</option>
+											    <option th:value="5" th:selected="(${property.getWorksheettimeInverval()} == 5)">1.5 năm</option>
+											    <option th:value="6" th:selected="(${property.getWorksheettimeInverval()} == 6)">2 năm</option>
+											</select>
+				                	 	</div>
+				                	 </div>
+				                  	 
+				                </td>
+				                <td>
+				                	<div th:if="${property.getWorksheetCreateDate()}">
+				                		<span  style="color:black;" class="h-100 w-auto d-inline-block"  th:text="${#dates.format(property.getWorksheetCreateDate(), 'dd/MM/yyyy')}" ></span>
+				                	</div>
+				                	<div th:unless="${property.getWorksheetCreateDate()}">
+				                		<span style="color:red;" class="h-100 w-auto d-inline-block"  >Chưa vào ở</span>
+				                	</div>
+				                </td>
+				                <td>
+				                	<div th:if="${property.getWorksheetExpireDate()}">
+				                		<span class="h-100 w-auto d-inline-block"  th:text="${#dates.format(property.getWorksheetExpireDate(), 'dd/MM/yyyy')}"></span>
+				                	</div>
+				                	<div th:unless="${property.getWorksheetExpireDate()}">
+				                		<span class="h-100 w-auto d-inline-block" >Vô thời hạn</span>
+				                	</div>
+				                </td>
+				                <td>
+				                	<div th:switch="${property.getRentStatus()}" >
+				                		<span style="color:red;" class="h-100 w-auto d-inline-block" th:case="0">Đang trống</span>
+				                		<span style="color:black;" class="h-100 w-auto d-inline-block" th:case="1">Đang ở</span>
+				                		<span style="color:#ffff00;text-shadow: -0.1px 0 #0000, 0 0.1px #0000, 0.1px 0 #0000, 0 -0.1px #0000;" class="h-100 w-auto d-inline-block" th:case="2">Đã cọc</span>
+				                	</div>
+				                </td>
+				                <td>
+									<div th:switch="${property.getPaymentStatus()}">
+										<div th:case="0">
+											<p>Chưa cho thuê</p>
+										</div>
+										<div th:case="1">
+											<p>Đã cọc giữ chỗ</p>
+										</div>
+										<div th:case="2">
+											<p>Chưa thu tiền cọc</p>
+											<p>Nợ tiền thu theo chu kỳ</p>
+										</div>
+										<div th:case="3">
+											<p>Nợ tiền thu theo chu kỳ</p>
+										</div>
+										<div th:case="4">
+											<p>Chưa thu tiền cọc</p>
+										</div>
+										<div th:case="5">
+											<p>Đợi chu kỳ thu tiền kế tiếp</p>
+										</div>
+									</div>
+				                    <div type="text" th:value="${property.getPaymentStatus()}" />
+				                </td>
+				                <td>
+				                	<div  th:switch="${property.getRentStatus()}" >
+				                		<div th:case="1">
+				                			<!-- dropdown menu for empty-worksheet property -->
+											<div  class="btn-group">
+											  <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
+											    Chức năng
+											  </button>
+											  <ul class="dropdown-menu dropdown-menu-end">
+											    <li class="dropdown-item"><a href="#">Chi tiết tài sản</a></li>
+											    <li class="dropdown-item">
+											    	<!-- Button trigger contract-modal -->
+													<div data-bs-toggle="modal" th:data-bs-target="'#orderModal-'+${property.getPropertyID()}">
+													  Lập hóa đơn
+													</div>
+													<!-- Button trigger contract-modal -->												
+											    </li>
+											    <th:block th:if="${property.getWorksheetDepositRemaining()} > 0"> 
+												    <li class="dropdown-item">
+												    	<!-- Button trigger contract-modal -->
+														<div data-bs-toggle="modal" th:data-bs-target="'#depositModal-'+${property.getPropertyID()}">
+														  Thu tiền cọc
+														</div>
+														<!-- Button trigger contract-modal -->												
+												    </li>
+											    </th:block>
+											    <li class="dropdown-item">
+											    	<div data-bs-toggle="modal" th:data-bs-target="'#addTenantToWorksheetModal-'+${property.getPropertyID()}">
+													  Thêm khách thuê
+													</div>
+											    </li>
+											    <li class="dropdown-item" style="background-color:red;">
+											    	<form th:action="@{/quan-ly/xoa-hop-dong}" method="post">
+					                					<input type="hidden" name="worksheetID" th:value="${property.getWorksheetID()}">
+														<button type="submit"  style="border: none;background-color:red;color:white;">
+														  Thanh lý tài sản
+														</button>
+					              					</form>	
+											    </li>
+											    <li class="dropdown-item">
+											    	<!-- Button trigger modal -->
+													<div data-bs-toggle="modal" th:data-bs-target="'#editFastExpanseListModal-'+${property.getPropertyID()}">
+													  Cài đặt dịch vụ
+													</div>
+													<!-- Button trigger modal -->	
+											    </li>
+											    <li class="dropdown-item">
+													<a  th:href="'/quan-ly-cong-no/hop-dong?worksheetId='+${property.getWorksheetID()}">
+													  Quản lý công nợ
+													</a>
+											    </li>
+											    <li class="dropdown-item">Đóng Menu</li>
+											  </ul>
+											</div>
+											<!-- end dropdown menu for empty-worksheet property -->
+				                		</div>
+				                		<div th:case="0">
+				                			<!-- dropdown menu for hired property -->
+											<div class="btn-group">
+											  <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
+											    Chức năng
+											  </button>
+											  <ul class="dropdown-menu dropdown-menu-end">
+											    <li class="dropdown-item"><a href="#">Chi tiết tài sản</a></li>
+											    <li class="dropdown-item">
+											    	<!-- Button trigger contract-modal -->
+													<div data-bs-toggle="modal" th:data-bs-target="'#contractModal-'+${property.getPropertyID()}">
+													  Hợp đồng mới
+													</div>
+													<!-- Button trigger contract-modal -->												
+											    </li>
+											    <li class="dropdown-item">
+											    	<!-- Button trigger contract-modal -->
+													<div data-bs-toggle="modal" th:data-bs-target="'#bookModal-'+${property.getPropertyID()}">
+													  Đặt cọc tài sản
+													</div>
+													<!-- Button trigger contract-modal -->												
+											    </li>
+											    <!--
+											    <li class="dropdown-item"><a href="#">Cọc giữ chỗ</a></li>-->
+											    <li class="dropdown-item" style="color:black;background-color:red;">
+											    	<form th:action="@{/property/delete}" method="post">
+					                					<input type="hidden" name="propertyID" th:value="${property.getPropertyID()}">
+						              					<button type="submit"   style="border:none;background-color:red;color:white;">
+														   		Xóa tài sản	
+														</button>
+					              					</form>	
+											    </li>
+											    <li class="dropdown-item">
+											    	<!-- Button trigger modal -->
+													<div data-bs-toggle="modal" th:data-bs-target="'#editFastExpanseListModal-'+${property.getPropertyID()}">
+													  Cài đặt dịch vụ
+													</div>
+													<!-- Button trigger modal -->	
+											    </li>
+											    <li class="dropdown-item">Đóng Menu<li>
+											  </ul>
+											</div>
+											<!-- end dropdown menu for hired property -->
+				                		</div>
+				                		<div th:case="2">
+				                			<!-- dropdown menu for booked property -->
+											<div  class="btn-group">
+											  <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
+											    Chức năng
+											  </button>
+											  <ul class="dropdown-menu dropdown-menu-end">
+											    <li class="dropdown-item"><a href="#">Chi tiết tài sản</a></li>
+											    <li class="dropdown-item">
+													<div data-bs-toggle="modal" th:data-bs-target="'#checkinModal-'+${property.getPropertyID()}">
+													  Lập phiếu nhận tài sản
+													</div>											
+											    </li>
+											    <th:block th:if="${property.getWorksheetDepositRemaining()} > 0"> 
+												    <li class="dropdown-item">
+												    	<!-- Button trigger contract-modal -->
+														<div data-bs-toggle="modal" th:data-bs-target="'#depositModal-'+${property.getPropertyID()}">
+														  Thu tiền cọc
+														</div>
+														<!-- Button trigger contract-modal -->												
+												    </li>
+											    </th:block>
+											    <li class="dropdown-item" style="background-color:red;">
+											    	<form th:action="@{/quan-ly/huy-coc}" method="post">
+					                					<input type="hidden" name="worksheetID" th:value="${property.getWorksheetID()}">
+														<button type="submit"  style="border: none;background-color:red;color:white;">
+														  Hủy cọc
+														</button>
+					              					</form>	
+											    </li>
+											    <li class="dropdown-item">Đóng Menu</li>
+											  </ul>
+											</div>
+											<!-- end dropdown menu for booked property -->
+				                		</div>
+				                	</div>
+			                  	</td>
+			                  	
+				       </tr>
+              </tbody>
+	        </table>
+	      </div>
+	    </main>
+	    <!-- pop up bottom allow to save  -->
+		<div class="position-fixed bottom-0 end-0 p-12" style="z-index: 11">
+		  <div id="saveChangePropertyNotificationModal" class="toast hide" style="width: 100% !important; " role="alert" aria-live="assertive" aria-atomic="true"  data-bs-autohide="false">
+		    <div class="toast-header">
+		      <strong class="me-auto">Thông báo thay đổi thông tin tài sản</strong>
+		      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+		    </div>
+		    <div class="toast-body">
+		       <p id="editPropertyNotificationText"/>
+		       <div class="mt-2 pt-2 border-top">
+				  <input type="submit" value="Lưu" class="btn btn-primary" id="saveChange" />
+			      <input type="submit" class="btn btn-danger"  value="Không lưu" form="notSaveChangePropertyForm">			      
+			      <button type="button" class="btn btn-secondary" data-bs-dismiss="toast">Đóng</button>
+				   <form th:action="@{/quan-ly}" method="get" id="notSaveChangePropertyForm">
+				   </form>
+			   </div>
+		    </div>
+		  </div>
+		</div>
+		<!-- end pop up bottom allow to save  -->
+		
+	    <!-- modal for create property -->
+	    <div class="modal fade" id="addProperty" aria-hidden="true" aria-labelledby="addNewPropertyToLandModal" tabindex="-1">
+		  <div class="modal-dialog modal-dialog-centered">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="addNewPropertyToLandModal">Thêm tài sản</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <form  th:action="@{/tai-san/them}"  method="post">
+			      <div class="modal-body">
+			        	<div style="display: flex;align-items: center;justify-content: space-between;">
+				       		<h4 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+				       		Thông tin tài sản
+				       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Nhập các thông tin cơ bản của tài sản</i>
+				       		</h4>
+				       	</div>
+				       	
+							<!-- form create Property START -->
+							<input type="hidden" th:name="landID" th:value="${selectedLandID}" />
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" placeholder="Enter name" id="floatingNewPropertyName" th:name="propertyName" required/>
+									<label for="floatingNewPropertyName">Tên tài sản</label>
+								</div>
+								<div class="form-floating mb-3">
+									<input type="number" class="form-control" placeholder="Enter name" id="floatingNewPropertyPrice" th:name="propertyRentalPrice" pattern="[0-9]+([\.,][0-9]+)?" step="0.001" required min="0"/>
+									<label for="floatingNewPropertyPrice">Giá cho thuê tài sản</label>
+								</div>
+							<!-- form create Property END -->
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Đóng</button>
+					<input type="submit" value="Thêm tài sản" class="btn btn-primary"/>
+			      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+	    <!-- END modal for create property -->
+	    
+	    <!-- modal for create-worksheet in property-list -->
+	    <div th:each="property: ${propertyList}">
+	    	<div th:switch="${property.getRentStatus()}" >
+				<div th:case="0">
+					<div class="modal fade" th:id="'contractModal-'+${property.getPropertyID()}" tabindex="-1" aria-labelledby="contractModalLabel" aria-hidden="true">
+													  <div class="modal-dialog">
+													    <div class="modal-content">
+													      <div class="modal-header">
+													        <h5 class="modal-title" id="contractModalLabel">Thêm hợp đồng mới <span th:text="${property.getPropertyName()}"></span></h5> 
+													        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+													      </div>
+													      <form  th:action="@{/hop-dong/them}"  method="post" th:object="${newWorksheet}">
+													          <input type="hidden" name="propertyID" th:value="${property.getPropertyID()}" />
+														      <div class="modal-body">
+														      
+														      	<h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+													       		Thông tin ngày tháng hợp đồng
+													       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Các thông tin ngày sẽ xuất hiện trong văn bản hợp đồng</i>
+													       		</h5>
+													       		
+														        <div class="form-floating mb-3">
+															      <input type="date" placeholder="dd/mm/yyyy" class="form-control" th:id="'floatingWorksheetStartDate-'+${property.getPropertyID()}" th:field="*{worksheetCreateDate}" required >
+															      <label th:for="'floatingWorksheetStartDate-'+${property.getPropertyID()}">Ngày vào ở</label>
+															    </div>
+														        <div class="form-floating mb-3">
+															      <input type="date" placeholder="dd/mm/yyyy" class="form-control" th:id="'floatingWorksheetExpireDate-'+${property.getPropertyID()}" th:field="*{worksheetEndDate}"  required>
+															      <label th:for="'floatingWorksheetExpireDate-'+${property.getPropertyID()}">Kết thúc hợp đồng</label>
+															    </div>
+															    <div class="form-floating mb-3 mt-3">
+															    	<select class="form-control" th:id="'floatingTimeInterval-'+${property.getPropertyID()}" th:field="*{timeInterval}">
+																	    <option th:value="1" th:selected="(${property.getWorksheettimeInverval()} == 1)">1 ngày</option>
+																	    <option th:value="2" th:selected="(${property.getWorksheettimeInverval()} == 2)">1 tháng</option>
+																	    <option th:value="3" th:selected="(${property.getWorksheettimeInverval()} == 3)">6 tháng</option>
+																	    <option th:value="4" th:selected="(${property.getWorksheettimeInverval()} == 4)">1 năm</option>
+																	    <option th:value="5" th:selected="(${property.getWorksheettimeInverval()} == 5)">1.5 năm</option>
+																	    <option th:value="6" th:selected="(${property.getWorksheettimeInverval()} == 6)">2 năm</option>
+																	</select>
+																	<label th:for="'floatingTimeInterval-'+${property.getPropertyID()}">Chu kì thu tiền</label>
+															    </div>
+															    
+														        <h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+													       		Thông tin khách thuê đại diện
+													       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Nhập thông tin khách thuê. Các thông tin ngày sẽ xuất hiện trong văn bản hợp đồng  </i>
+													       		</h5>
+													       		
+														        <div class="form-floating mb-3 mt-3">
+																      <input type="text" class="form-control"  th:field="*{firstTenantName}" th:id="'firstTenantName-'+${property.getPropertyID()}"  required/>
+																      <label th:for="'firstTenantName-'+${property.getPropertyID()}">Tên người ở</label>
+																</div>
+														        <div class="form-floating mb-3 mt-3">
+																      <input type="text" class="form-control"  th:field="*{firstTenantPhoneNumber}" th:id="'firstTenantPhoneNumber-'+${property.getPropertyID()}"  required/>
+																      <label th:for="'firstTenantPhoneNumber-'+${property.getPropertyID()}">Số điện thoại người ở</label>
+																</div>
+																<div class="form-floating mb-3 mt-3">
+																      <input type="text" class="form-control"  th:field="*{firstTenantCI}" th:id="'firstTenantCI-'+${property.getPropertyID()}"  required/>
+																      <label th:for="'firstTenantCI-'+${property.getPropertyID()}">CMND/CCCD</label>
+																</div>
+														        <div class="form-floating mb-3 mt-3">
+																      <input type="date" class="form-control" th:field="*{firstTenantBirthDate}" th:id="'firstTenantBirthDate-'+${property.getPropertyID()}" required/>
+																      <label th:for="'firstTenantBirthDate-'+${property.getPropertyID()}">Ngày sinh</label>
+																</div>
+																
+														        <h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+													       		Dịch vụ sử dụng
+													       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Thêm dịch vụ sử dụng như: điện, nước, rác, wifi... </i>
+													       		</h5>
+													       		
+														        <th:block th:if="${not #lists.isEmpty(property.recurringExpanseList)}">
+															        <div th:each="item, itemStat : ${property.recurringExpanseList}">
+																      <div name="expanseContainer" style="border-style:outset;padding:5px;"> 
+																		  <th:block th:switch="${item.recurringExpanseType}">
+																					<th:block th:case="2">	
+																						 <input type="hidden" name="expanseID" th:value="${item.propertyServiceID}" />
+																			        	 <input type="checkbox"  th:field="*{selectedExpanseList}" th:value="${item.propertyServiceID}+'_1'"  /> 
+																			        	 <b><span th:text="${item.recurringExpanseName}"></span></b>
+																			        	 <p th:text="'Số cũ: ' + ${item.lastRecord.readingValue}"></p>
+																			        	 <p>
+																			        	 	<span th:text="'Giá '+${item.recurringExpansePrice}+' đ/'+${item.recurringExpanseUnitCount}"></span>
+																			        	 </p>
+																			        	 <div class="input-group mb-3">
+																						   <input type="number" readonly class="form-control" name="recurringExpanseValue" value="1">
+																						   <span class="input-group-text" th:text="${item.recurringExpanseUnitCount}+'(Chỉ số hiện tại)'"></span>
+																						 </div>		
+																					</th:block>
+																					<th:block th:case="*">	
+																						 <input type="hidden" name="expanseID" th:value="${item.propertyServiceID}" />
+																			        	 <input type="checkbox"  th:field="*{selectedExpanseList}" th:value="${item.propertyServiceID}"  /> 
+																			        	 <b><span th:text="${item.recurringExpanseName}"></span></b>
+																			        	 <p th:text="'Số cũ: ' + ${item.lastRecord.readingValue}"></p>
+																			        	 <p>
+																			        	 	<span th:text="'Giá '+${item.recurringExpansePrice}+' đ/'+${item.recurringExpanseUnitCount}"></span>
+																			        	 </p>
+																			        	 <div class="input-group mb-3">
+																						   <input type="number" class="form-control" name="recurringExpanseValue" th:value="${item.lastRecord.readingValue}">
+																						   <span class="input-group-text" th:text="${item.recurringExpanseUnitCount}+'(Chỉ số hiện tại)'"></span>
+																						 </div>		
+																					</th:block>
+																		  </th:block>	
+																        </div>
+																       <!--
+																        <div name="expanseContainer" style="border-style:outset;padding:5px;"> 
+																        	 <input type="hidden" name="expanseID" th:value="${item.propertyServiceID}" />
+																        	 <input type="checkbox"  th:field="*{selectedExpanseList}" th:value="${item.propertyServiceID}"  /> 
+																        	 <b><span th:text="${item.recurringExpanseName}"></span></b>
+																        	 <p th:text="'Số cũ: ' + ${item.lastRecord.readingValue}"></p>
+																        	 <p>
+																        	 	<span th:text="'Giá '+${item.recurringExpansePrice}+' đ/'+${item.recurringExpanseUnitCount}"></span>
+																        	 </p>
+																        	 <div class="input-group mb-3">
+																			   <input type="number" class="form-control" name="recurringExpanseValue" th:value="${item.lastRecord.readingValue}">
+																			   <span class="input-group-text" th:text="${item.recurringExpanseUnitCount}+'(Chỉ số hiện tại)'"></span>
+																			 </div>			
+																        </div>-->
+																    </div>
+															    </th:block>
+															    
+															    <h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+													       		Thông tin giá trị hợp đồng
+													       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Giá tiền tài sản và mức tiền cọc sẽ thu</i>
+													       		</h5>
+													       		
+													       		<div class="form-floating mb-3 mt-3">
+																      <input type="number" class="form-control"  th:name="depositAmount" th:id="'depositAmount-'+${property.getPropertyID()}" th:value="${property.getPropertyRentalPrice()}" pattern="[0-9]+([\.,][0-9]+)?" step="0.001" required min="0"/>
+																      <label th:for="'depositAmount-'+${property.getPropertyID()}">Mức giá tiền cọc</label>
+																</div>
+																<div class="form-floating mb-3 mt-3">
+																      <input type="number" class="form-control"  th:name="worksheetRentalPrice" th:id="'worksheetRentalPrice-'+${property.getPropertyID()}" th:value="${property.getPropertyRentalPrice()}" pattern="[0-9]+([\.,][0-9]+)?" step="0.001" required min="0"/>
+																      <label th:for="'worksheetRentalPrice-'+${property.getPropertyID()}">Giá thuê</label>
+																</div>
+														      </div>	
+														      <div class="modal-footer">
+														        <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Đóng</button>
+																<input type="submit" value="Thêm hợp đồng mới" class="btn btn-primary"/>
+														      </div>
+														  </form>
+													    </div>
+													  </div>
+													</div>
+													<!-- End New contract Modal -->
+												</div>
+											</div>
+	    </div>
+	    <!-- END modal for create-worksheet in property-lít -->
+	    
+	    <!-- modal for create order in property-list -->
+	    <div th:each="property: ${propertyList}">
+	     	<div th:switch="${property.getRentStatus()}" >
+	     		<div th:case="0">
+	     			<!-- this case for create-worksheet -->
+	     		</div>
+			 	<div th:case="*">
+					<div class="modal fade" th:id="'orderModal-'+${property.getPropertyID()}" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+													  <div class="modal-dialog modal-dialog-scrollable">
+													    <div class="modal-content">
+													      <div class="modal-header">
+													        <h5 class="modal-title" id="orderModalLabel">Thêm hóa đơn mới <span th:text="${property.getPropertyName()}"></span></h5> 
+													        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+													      </div>
+														  <div class="modal-body">
+														  
+														  	<form  th:action="@{/hoa-don/them}"  method="post" th:object="${newOrder}" th:id="'orderForm-'+${property.getPropertyID()}" >
+													          	<input type="hidden" name="worksheetID" th:value="${property.getWorksheetID()}" />
+														        <input type="hidden" name="currentPropertyRentalPrice" th:value="${property.getPropertyRentalPrice()}"  />
+														        <h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+													       		Thông tin ngày tháng hóa đơn
+													       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Nhập thời gian bắt đầu và kết thúc hóa đơn để thống kê</i>
+													       		</h5>
+													       		<div class="form-floating mb-3 mt-3">
+																      <input type="month" class="form-control" th:field="*{orderBelongMonth}" th:id="'orderBelongMonth-'+${property.getPropertyID()}" required>
+																      <label th:for="'orderBelongMonth-'+${property.getPropertyID()}">Tháng lập phiếu</label>
+																</div>
+														        <div class="form-floating mb-3 mt-3">
+																      <input type="date" class="form-control" th:field="*{orderCreateDate}" th:id="'orderCreateDate-'+${property.getPropertyID()}" required>
+																      <label th:for="'orderCreateDate-'+${property.getPropertyID()}">Ngày bắt đầu hóa đơn</label>
+																</div>
+																<div class="form-floating mb-3 mt-3">
+																      <input type="date" class="form-control" th:field="*{orderExpireDate}" th:id="'orderExpireDate-'+${property.getPropertyID()}" required>
+																      <label th:for="'orderExpireDate-'+${property.getPropertyID()}">Ngày kết thúc hóa đơn</label>
+																</div>
+														        <h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+													       		Tiền thuê
+													       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Nhập số tháng và số ngày lẻ (nếu có).</i>
+													       		</h5>
+														        <div class="form-floating mb-3 mt-3">
+																      <input type="number" class="form-control calculateTotalCost_CreateOrder" th:field="*{totalMonth}" name="totalMonth" th:id="'totalMonth-'+${property.getPropertyID()}"  required min="0">
+																      <label th:for="'totalMonth-'+${property.getPropertyID()}">Số tháng</label>
+																</div>
+														        <!-- <p>Số ngày lẻ  : </p><input name="totalDay" class="calculateTotalCost_CreateOrder" type="number" > -->
+														        <div class="form-floating mb-3 mt-3">
+																      <input type="number" class="form-control calculateTotalCost_CreateOrder" th:field="*{totalDay}" name="totalDay" th:id="'totalDay-'+${property.getPropertyID()}"  min="0">
+																      <label th:for="'totalDay-'+${property.getPropertyID()}">Số ngày lẻ </label>
+																</div>
+														     
+														        <p>Tính tiền tài sản : </p>
+														        <textarea class="form-control" name="orderDetailsText" disabled></textarea>
+														        
+														        <p>Dịch vụ sử dụng</p>
+														        <th:block th:if="${not #lists.isEmpty(property.recurringExpanseList)}">
+															        <div th:each="item, itemStat : ${property.recurringExpanseList}">
+															        	<div th:switch="${item.recurringExpanseType}" >
+	     																	<div th:case="3">
+	     																		<div name="expanseContainer" style="border-style:outset;padding:5px;">
+																		        	 <p>
+																		        	 	<span th:text="${item.recurringExpanseName}"></span>( <span th:text="${item.recurringExpansePrice}"></span>d/<span th:text="${item.recurringExpanseUnitCount}"></span> )
+																		        	 </p>
+																		        	 <input type="hidden"  th:field="*{recurringExpanseList_withCurrentReading}" /> 		        	 
+																		        	 <input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}+'_'+${item.recurringExpanseType}" />
+																		        	 <input type="hidden" name="recurringExpansePrice" th:value="${item.recurringExpansePrice}" />
+																		        	 <input type="hidden" name="recurringExpanseType" th:value="${item.recurringExpanseType}" />
+																		        	 <div class="form-floating mb-3 mt-3">
+																					      <input type="number" name="lastReading" th:value="${item.lastRecord.readingValue}" class="form-control calculateTotalCost_CreateOrder updateReadingWithID" th:id="'lastReading-'+${property.getPropertyID()}+${item.propertyServiceID}">
+																					      <label th:for="'lastReading-'+${property.getPropertyID()}+${item.propertyServiceID}">Số cũ</label>
+																					</div>	
+																					<div class="form-floating mb-3 mt-3">
+																					      <input type="number"  name="currentReading" th:value="${item.lastRecord.readingValue}" class="form-control calculateTotalCost_CreateOrder updateReadingWithID" th:id="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}">
+																					      <label th:for="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}">Số mới</label>
+																					</div>	
+																		        </div>
+	     																	</div>
+	     																	<div th:case="1">
+	     																		<div name="expanseContainer" style="border-style:outset;padding:5px;">
+																		        	 <p>
+																		        	 	<span th:text="${item.recurringExpanseName}"></span>( <span th:text="${item.recurringExpansePrice}"></span>d/<span th:text="${item.recurringExpanseUnitCount}"></span> )( Số cũ: <span th:text="${item.lastRecord.readingValue}"></span> )
+																		        	 </p>
+																		        	 <input type="hidden"  th:field="*{recurringExpanseList_withCurrentReading}" /> 		        	 
+																		        	 <input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}+'_'+${item.recurringExpanseType}" />
+																		        	 <input type="hidden" name="recurringExpansePrice" th:value="${item.recurringExpansePrice}" />
+																		        	 <input type="hidden" name="recurringExpanseType" th:value="${item.recurringExpanseType}" />
+																		        	 <div class="form-floating mb-3 mt-3">
+																					      <input type="number"  name="currentReading" class="form-control calculateTotalCost_CreateOrder updateReadingWithID" th:id="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}" th:value="${item.lastRecord.readingValue}">
+																					      <label th:for="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}">Số mới</label>
+																					 </div>		
+																		        </div>
+	     																	</div>
+	     																	<div th:case="2">
+	     																		<div name="expanseContainer" style="border-style:outset;padding:5px;">
+																		        	 <p>
+																		        	 	<span th:text="${item.recurringExpanseName}"></span>( <span th:text="${item.recurringExpansePrice}"></span>d/<span th:text="${item.recurringExpanseUnitCount}"></span> )
+																		        	 </p>
+																		        	 <input type="hidden"  id="recurringExpanseList_withCurrentReading" name="recurringExpanseList_withCurrentReading" th:value="${item.propertyServiceID}+'_'+${item.recurringExpanseType}+'_1'"/> 		        	 
+																		        	 <input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}+'_'+${item.recurringExpanseType}" />
+																		        	 <input type="hidden" name="recurringExpansePrice" th:value="${item.recurringExpansePrice}" />
+																		        	 <input type="hidden" name="recurringExpanseType" th:value="${item.recurringExpanseType}" />
+																		        	 <div class="form-floating mb-3 mt-3">
+																					      <input type="number" readonly name="currentReading" value="1" class="form-control calculateTotalCost_CreateOrder updateReadingWithID" th:id="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}">
+																					      <label th:for="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}">Chi phí áp dụng cho cả tài sản</label>
+																					 </div>		
+																		        </div>
+	     																	</div>
+	     																</div>
+																        
+																       
+																    </div>
+															    </th:block>
+															    <h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+													       		Cộng thêm / Giảm trừ:
+													       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Thường dành cho các trường hợp đặc biệt. Ví dụ cộng thêm ngày tết, giảm trừ covid...</i>
+													       		</h5>
+															  	<p>Cộng thêm: </p><input type="radio" class="calculateTotalCost_CreateOrder" th:field="*{expanseType}" value="true" checked>
+														      	<p>Giảm trừ : </p><input type="radio" class="calculateTotalCost_CreateOrder" th:field="*{expanseType}" value="false">
+														         
+													       		<div class="form-floating mb-3 mt-3">
+																      <input type="number" class="form-control calculateTotalCost_CreateOrder" th:field="*{expanseCost}"  th:id="'expanseCost-'+${property.getPropertyID()}" pattern="[0-9]+([\.,][0-9]+)?" step="0.001" min="0">
+																      <label th:for="'expanseCost-'+${property.getPropertyID()}">Số tiền</label>
+																</div>
+															 	<!--  <p>Số tiền : </p><input type="number" class="calculateTotalCost_CreateOrder" >-->
+														      	
+														      	<div class="form-floating mb-3 mt-3">
+																      <input type="text" class="form-control calculateTotalCost_CreateOrder" th:field="*{expanseDetails}"  th:id="'expanseDetails-'+${property.getPropertyID()}" >
+																      <label th:for="'expanseDetails-'+${property.getPropertyID()}">Lý do</label>
+																</div>
+														      	<!--  <p>Lý do : </p><input type="text" th:field="*{expanseDetails}" >-->
+														      	<input type="hidden" name="totalCost" th:value="${property.getPropertyRentalPrice()}"/>
+														       </form> 
+														      </div>
+														      <div class="modal-footer">
+														      	<p>Tổng số tiền:</p><input type="number" disabled name="totalCostText" th:value="${property.getPropertyRentalPrice()}"/>
+														        <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Đóng</button>
+																<input type="submit" value="Thêm phiếu thu tiền mới" class="btn btn-primary" th:form="'orderForm-'+${property.getPropertyID()}" />
+														      </div>
+														  
+													    </div>
+													  </div>
+													</div>
+												</div>
+					</div>
+	    </div>
+	    <!-- END modal for create-order in property-list -->
+
+		<!-- modal for edit-expanse-list in property-list -->
+	    <div th:each="property: ${propertyList}">
+					<div class="modal fade" th:id="'editFastExpanseListModal-'+${property.getPropertyID()}" tabindex="-1" aria-labelledby="editFastExpanseListLabel" aria-hidden="true">
+													  <div class="modal-dialog">
+													    <div class="modal-content">
+													      <div class="modal-header">
+													        <h5 class="modal-title" id="editFastExpanseListLabel">Chỉnh sửa dịch vụ sử dụng <span th:text="${property.getPropertyName()}"></span></h5> 
+													        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+													      </div>
+														  <div class="modal-body">
+														  	 <h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+													       		Nhập chỉ số hiện tại
+													       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Thay đổi chỉ số cuối của đồng hồ, thay đổi số lượng người dùng nhưng 1 hợp đòng chỉ tương ứng với một phòng</i>
+													       	</h5>
+														  	<form  th:action="@{/quan-ly/chinh-sua-dich-vu}"  method="post" th:object="${editFastExpanseList}" th:id="'editFastExpanseListForm-'+${property.getPropertyID()}">
+													          	<input type="hidden"  name="propertyID" th:value="${property.getPropertyID()}" />
+														      		<th:block th:if="${not #lists.isEmpty(property.recurringExpanseList)}">
+																        <div th:each="item, itemStat : ${property.recurringExpanseList}">
+																           <div th:switch="${item.recurringExpanseType}">
+																			<div th:case="2">
+																        		<div name="expanseContainer" style="border-style:outset;padding:5px;">
+																			        	 <input type="checkbox" class="updateValue_FastEditExpanseList" name="selectExpanse" checked/>
+																				        	 <span th:text="${item.recurringExpanseName}"></span>( <span th:text="${item.recurringExpansePrice}"></span>d/<span th:text="${item.recurringExpanseUnitCount}"></span> )
+																				        	 <input type="hidden"  th:field="*{editExpanseList}" /> 		        	 
+																				        	 <input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}"/>
+																				        	 <input type="hidden" name="recurringExpanseType" th:value="${item.recurringExpanseType}"/>
+																							 <div class="input-group mb-3">
+																							 	  <input type="text" disabled name="currentReading" placeholder="Một hợp đồng chỉ đại diện cho 1 tài sản" class="form-control"  aria-describedby="'fastEditExpanse_CurrentReading-'+${property.getPropertyID()}+${item.propertyServiceID}"/>
+																							      <div class="input-group-append" style="width:70px;">
+																								    <span class="input-group-text" th:id="'fastEditExpanse_CurrentReading-'+${property.getPropertyID()}+${item.propertyServiceID}">
+																								    	<span th:text="${item.recurringExpanseUnitCount}"></span>
+																								    </span>
+																								  </div>
+																							 </div>	
+																					</div>
+																				</div>
+																				<div th:case="*">
+																	        		<div name="expanseContainer" style="border-style:outset;padding:5px;">
+																				        	 <input type="checkbox" class="updateValue_FastEditExpanseList" name="selectExpanse" checked/>
+																					        	 <span th:text="${item.recurringExpanseName}"></span>( <span th:text="${item.recurringExpansePrice}"></span>d/<span th:text="${item.recurringExpanseUnitCount}"></span> )
+																					        	 <input type="hidden"  th:field="*{editExpanseList}" /> 		        	 
+																					        	 <input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}" />
+																					        	 <input type="hidden" name="recurringExpanseType" th:value="${item.recurringExpanseType}" />
+																								 <div class="input-group mb-3">
+																								 	  <input type="number"  name="currentReading" th:value="${item.lastRecord.readingValue}" class="form-control updateValue_FastEditExpanseList"  aria-describedby="'fastEditExpanse_CurrentReading-'+${property.getPropertyID()}+${item.propertyServiceID}"/>
+																								      <div class="input-group-append" style="width:70px;">
+																									    <span class="input-group-text" th:id="'fastEditExpanse_CurrentReading-'+${property.getPropertyID()}+${item.propertyServiceID}">
+																									    	<span th:text="${item.recurringExpanseUnitCount}"></span>
+																									    </span>
+																									  </div>
+											
+																								 </div>	
+																						</div>
+																				</div>
+																		    </div>
+																	        
+																	       
+																	    </div>
+																    </th:block>
+															    </form>
+														      </div>
+														      <div class="modal-footer">
+														        <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Đóng</button>
+																<input type="submit" value="Chỉnh sửa dịch vụ" class="btn btn-primary" th:form="'editFastExpanseListForm-'+${property.getPropertyID()}" />
+														      </div>
+														  
+													    </div>
+													  </div>
+													</div>
+	    </div>
+	    <!-- END modal for edit-expanse-list in property-list -->
+	    
+	    <!-- add tenant to worksheet-->
+	    <div th:each="property: ${propertyList}">
+	     	<div th:switch="${property.getRentStatus()}" >
+	     		<div th:case="0">
+	     			<!-- this case for create-worksheet -->
+	     		</div>
+			 	<div th:case="*">
+					<div class="modal fade" th:id="'addTenantToWorksheetModal-'+${property.getPropertyID()}" tabindex="-1" aria-labelledby="addTenantModalLabel" aria-hidden="true">
+													  <div class="modal-dialog modal-dialog-scrollable">
+													    <div class="modal-content">
+													      <div class="modal-header">
+													        <h5 class="modal-title" id="addTenantModalLabel">Thêm hóa đơn mới <span th:text="${property.getPropertyName()}"></span></h5> 
+													        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+													      </div>
+														  <div class="modal-body">
+														  	<form  th:action="@{/quan-ly/them-khach-thue}"  method="post" th:object="${newTenant}" th:id="'addTenantToWorksheetForm-'+${property.getPropertyID()}" >
+													          	<input type="hidden" name="worksheetID" th:value="${property.getWorksheetID()}" />
+														        <h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+													       		Thông tin các nhân của khách thuê:
+													       		<i style="font-size: 14px;font-weight: normal;color: #444444;">Các thông tin về khách thuê</i>
+													       		</h5>
+													       		<div class="form-floating mb-3 mt-3">
+																      <input type="text" class="form-control" th:field="*{tenantName}" th:id="'tenantName-'+${property.getPropertyID()}" required>
+																      <label th:for="'tenantName-'+${property.getPropertyID()}">Tên khách thuê</label>
+																</div>
+																<div class="form-floating mb-3 mt-3">
+																      <input type="text" class="form-control" th:field="*{tenantPhoneNumber}" th:id="'tenantPhoneNumber-'+${property.getPropertyID()}" required>
+																      <label th:for="'tenantPhoneNumber-'+${property.getPropertyID()}">Số điện thoại</label>
+																</div>
+																<div class="form-floating mb-3 mt-3">
+																      <input type="text" class="form-control" th:field="*{tenantCI}" th:id="'tenantCI-'+${property.getPropertyID()}" required>
+																      <label th:for="'tenantCI-'+${property.getPropertyID()}">CMND/CCCD</label>
+																</div>
+																<div class="form-floating mb-3 mt-3">
+																      <input type="date" class="form-control" th:field="*{tenantBirthDate}" th:id="'tenantBirthDate-'+${property.getPropertyID()}" required>
+																      <label th:for="'tenantBirthDate-'+${property.getPropertyID()}">Ngày sinh</label>
+																</div>
+														       </form> 
+														      </div>
+														      <div class="modal-footer">
+														        <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Đóng</button>
+																<input type="submit" value="Thêm thông tin khách thuê" class="btn btn-primary" th:form="'addTenantToWorksheetForm-'+${property.getPropertyID()}" />
+														      </div>
+														  
+													    </div>
+													  </div>
+													</div>
+												</div>
+					</div>
+	    </div>
+	    <!-- add tenant to worksheet-->
+	    <!-- fast create order list-->
+	    <div class="modal fade" id="fastCreateOrderList" tabindex="-1" aria-labelledby="  " aria-hidden="true">
+													  <div class="modal-dialog modal-dialog-scrollable">
+													    <div class="modal-content">
+													      <div class="modal-header">
+													        <h5 class="modal-title" id="fastCreateOrderListModalLabel">Tạo nhanh danh sách hóa đơn mới cho nhà trọ <span th:text="${selectedLand.landName}"></span> ( beta )</h5> 
+													        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+													      </div>
+														  <div class="modal-body"  id="fastCreateOrderListForm">
+														  	  	<input type="hidden" name="landID" th:value="${selectedLand.landID}" />
+													       		 <h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+													       		Thông tin ngày tháng hóa đơn
+													       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Nhập thời gian bắt đầu và kết thúc hóa đơn để thống kê</i>
+													       		</h5>
+													       		<div class="form-floating mb-3 mt-3">
+																      <input type="month" class="form-control" name="orderList_BelongMonth" id="orderList_BelongMonth" required>
+																      <label th:for="orderList_BelongMonth">Tháng lập phiếu</label>
+																</div>
+														        <div class="form-floating mb-3 mt-3">
+																      <input type="date" class="form-control" name="orderList_CreateDate" id="orderList_CreateDate" required>
+																      <label th:for="orderList_CreateDate">Ngày bắt đầu hóa đơn</label>
+																</div>
+																<div class="form-floating mb-3 mt-3">
+																      <input type="date" class="form-control" name="orderList_ExpireDate" id="orderList_ExpireDate" required>
+																      <label th:for="orderList_ExpireDate">Ngày kết thúc hóa đơn</label>
+																</div>
+																<i style="font-size: 14px;font-weight: normal;color: #444444;"> Nhập số tháng và số ngày lẻ (nếu có).</i>
+													       		</h5>
+														        <div class="form-floating mb-3 mt-3">
+																      <input type="number" class="form-control updateTotalCost_FastCreateOrderList"  name="orderList_TotalMonth" id="orderList_TotalMonth" value="1" required min="0">
+																      <label th:for="orderList_TotalMonth">Số tháng</label>
+																</div>
+														        <!-- <p>Số ngày lẻ  : </p><input name="totalDay" class="calculateTotalCost_CreateOrder" type="number" > -->
+														        <div class="form-floating mb-3 mt-3">
+																      <input type="number" class="form-control updateTotalCost_FastCreateOrderList"  name="orderList_TotalDay" id="orderList_TotalDay"  value="0" min="0">
+																      <label th:for="orderList_TotalDay">Số ngày lẻ </label>
+																</div>
+																<h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+													       		Danh sách tài sản đang cho thuê
+													       		<i style="font-size: 14px;font-weight: normal;color: #444444;">Danh sách các tài sản đang có hợp đồng cho thuê</i>
+													       		<input class="form-control" id="searchWorksheet_createFastOrderList" type="text" placeholder="Tìm tài sản ...">
+													       		</h5>
+																<div th:each="property: ${propertyList}" style="padding:5px;">
+																	<div th:switch="${property.getRentStatus()}" >
+												                		<div th:case="0">
+																			<!---->
+												                		</div>
+												                		<div name="fastCreateOrder" th:case="*" style="background-color: #bbb;display: inline-block;">
+																			
+																			<input type="checkbox" name="worksheetIsSelected" checked />
+																			
+																			<p th:text="${property.getPropertyName()}"></p>( Giá theo hợp đồng: <span th:text="${property.getPropertyRentalPrice()}"></span>đ)
+																			<input type="hidden" name="worksheetID" th:value="${property.getWorksheetID()}"  />
+												                			<th:block th:if="${not #lists.isEmpty(property.recurringExpanseList)}">
+																		        <div th:each="item, itemStat : ${property.recurringExpanseList}">
+																		           <div th:switch="${item.recurringExpanseType}">
+																						<div th:case="3">
+																							<div name="expanseContainer" style="border-style:outset;padding:5px;">
+																					        	 <p>
+																					        	 	<span th:text="${item.recurringExpanseName}"></span>( <span th:text="${item.recurringExpansePrice}"></span>d/<span th:text="${item.recurringExpanseUnitCount}"></span> )
+																					        	 </p>
+																					        	 <input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}"/>
+																					        	 <input type="hidden" name="recurringExpansePrice" th:value="${item.recurringExpansePrice}" />
+																					        	 <input type="hidden" name="recurringExpanseType" th:value="${item.recurringExpanseType}" />
+																					        	 <div class="form-floating mb-3 mt-3">
+																								      <input type="number" name="lastReading" th:value="${item.lastRecord.readingValue}" class="form-control calculateOrderList" th:id="'lastReading-'+${property.getPropertyID()}+${item.propertyServiceID}" >
+																								      <label th:for="'lastReading-'+${property.getPropertyID()}+${item.propertyServiceID}">Số cũ</label>
+																								</div>	
+																								<div class="form-floating mb-3 mt-3">
+																								      <input type="number"  name="currentReading" th:value="${item.lastRecord.readingValue}" class="form-control calculateOrderList" th:id="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}" >
+																								      <label th:for="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}">Số mới</label>
+																								</div>	
+																					        </div>
+																				        </div>
+																				        <div th:case="1">
+																							<div name="expanseContainer" style="border-style:outset;padding:5px;">
+																					        	 <p>
+																					        	 	<span th:text="${item.recurringExpanseName}"></span>( <span th:text="${item.recurringExpansePrice}"></span>d/<span th:text="${item.recurringExpanseUnitCount}"></span> )( Số cũ: <span th:text="${item.lastRecord.readingValue}"></span> )
+																					        	 </p>
+																					        	 <input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}" />
+																					        	 <input type="hidden" name="recurringExpansePrice" th:value="${item.recurringExpansePrice}" />
+																					        	 <input type="hidden" name="recurringExpanseType" th:value="${item.recurringExpanseType}" />
+																					        	 <div class="form-floating mb-3 mt-3">
+																								      <input type="number"  name="currentReading" class="form-control calculateOrderList" th:id="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}" th:value="${item.lastRecord.readingValue}" />
+																								      <label th:for="'currentReading-'+${item.propertyServiceID}">Số mới</label>
+																								 </div>		
+																					        </div>
+																				        </div>
+																				        <div th:case="2">
+																							<div name="expanseContainer" style="border-style:outset;padding:5px;">
+																								<p>
+																						        	 	<span th:text="${item.recurringExpanseName}"></span>( <span th:text="${item.recurringExpansePrice}"></span>d/<span th:text="${item.recurringExpanseUnitCount}"></span> )
+																						        </p>
+																								<input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}" />
+																								<input type="hidden" name="recurringExpanseType" th:value="${item.recurringExpanseType}" />
+																								<input type="hidden" name="recurringExpansePrice" th:value="${item.recurringExpansePrice}" />
+																							</div>
+																				        </div>
+																			       </div>
+																			    </div>
+												                			</th:block>
+												                			Tổng giá trị đơn: <input type="number" name="totalCost" value="0"/>
+																		    <input type="hidden" name="currentPropertyRentalPrice" th:value="${property.getPropertyRentalPrice()}"  />
+												                		</div>
+												                	</div>
+															    </div>
+															    .
+														      </div>
+														      <div class="modal-footer">
+														        <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Đóng</button>
+																<input type="submit" value="Tạo danh sách phiếu thu tiền" class="btn btn-primary" id="fastCreateOrderListButton" />
+														      </div>
+													    </div>
+													  </div>
+		</div>
+	    <!-- fast create order list-->
+	    
+	    <!-- create order for deposit -->
+	    <div th:each="property: ${propertyList}">
+	     	<div th:switch="${property.getRentStatus()}" >
+	     		<div th:case="0">
+	     			<!-- this case for create-worksheet -->
+	     		</div>
+			 	<div th:case="*">
+				   <th:block th:if="${property.getWorksheetDepositRemaining()} > 0"> 
+					<div class="modal fade" th:id="'depositModal-'+${property.getPropertyID()}" tabindex="-1" aria-labelledby="depositModalLabel" aria-hidden="true">
+													  <div class="modal-dialog modal-dialog-scrollable">
+													    <div class="modal-content">
+													      <div class="modal-header">
+													        <h5 class="modal-title" id="depositModalLabel">Thêm hóa đơn thanh toán tiền đặt cọc tài sản <span th:text="${property.getPropertyName()}"></span></h5> 
+													        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+													      </div>
+														  <div class="modal-body">
+														  
+														  	<form  th:action="@{/quan-ly/nop-tien-coc}"  method="post" th:object="${newDeposit}" th:id="'depositForm-'+${property.getPropertyID()}" >
+													          	<input type="hidden" name="worksheetID" th:value="${property.getWorksheetID()}" />
+														        Tổng giá trị cọc:<p th:text="${#numbers.formatDecimal(property.getWorksheetTotalDeposit(), 0, 'COMMA', 0, 'POINT')}" ></p>
+														        Cọc còn phải thanh toán:<p th:text="${#numbers.formatDecimal(property.getWorksheetDepositRemaining(), 0, 'COMMA', 0, 'POINT')}"></p>
+														        <div class="form-floating mb-3 mt-3">
+																      <input type="month" class="form-control" name="orderBelongMonth" th:id="'depositBelongMonth-'+${property.getPropertyID()}" required>
+																      <label th:for="'depositBelongMonth-'+${property.getPropertyID()}">Tháng lập phiếu</label>
+																</div>
+														      	Tổng số tiền nộp:<input type="number" name="depositAmount" th:value="${property.getWorksheetDepositRemaining()}"/> 
+														       </form> 
+														      </div>
+														      <div class="modal-footer">
+														      	<button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Đóng</button>
+																<input type="submit" value="Thêm phiếu thu tiền cọc mới" class="btn btn-primary" th:form="'depositForm-'+${property.getPropertyID()}" />
+														      </div>
+														  
+													    </div>
+													  </div>
+						</div>
+					  </th:block>
+				</div>
+			</div>
+	    </div>
+	    <!-- create order for deposit -->
+	    
+	     <!-- modal for book property  in property-list -->
+	    <div th:each="property: ${propertyList}">
+	    	<div th:switch="${property.getRentStatus()}" >
+				<div th:case="0">
+					<div class="modal fade" th:id="'bookModal-'+${property.getPropertyID()}" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
+													  <div class="modal-dialog">
+													    <div class="modal-content">
+													      <div class="modal-header">
+													        <h5 class="modal-title" id="bookModalLabel">Tạo hợp đồng đặt cọc tài sản <span th:text="${property.getPropertyName()}"></span></h5> 
+													        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+													      </div>
+													      <form  th:action="@{/quan-ly/dat-coc-phong}"  method="post" th:object="${newBooking}">
+													          <input type="hidden" name="propertyID" th:value="${property.getPropertyID()}" />
+														      <div class="modal-body">
+														      
+														      	<h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+													       		Thông tin ngày tháng hợp đồng
+													       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Các thông tin ngày sẽ xuất hiện trong văn bản hợp đồng</i>
+													       		</h5>
+													       		
+														        <div class="form-floating mb-3">
+															      <input type="date" class="form-control" th:id="'floatingWorksheetStartDate-'+${property.getPropertyID()}" th:field="*{worksheetCreateDate}" required >
+															      <label th:for="'floatingWorksheetStartDate-'+${property.getPropertyID()}">Ngày đặt cọc:</label>
+															    </div>
+														        <div class="form-floating mb-3">
+															      <input type="date" class="form-control" th:id="'floatingWorksheetExpireDate-'+${property.getPropertyID()}" th:field="*{worksheetEndDate}"  required>
+															      <label th:for="'floatingWorksheetExpireDate-'+${property.getPropertyID()}">Ngày kết thúc cọc:</label>
+															    </div>
+															    <div class="form-floating mb-3 mt-3">
+															    	<select class="form-control" th:id="'floatingTimeInterval-'+${property.getPropertyID()}" th:field="*{timeInterval}">
+																	    <option th:value="1" th:selected="(${property.getWorksheettimeInverval()} == 1)">1 ngày</option>
+																	    <option th:value="2" th:selected="(${property.getWorksheettimeInverval()} == 2)">1 tháng</option>
+																	    <option th:value="3" th:selected="(${property.getWorksheettimeInverval()} == 3)">6 tháng</option>
+																	    <option th:value="4" th:selected="(${property.getWorksheettimeInverval()} == 4)">1 năm</option>
+																	    <option th:value="5" th:selected="(${property.getWorksheettimeInverval()} == 5)">1.5 năm</option>
+																	    <option th:value="6" th:selected="(${property.getWorksheettimeInverval()} == 6)">2 năm</option>
+																	</select>
+																	<label th:for="'floatingTimeInterval-'+${property.getPropertyID()}">Chu kì thu tiền</label>
+															    </div>
+															    
+														        <h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+													       		Thông tin khách thuê đại diện
+													       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Nhập thông tin khách thuê. Các thông tin ngày sẽ xuất hiện trong văn bản hợp đồng  </i>
+													       		</h5>
+													       		
+														        <div class="form-floating mb-3 mt-3">
+																      <input type="text" class="form-control"  th:field="*{firstTenantName}" th:id="'firstTenantName-'+${property.getPropertyID()}"  required/>
+																      <label th:for="'firstTenantName-'+${property.getPropertyID()}">Tên người ở</label>
+																</div>
+														        <div class="form-floating mb-3 mt-3">
+																      <input type="text" class="form-control"  th:field="*{firstTenantPhoneNumber}" th:id="'firstTenantPhoneNumber-'+${property.getPropertyID()}"  required/>
+																      <label th:for="'firstTenantPhoneNumber-'+${property.getPropertyID()}">Số điện thoại người ở</label>
+																</div>
+																<div class="form-floating mb-3 mt-3">
+																      <input type="text" class="form-control"  th:field="*{firstTenantCI}" th:id="'firstTenantCI-'+${property.getPropertyID()}"  required/>
+																      <label th:for="'firstTenantCI-'+${property.getPropertyID()}">CMND/CCCD</label>
+																</div>
+														        <div class="form-floating mb-3 mt-3">
+																      <input type="date" class="form-control" th:field="*{firstTenantBirthDate}" th:id="'firstTenantBirthDate-'+${property.getPropertyID()}" required/>
+																      <label th:for="'firstTenantBirthDate-'+${property.getPropertyID()}">Ngày sinh</label>
+																</div>
+															    <h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+													       		Thông tin giá trị hợp đồng
+													       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Giá tiền tài sản và mức tiền cọc sẽ thu</i>
+													       		</h5>
+													       		
+													       		<div class="form-floating mb-3 mt-3">
+																      <input type="number" class="form-control"  th:name="prepaidAmount" th:id="'prepaidAmount-'+${property.getPropertyID()}" th:value="${property.getPropertyRentalPrice()}" pattern="[0-9]+([\.,][0-9]+)?" step="0.001" required min="0"/>
+																      <label th:for="'prepaidAmount-'+${property.getPropertyID()}">Mức giá tiền cọc</label>
+																</div>
+																<div class="form-floating mb-3 mt-3">
+																      <input type="number" class="form-control"  th:name="worksheetRentalPrice" th:id="'worksheetRentalPrice-'+${property.getPropertyID()}" th:value="${property.getPropertyRentalPrice()}" pattern="[0-9]+([\.,][0-9]+)?" step="0.001" required min="0"/>
+																      <label th:for="'worksheetRentalPrice-'+${property.getPropertyID()}">Giá thuê</label>
+																</div>
+														      </div>	
+														      <div class="modal-footer">
+														        <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Đóng</button>
+																<input type="submit" value="Thêm hợp đồng cọc tài sản mới" class="btn btn-primary"/>
+														      </div>
+														  </form>
+													    </div>
+													  </div>
+													</div>
+													<!-- End New contract Modal -->
+												</div>
+											</div>
+	    </div>
+	    <!-- END modal for book property in property-lít -->
+	     <!-- modal for checkinProperty  in property-list -->
+	    <div th:each="property: ${propertyList}">
+	    	<div th:switch="${property.getRentStatus()}" >
+				<div th:case="2">
+					<div class="modal fade" th:id="'checkinModal-'+${property.getPropertyID()}" tabindex="-1" aria-labelledby="checkinModal" aria-hidden="true">
+													  <div class="modal-dialog">
+													    <div class="modal-content">
+													      <div class="modal-header">
+													        <h5 class="modal-title" id="checkinModal">Phiếu cho thuê tài sản<span th:text="${property.getPropertyName()}"></span></h5> 
+													        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+													      </div>
+													      <form  th:action="@{/quan-ly/checkin}"  method="post">
+													          <input type="hidden" name="worksheetID" th:value="${property.getWorksheetID()}" />
+														      <div class="modal-body">
+														      	<h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+													       		Bạn xác nhận người dùng sẽ thuê tài sản sau khi đặt cọc chứ ?
+													       		<i style="font-size: 14px;font-weight: normal;color: #444444;">*Lưu ý các thông tin đều sẽ được giữ nguyên bao gồm tiền prepaid đã được thanh toán*</i>
+													       		</h5>
+														      </div>	
+														      <div class="modal-footer">
+														        <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Đóng</button>
+																<input type="submit" value="Xác nhận check-in" class="btn btn-primary"/>
+														      </div>
+														  </form>
+													    </div>
+													  </div>
+													</div>
+													<!-- End New contract Modal -->
+												</div>
+											</div>
+	    </div>
+	    <!-- END modal for checkinProperty in property-lít -->
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+.content-table-header{
+	vertical-align : middle;
+	text-align:center;
+	
+	white-space: nowrap;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.content-table-data{
+	vertical-align : middle;
+	    
+	white-space: nowrap;
+    width: 125px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.table-responsive{
+	background-color:#C8C8C8;
+	border-radius: 20px;
+	padding: 10px 10px 10px 10px;	
+}

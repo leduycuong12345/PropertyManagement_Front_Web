@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/manage_expanse_layout">
+
+<head>
+<title>Layout</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<main role="main"  >
+	       <div class="table-responsive">
+	       		<div class="row">
+		            <div class="col-12">
+		            	<div style="display: flex;align-items: center;justify-content: space-between;">
+				       		<h4 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+				       		Quản lý dịch vụ
+				       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Quản lý dịch vụ <span th:text="${selectedLand.landName}"></span> </i>
+				       		</h4>
+				       		<button data-bs-toggle="modal" data-bs-target="#addNewExpanse">
+				       			Thêm dịch vụ
+					        </button>
+				       	</div>
+		                <table class="table table-sm table-bordered" >
+				        	<thead>	
+				        		<tr>
+				        			<th>Tên dịch vụ</th>
+				        			<th>Đơn giá</th>
+				        			<th>Số lượng tài sản đang được áp dụng dịch vụ này</th>
+				        			<th>    </th>
+				        		</tr>
+				        	</thead>
+				          	
+							 <tbody id="recurringExpanseList">
+							      <tr th:each="recurringExpanse: ${recurringExpanseList}">
+							      			<input type="hidden" th:name="recurringExpanseID" th:value="${recurringExpanse.getRecurringExpanseID()}" />
+							                <td>
+							                	<p th:text="${recurringExpanse.getRecurringExpanseName()}"></p>
+							                </td>
+							                <td>
+							                    <p th:text="${recurringExpanse.getRecurringExpansePrice()}+'/'+${recurringExpanse.getRecurringExpanseUnitName()}"></p>
+							                </td>
+							                <td>
+							                	<p th:text="${recurringExpanse.getTotalAppliedProperty()}"></p>
+							                </td>
+							                <td>
+							                	<div class="remove-expanse-circle-button" data-bs-toggle="modal" th:data-bs-target="'#deleteRecurringExpanseModal-'+${recurringExpanse.getRecurringExpanseID()}">
+													  <div data-bs-toggle="tooltip" data-bs-placement="top" title="Xóa dịch vụ">
+					              							<i data-feather="trash-2">Delete</i>
+					              					  </div>
+												</div>
+												<div class="edit-expanse-circle-button" data-bs-toggle="modal" th:data-bs-target="'#editRecurringExpanseModal-'+${recurringExpanse.getRecurringExpanseID()}">
+													  <div data-bs-toggle="tooltip" data-bs-placement="top" title="Chỉnh sửa dịch vụ">
+					              							<i data-feather="edit">Edit</i>
+					              					  </div>
+												</div>
+						                  	</td>
+						                  	
+							       </tr>
+			              </tbody>
+				        </table>
+		            </div>
+		        </div>
+	       		
+	      </div>
+	    </main>
+	    
+	    <!-- delete recurring expanse-->
+	    <th:block th:each="recurringExpanse: ${recurringExpanseList}">
+			<div class="modal fade" th:id="'deleteRecurringExpanseModal-'+${recurringExpanse.getRecurringExpanseID()}" tabindex="-1"  aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-body" style="text-align:center;item-align:center;">
+							  <div>
+							  	<i style="width:100px;height:100px;" data-feather="alert-triangle">Alert</i>
+							  </div>
+							  <p th:text="'Bạn có chắc chắn muốn xóa dịch vụ ['+ ${recurringExpanse.getRecurringExpanseName()}+ '] không ?'"></p> 	
+						 </div>
+						 <div class="modal-footer">
+						 	 <form th:action="@{/quan-ly-dich-vu/xoa-dich-vu}" method="post">
+									<input type="hidden" name="recurringExpanseID" th:value="${recurringExpanse.getRecurringExpanseID()}">
+									<button type="submit" class="btn btn-danger">Xóa</button>
+					          </form>
+					          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+						 </div>
+					</div>
+				</div>
+			</div>
+			 
+		</th:block>
+	    <!-- END delete recurring expanse-->
+	    <!-- edit recurring expanse-->
+	    <th:block th:each="recurringExpanse: ${recurringExpanseList}">
+			<div class="modal fade" th:id="'editRecurringExpanseModal-'+${recurringExpanse.getRecurringExpanseID()}" tabindex="-1" aria-labelledby="editExpanseModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+													        <h5 class="modal-title" id="editExpanseModalLabel">Chỉnh sửa dịch vụ <span th:text="${recurringExpanse.getRecurringExpanseName()}"></span></h5> 
+													        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body" >
+							  <form th:action="@{/quan-ly-dich-vu/chinh-sua-dich-vu}" th:object="${editRecurringExpanse}" th:method="post" th:id="'editExpanse-'+${recurringExpanse.getRecurringExpanseID()}">
+									<input type="hidden" name="recurringExpanseID"   th:value="${recurringExpanse.getRecurringExpanseID()}">
+									<div class="form-floating mb-3 mt-3">
+										<input type="text" class="form-control" name="recurringExpanseName" th:id="'recurringExpanseName-'+${recurringExpanse.getRecurringExpanseID()}" th:value="${recurringExpanse.getRecurringExpanseName()}" required/>
+										<label th:for="'recurringExpanseName-'+${recurringExpanse.getRecurringExpanseID()}">Tên dịch vụ</label>
+									</div>
+									<div class="form-floating">
+					        					<select class="form-select form-select-sm" name="recurringExpanseType" th:id="'recurringExpanseType-'+${recurringExpanse.getRecurringExpanseID()}">
+												    <option th:if="${recurringExpanse.recurringExpanseType}==1" selected th:value="1">Tính theo đầu người</option>
+												    <option th:unless="${recurringExpanse.recurringExpanseType}==1" th:value="1">Tính theo đầu người</option>
+												    <option th:if="${recurringExpanse.recurringExpanseType}==2" selected th:value="2">Tính theo khối lượng</option>
+												    <option th:unless="${recurringExpanse.recurringExpanseType}==2" th:value="2">Tính theo khối lượng</option>
+												    <option th:if="${recurringExpanse.recurringExpanseType}==3" selected th:value="3">Tính theo đồng hồ nước (tùy chọn phổ biển)</option>
+												    <option th:unless="${recurringExpanse.recurringExpanseType}==3" th:value="3">Tính theo đồng hồ nước (tùy chọn phổ biển)</option>
+												</select>
+												<label th:for="'recurringExpanseType-'+${recurringExpanse.getRecurringExpanseID()}">Loại chi phí</label>
+					        		</div>
+					        		
+									<h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+										Đơn vị và giá
+										<i style="font-size: 14px;font-weight: normal;color: #444444;">Nhập thông tin đơn vị tính và giá</i>
+									</h5>
+									<div class="row g-2">
+					        			<div class="col-md">
+					        				<div class="form-floating">
+					        					<input type="number" class="form-control" name="recurringExpansePrice" th:id="'recurringExpansePrice-'+${recurringExpanse.getRecurringExpanseID()}" th:value="${recurringExpanse.getRecurringExpansePrice()}" pattern="[0-9]+([\.,][0-9]+)?" step="0.001" min="0" required>
+												<label th:for="'recurringExpansePrice-'+${recurringExpanse.getRecurringExpanseID()}">Đơn giá dịch vụ</label>
+					        				</div>
+					        			</div>
+					        			<div class="col-md">
+					        				<div class="form-floating">
+					        					<select class="form-select form-select-sm" name="recurringExpanseUnitID" th:id="'recurringExpanseUnit-'+${recurringExpanse.getRecurringExpanseID()}">
+												    <th:block th:if="${not #lists.isEmpty(recurringExpanseUnitList)}">
+												    	<th:block  th:each="recurringExpanseUnit: ${recurringExpanseUnitList}">
+												    		<option th:if="${recurringExpanse.recurringExpanseUnitID}==${recurringExpanseUnit.recurringExpanseUnitID}" th:value="${recurringExpanseUnit.recurringExpanseUnitID}" selected>
+												    			<p th:text="${recurringExpanseUnit.recurringExpanseUnitName}"></p>
+												    		</option>
+												    		<option th:unless="${recurringExpanse.recurringExpanseUnitID}==${recurringExpanseUnit.recurringExpanseUnitID}" th:value="${recurringExpanseUnit.recurringExpanseUnitID}">
+												    			<p th:text="${recurringExpanseUnit.recurringExpanseUnitName}"></p>
+												    		</option>
+												    	</th:block>
+												    </th:block>
+												</select>
+												<label th:for="'recurringExpanseUnit-'+${recurringExpanse.getRecurringExpanseID()}">Đơn vị</label>
+					        				</div>
+					        			</div>
+					        	</div>
+					        	<h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+											Chọn tài sản muốn áp dụng dịch vụ này
+											<i style="font-size: 14px;font-weight: normal;color: #444444;">Danh sách tài sản chọn áp dụng dịch vụ này</i>
+								</h5>
+								<input type="checkbox" class="selectAllPropertyService" /> Chọn tất cả
+								<th:block th:if="${not #lists.isEmpty(recurringExpanse.propertyServiceList)}">
+												    	<div th:each="propertyService: ${recurringExpanse.propertyServiceList}"  class="propertyServiceContainer" >
+												    		 <input type="checkbox" th:if="${propertyService.isPropertyServiceIsDelete()}" name="selectedPropertyServiceIDList" th:value="${propertyService.getPropertyServiceID()}" />
+												    		 <input type="checkbox" th:unless="${propertyService.isPropertyServiceIsDelete()}" checked name="selectedPropertyServiceIDList" th:value="${propertyService.getPropertyServiceID()}" />
+												    		 <p th:text="${propertyService.getPropertyName()}"></p>
+												    	</div>
+								</th:block>
+					          </form>	
+						 </div>
+						 <div class="modal-footer">
+						 	 <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Đóng</button>
+						 	 <input type="submit" value="Chỉnh sửa dịch vụ" class="btn btn-primary" th:form="'editExpanse-'+${recurringExpanse.getRecurringExpanseID()}" />
+						 </div>
+					</div>
+				</div>
+			</div>
+			 
+		</th:block>
+	    <!-- END edit recurring expanse-->
+	    <!-- CREATE recurring expanse -->
+	    <div class="modal fade" id="addNewExpanse" tabindex="-1" aria-labelledby="addNewExpanseModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+													        <h5 class="modal-title" id="addNewExpanseModalLabel">Thêm dịch vụ mới</h5> 
+													        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body" >
+							  <form th:action="@{/quan-ly-dich-vu/them-dich-vu}" th:method="post" th:object="${newExpanse}" id="addExpanseForm">
+									<input type="hidden" name="landID" th:value="${selectedLandID}" />
+									<div class="form-floating mb-3 mt-3">
+										<input type="text" class="form-control" name="recurringExpanseName" id="newRecurringExpanseName" required />
+										<label th:for="newRecurringExpanseName">Tên dịch vụ</label>
+									</div>
+									<div class="form-floating">
+					        					<select class="form-select form-select-sm" name="recurringExpanseType" id="newRecurringExpanseType">
+												    <option th:value="1">Tính theo đầu người</option>
+												    <option th:value="2">Tính theo phòng</option>
+												    <option selected th:value="3">Tính theo đồng hồ nước (tùy chọn phổ biển)</option>
+												</select>
+												<label th:for="newRecurringExpanseType">Loại chi phí</label>
+					        		</div>
+					        		
+									<h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+										Đơn vị và giá
+										<i style="font-size: 14px;font-weight: normal;color: #444444;">Nhập thông tin đơn vị tính và giá</i>
+									</h5>
+									<div class="row g-2">
+					        			<div class="col-md">
+					        				<div class="form-floating">
+					        					<input type="text" class="form-control" name="recurringExpansePrice" id="newRecurringExpansePrice" required min="0" pattern="[0-9]+([\.,][0-9]+)?" step="0.001">
+												<label th:for="newRecurringExpansePrice">Đơn giá dịch vụ</label>
+					        				</div>
+					        			</div>
+					        			<div class="col-md">
+					        				<div class="form-floating">
+					        					<select class="form-select form-select-sm" name="recurringExpanseUnitID" th:id="newRecurringExpanseType">
+												    <th:block th:if="${not #lists.isEmpty(recurringExpanseUnitList)}">
+												    	<th:block  th:each="recurringExpanseUnit: ${recurringExpanseUnitList}">
+												    		<option  th:value="${recurringExpanseUnit.recurringExpanseUnitID}">
+												    			<p th:text="${recurringExpanseUnit.recurringExpanseUnitName}"></p>
+												    		</option>
+												    	</th:block>
+												    </th:block>
+												</select>
+												<label th:for="recurringExpanseUnit">Đơn vị</label>
+					        				</div>
+					        			</div>
+					        	</div>
+					        	<h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+											Chọn tài sản muốn áp dụng
+											<i style="font-size: 14px;font-weight: normal;color: #444444;">Danh sách tài sản chọn áp dụng</i>
+								</h5>
+								<input type="checkbox" class="selectAllPropertyService" /> Chọn tất cả
+								<th:block th:if="${not #lists.isEmpty(propertyList)}">
+												    	<div th:each="property: ${propertyList}"  class="propertyServiceContainer" >
+												    		 <input type="checkbox"  name="selectedPropertyIDList" th:value="${property.getPropertyID()}" />
+												    		 <p th:text="${property.getPropertyName()}"></p>
+												    	</div>
+								</th:block>
+					          </form>	
+						 </div>
+						 <div class="modal-footer">
+						 	 <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Đóng</button>
+						 	 <input type="submit" value="Thêm dịch vụ" class="btn btn-primary" th:form="addExpanseForm" />
+						 </div>
+					</div>
+				</div>
+		</div>
+	    <!-- END CREATE recurring expanse -->
+	    <script>
+	      //activate icon-feather
+	      feather.replace()
+	      //activate icon-feather
+	      
+	      //activate tooltip
+	      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		   return new bootstrap.Tooltip(tooltipTriggerEl)
+		  })
+	      //activate tooltip
+	    </script>
+	</div>
+
+</body>
+</html>

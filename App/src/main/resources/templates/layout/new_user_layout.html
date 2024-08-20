@@ -1,0 +1,19 @@
+ <!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+
+<head th:replace="~{fragments/manage_property_header :: header}">
+
+<title>Header</title>
+
+</head>
+
+<body>
+	<div th:replace="~{fragments/owner_navigation :: navigation}"></div>
+	<div class="container-fluid">
+		<div class="row">
+			<div  layout:fragment="content"></div>
+		</div>
+	</div>
+</body>
+</html>

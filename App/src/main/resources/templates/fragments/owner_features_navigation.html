@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Header</title>
+</head>
+
+<body>
+	<div class="features-navigation"  th:fragment="features_navigation">
+		<div class="col-md-2 d-flex align-items-center justify-content-center" style="margin-right: 10px;">
+			<div class="selected-land-block d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#landListModal">
+				<div class="d-flex align-items-center" style="flex-direction: row; flex:1">
+					<div class="icon-home-block">
+						<i data-feather="home">Home</i>
+					</div>
+					<div style="padding: 20px 0px 20px 5px; flex:1">
+						<span style="font-size:12px">Đang quản lý</span><br/>
+						<input type="hidden" id="landName" th:value="${selectedLand.landName}" />
+				  		<span style="font-size:14px; color: #ff7337; padding:0px; margin:0px; white-space: nowrap;max-width: 125px; overflow: hidden; text-overflow: ellipsis; display: inline-block;"  th:text="${selectedLand.landName}"></span>
+					</div>
+				</div>
+				<div>
+					<i data-feather="log-out">Log out</i>
+				</div>
+			</div>
+	    </div>
+	    <div class="col-md-2 d-flex align-items-center justify-content-center" style="margin-right: 10px;" id="createLandButton">
+	    	<div class="create-land-button d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#createLandModal">
+	    		<div class="icon-plus-block" >
+	    			<i data-feather="plus-circle">Plus-circle</i>
+	    		</div>
+	    		<div style="padding: 5px 0px 29px 5px; flex:1">
+	    			<span>Tạo khu vực mới</span><br/>
+	    		</div>
+	    	</div>
+	    </div>
+	    <div class="col-md-8" style="align-items: center; justify-content: space-between; display: flex; position: relative;">
+        	<div style="display: flex; flex-wrap: nowrap; overflow-x: auto; position: relative;">
+                               <a href="/quan-ly" class="item-menu active">
+                                     <div class="icon text-center">
+                                        <i data-feather="file-text">File text</i>
+                                    </div>
+                                    <div class="key">
+                                        <span class="title"><b>Quản lý khu vực</b></span>
+                                    </div>
+                                </a>
+                                <a href="/quan-ly-hoa-don" class="item-menu">
+                                    <div class="icon text-center">
+                                        <i data-feather="file-text">File text</i>
+                                    </div>
+                                    <div class="key">
+                                        <span class="title"><b>Tất cả hóa đơn</b></span>
+                                    </div>
+                                </a>
+                                <a href="/quan-ly-dich-vu" class="item-menu">
+                                    <div class="icon text-center">
+                                        <i data-feather="file-text">File text</i>
+                                    </div>
+                                    <div class="key">
+                                        <span class="title"><b>Quản lý dịch vụ</b></span>
+                                    </div>
+                                </a>
+                                <a href="/quan-ly-khach-thue" class="item-menu">
+                                     <div class="icon text-center">
+                                        <i data-feather="file-text">File text</i>
+                                    </div>
+                                    <div class="key">
+                                        <span class="title"><b>Tất cả khách thuê</b></span>
+                                    </div>
+                                </a>
+                                <a href="/quan-ly-hop-dong" class="item-menu">
+                                    <div class="icon text-center">
+                                        <i data-feather="file-text">File text</i>
+                                    </div>
+                                    <div class="key">
+                                        <span class="title"><b>Tất cả hợp đồng</b></span>
+                                    </div>
+                                </a>
+                                <a href="/quan-ly-cong-no" class="item-menu">
+                                     <div class="icon text-center">
+                                        <i data-feather="file-text">File text</i>
+                                    </div>
+                                    <div class="key">
+                                        <span class="title"><b>Quản lý công nợ</b></span>
+                                    </div>
+                                </a>
+                                <a href="/quan-ly-thong-ke" class="item-menu">
+                                     <div class="icon text-center">
+                                        <i data-feather="file-text">File text</i>
+                                    </div>
+                                    <div class="key">
+                                        <span class="title"><b>Thu/Chi - Tổng kết</b></span>
+                                    </div>
+                                </a>
+                                <a href="#" class="item-menu">
+                                    <div class="icon text-center">
+                                        <i data-feather="file-text">File text</i>
+                                    </div>
+                                    <div class="key">
+                                        <span class="title"><b>Cài đặt</b></span>
+                                    </div>
+                                </a>
+                </div>
+               
+            </div>
+	          
+	          
+	
+	    
+	    
+	    <!-- Button trigger modal -->
+	    
+		<!-- Modal create land  -->
+		<div class="modal fade" id="createLandModal" tabindex="-1" aria-pledby="createLandModal" aria-hidden="true">
+				  <div class="modal-dialog modal-lg">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="createLandModal">Thêm khu vực</h5>
+				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-p="Close"></button>
+				      </div>
+				      <form  th:action="@{/land/create}" th:object="${newLand}" method="post">
+					      <div class="modal-body">
+					      		<h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+									Thông tin tài sản
+								<i style="font-size: 14px;font-weight: normal;color: #444444;"> Các thông tin tài sản cơ bản</i>
+								</h5>
+								<div class="form-floating mb-3 mt-3">
+									<input type="text" class="form-control"  th:field="*{landName}" th:id="landName" required >
+									<label th:for="landName">Tên tài sản</label>
+								</div>
+								<div class="form-floating mb-3 mt-3">
+									<input type="number" class="form-control"  th:field="*{propertyRentalPrice}" th:id="propertyRentalPrice" required min="0" pattern="[0-9]+([\.,][0-9]+)?" step="0.001">
+									<label th:for="propertyRentalPrice">Giá thuê từng tài sản</label>
+								</div>
+								<div class="form-floating mb-3 mt-3">
+									<input type="number" class="form-control"  th:field="*{orderCreationDate}" th:id="orderCreationDate" >
+									<label th:for="orderCreationDate">Ngày lập phiếu tính tiền mỗi tháng</label>
+								</div>
+					        	<h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+									Tạo phòng tự động
+								<i style="font-size: 14px;font-weight: normal;color: #444444;"> Tạo phòng tự động theo tổng số phòng bạn nhập bên dưới sẽ giúp việc nhập dữ liệu nhanh hơn</i>
+								</h5>
+								<div class="form-floating mb-3 mt-3">
+									<input type="number" class="form-control"  th:field="*{tenantMax}" th:id="tenantMax" >
+									<label th:for="tenantMax">Số người ở tối đa:</label>
+								</div>
+								<div class="form-floating mb-3 mt-3">
+									<input type="number" class="form-control"  th:field="*{floorCount}" th:id="floorCount" >
+									<label th:for="floorCount">Số tầng</label>
+								</div>
+								<div class="form-floating mb-3 mt-3">
+									<input type="number" class="form-control"  th:field="*{propertyCountEachFloor}" th:id="propertyCountEachFloor" >
+									<label th:for="propertyCountEachFloor">Số phòng mỗi tầng</label>
+								</div>
+								<h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+									Cài đặt dịch vụ:
+								<i style="font-size: 14px;font-weight: normal;color: #444444;"> Thiết lập các dịch vụ khi khách thuê sử dụng khi thuê</i>
+								</h5>
+					        	
+					        	
+					        		<div class="row g-2">
+					        		   <div class="col-md">
+						        			 <div class="form-floating"> 
+						        				<select class="form-select form-select-sm" th:field="*{electricExpanseType}" id="electricExpanseType">
+													    <option th:value="0" >Không tính/miễn phí</option>
+													    <option th:value="1" >Tính theo đầu người</option>
+													    <option th:value="2" >Tính theo phòng</option>
+													    <option th:value="3" selected>Tính theo đồng hồ điện (tùy chọn phổ biển)</option>
+												</select>
+												<label th:for="electricExpanseType">Chi phí điện</label>
+						        			 </div>
+					        		    </div>
+					        			<div class="col-md">
+					        				<div class="form-floating">
+					        					<select class="form-select form-select-sm" th:field="*{waterExpanseType}" id="waterExpanseType">
+												    <option th:value="0" >Không tính/miễn phí</option>
+												    <option th:value="1" >Tính theo đầu người</option>
+												    <option th:value="2">Tính theo phòng</option>
+												    <option th:value="3" selected>Tính theo đồng hồ nước (tùy chọn phổ biển)</option>
+												</select>
+												<label th:for="waterExpanseType">Chi phí nước</label>
+					        				</div>
+					        			</div>
+					        		   
+					        		</div>
+					        		
+					        	
+					        	<div class="row g-2">
+					        			<div class="col-md">
+					        				<div class="form-floating">
+					        					<select class="form-select form-select-sm" th:field="*{ethernetExpanseType}" id="ethernetExpanseType">
+												    <option th:value="0" selected>Không tính/miễn phí</option>
+												    <option th:value="1" >Tính theo đầu người</option>
+												    <option th:value="2" >Tính theo phòng</option>
+												</select>
+												<label th:for="ethernetExpanseType">Chi phí Ethernet</label>
+					        				</div>
+					        			</div>
+					        			<div class="col-md">
+					        				<div class="form-floating">
+					        					<select class="form-select form-select-sm" th:field="*{trashExpanseType}" id="trashExpanseType">
+												    <option th:value="0" selected>Không tính/miễn phí</option>
+												    <option th:value="1" >Tính theo đầu người</option>
+												    <option th:value="2" >Tính theo phòng</option>
+												</select>
+												<label th:for="trashExpanseType">Chi phí rác</label>
+					        				</div>
+					        			</div>
+					        		
+					        	</div>   			
+								<!-- google map geolocation script to create land -->
+								<h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
+									Địa chỉ tài sản:
+									<i style="font-size: 14px;font-weight: normal;color: #444444;"> Nhập địa chỉ và xác địa tọa độ của tài sản trên bản đồ</i>	
+								</h5>
+								<div class="form-floating mb-3 mt-3">
+									<input type="text" class="form-control"  th:field="*{landAddress}" th:id="landAddress" >
+									<label th:for="landAddress">Địa chỉ</label>
+								</div>
+								<div class="form-floating mb-3 mt-3">
+									Tỉnh: <select class="form-select" th:field="*{landAddressRegion}" th:id="landAddressRegion" >											
+											<option value="VN-HN">Hà Nội</option>
+											<option value="VN-VN">Hồ Chí Minh</option>
+									  		<option value="VN-VN">An Giang</option>
+											<option value="VN-VN">Bà Rịa - Vũng Tàu</option>
+											<option value="VN-VN">Bắc Giang</option>
+											<option value="VN-VN">Bắc Kạn</option>
+											<option value="VN-VN">Bạc Liêu</option>
+											<option value="VN-VN">Bắc Ninh</option>
+											<option value="VN-VN">Bến Tre</option>
+											<option value="VN-VN">Bình Định</option>
+											<option value="VN-VN">Bình Dương</option>
+											<option value="VN-VN">Bình Phước</option>
+											<option value="VN-VN">Bình Thuận</option>
+											<option value="VN-VN">Cà Mau</option>
+											<option value="VN-VN">Cần Thơ</option>
+											<option value="VN-VN">Cao Bằng</option>
+											<option value="VN-VN">Đà Nẵng</option>
+											<option value="VN-VN">Đắk Lắk</option>
+											<option value="VN-VN">Đắk Nông</option>
+											<option value="VN-VN">Điện Biên</option>
+											<option value="VN-VN">Đồng Nai</option>
+											<option value="VN-VN">Đồng Tháp</option>
+											<option value="VN-VN">Gia Lai</option>
+											<option value="VN-VN">Hà Giang</option>
+											<option value="VN-VN">Hà Nam</option>
+											<option value="VN-VN">Hà Tĩnh</option>
+											<option value="VN-VN">Hải Dương</option>
+											<option value="VN-VN">Hải Phòng</option>
+											<option value="VN-VN">Hậu Giang</option>
+											<option value="VN-VN">Hòa Bình</option>
+											<option value="VN-VN">Hưng Yên</option>
+											<option value="VN-VN">Khánh Hòa</option>
+											<option value="VN-VN">Kiên Giang</option>
+											<option value="VN-VN">Kon Tum</option>
+											<option value="VN-VN">Lai Châu</option>
+											<option value="VN-VN">Lâm Đồng</option>
+											<option value="VN-VN">Lạng Sơn</option>
+											<option value="VN-VN">Lào Cai</option>
+											<option value="VN-VN">Long An</option>
+											<option value="VN-VN">Nam Định</option>
+											<option value="VN-VN">Nghệ An</option>
+											<option value="VN-VN">Ninh Bình</option>
+											<option value="VN-VN">Ninh Thuận</option>
+											<option value="VN-VN">Phú Thọ</option>
+											<option value="VN-VN">Phú Yên</option>
+											<option value="VN-VN">Quảng Bình</option>
+											<option value="VN-VN">Quảng Nam</option>
+											<option value="VN-VN">Quảng Ngãi</option>
+											<option value="VN-VN">Quảng Ninh</option>
+											<option value="VN-VN">Quảng Trị</option>
+											<option value="VN-VN">Sóc Trăng</option>
+											<option value="VN-VN">Sơn La</option>
+											<option value="VN-VN">Tây Ninh</option>
+											<option value="VN-VN">Thái Bình</option>
+											<option value="VN-VN">Thái Nguyên</option>
+											<option value="VN-VN">Thanh Hóa</option>
+											<option value="VN-VN">Thừa Thiên Huế</option>
+											<option value="VN-VN">Tiền Giang</option>
+											<option value="VN-VN">Trà Vinh</option>
+											<option value="VN-VN">Tuyên Quang</option>
+											<option value="VN-VN">Vĩnh Long</option>
+											<option value="VN-VN">Vĩnh Phúc</option>
+											<option value="VN-VN">Yên Bái</option>
+									</select>
+								</div>
+								<div class="form-floating mb-3 mt-3">
+									<input type="text" class="form-control"  th:field="*{landAddressPostcode}" th:id="landAddressPostcode" >
+									<label th:for="landAddressPostcode">Mã bưu chính</label>
+								</div>
+								<div class="form-floating mb-3 mt-3">
+									Quốc gia: <select class="form-select" th:field="*{countryCode}" th:id="countryCode" >
+									  <option value="VN">Việt Nam</option>
+									</select>
+								</div>
+							    <input type="hidden" id="landLat"  name="landLat" value="10.777599" />
+							    <input type="hidden" id="landLng" name="landLng" value="106.696294"/>
+							    
+							    <div id="googleMap" style="width:100%;height:400px;"></div>
+								<!-- END google map geolocation script to create land -->
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+					        <input type="submit" value="Khởi tạo nhà trọ" class="btn btn-primary"/>
+					      </div>
+				      </form>
+				    </div>
+				  </div>
+				</div>
+		
+		<!-- end Modal create land -->		
+				
+		<!-- Modal list/edit/delete land -->
+		<div class="modal fade" id="landListModal" tabindex="-1" aria-pledby="landListModal" aria-hidden="true">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				      	<i data-feather="home">Home</i>
+				        <h5 class="modal-title" id="landListModal">Danh sách khu vực</h5>
+				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-p="Close"></button>
+				      </div>
+				      <div class="modal-body">
+				      		<div th:each="land : ${landList}">	
+				      			<div class="land-row" >
+				      				<div style="flex: 1">
+			                            <h6 th:text="${land.getLandName()}"></h6>
+			                            <p th:text="${land.getLandAddress()}"></p>
+			                        </div>
+			                        <div class="item-land-row">
+			                        	<!-- delete-land START -->
+													<div class="remove-circle-button" data-bs-toggle="modal" th:data-bs-target="'#deleteLandModal-'+${land.getLandID()}">
+													  <div data-bs-toggle="tooltip" data-bs-placement="top" title="Xóa nhà trọ">
+					              							<i data-feather="trash-2">Delete</i>
+					              					  </div>
+													</div>
+					              		 <!-- delete-land END -->
+					              	</div>
+					              	<div class="item-land-row">
+					              					<div class="circle-button" data-bs-toggle="modal" th:data-bs-target="'#editLandModal-'+${land.getLandID()}"  >
+					              						<div data-bs-toggle="tooltip" data-bs-placement="top" title="Chỉnh sửa nhà trọ">
+					              							<i data-feather="edit">Edit land</i>
+					              						</div>
+													</div>
+													
+											
+									</div>		
+									<div class="item-land-row">			
+													<form th:action="@{/quan-ly}" method="post">
+						                					<input type="hidden" name="selectedLandID" th:value="${land.getLandID()}">
+							              					<button type="submit" class="circle-button" data-bs-toggle="tooltip" data-bs-placement="top" title="Tới quản lý nhà trọ">
+															  <i data-feather="corner-down-right">Select</i>
+															</button>
+						              				</form>	
+						            </div>  				
+						              				
+			                        </div>
+				      			</div>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+				      </div>
+				     </div>
+				  </div>
+				</div>
+				
+		<!-- delete land -->
+		
+		<th:block th:each="land : ${landList}">
+			<div class="modal fade" th:id="'deleteLandModal-'+${land.getLandID()}" tabindex="-1" aria-pledby="deleteLand_Modal" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-body" style="text-align:center;item-align:center;">
+							  <div>
+							  	<i style="width:100px;height:100px;" data-feather="alert-triangle">Alert</i>
+							  </div>
+							  <p th:text="'Bạn có chắc chắn muốn xóa nhà trọ ['+ ${land.getLandName()}+ '] không ?'"></p> 	
+						 </div>
+						 <div class="modal-footer">
+						 	 <form th:action="@{/land/delete}" method="post">
+									<input type="hidden" name="landID" th:value="${land.getLandID()}">
+									<button type="submit" class="btn btn-danger">Xóa</button>
+					          </form>
+					          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+						 </div>
+					</div>
+				</div>
+			</div>
+			 
+		</th:block>
+		<!-- delete land -->	
+		<!-- edit land -->
+		<th:block th:each="land : ${landList}">
+				<!-- modal dialog for edit-land  START-->
+				<div class="modal fade" th:id="'editLandModal-'+${land.getLandID()}" tabindex="-1" aria-pledby="editLand_Modal" aria-hidden="true">
+													  <div class="modal-dialog modal-lg">
+													    <div class="modal-content">
+													      <div class="modal-header">
+													        <h5 class="modal-title" id="editLand_Modal">Chỉnh sửa</h5>
+													        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-p="Close"></button>
+													      </div>
+													      <form  th:action="@{/land/edit}"  method="post">
+														      <div class="modal-body">
+														      		<!-- form edit land START -->
+														      		<input type="hidden" th:name="landID" th:value="${land.getLandID()}" />
+															       		<div class="form-floating mb-3">
+																			<input type="text" class="form-control" placeholder="Enter name" th:id="'floatingLandName-'+${land.getLandID()}" th:name="landName" th:value="${land.getLandName()}" required/>
+																			<label th:for="'floatingLandName-'+${land.getLandID()}">Tên nhà trọ</label>
+																		</div>
+																		<div class="form-floating mb-3">
+																			<input type="number" class="form-control"  th:id="'propertyRentalPrice'+${land.getLandID()}" th:name="propertyRentalPrice" th:value="${land.getPropertyRentalPrice()}" pattern="[0-9]+([\.,][0-9]+)?" step="0.001" required min="0"/>
+																			<label th:for="'propertyRentalPrice-'+${land.getLandID()}">Giá thuê từng phòng</label>
+																		</div>
+																		<div class="form-floating mb-3">
+																			<input type="number" class="form-control" placeholder="Enter name" th:id="'orderCreationDate'+${land.getLandID()}" th:name="orderCreationDate" th:value="${land.getOrderCreationDate()}"/>
+																			<label th:for="'orderCreationDate-'+${land.getLandID()}">Ngày lập phiếu tính tiền mỗi tháng</label>
+																		</div>
+																		<div class="form-floating mb-3 mt-3">
+																			<input type="text" class="form-control"  th:name="landAddress" th:value="${land.landAddress}"  >
+																			<label th:for="landAddress">Địa chỉ</label>
+																		</div>
+																		<div class="form-floating mb-3 mt-3">
+																			<input type="text" class="form-control" th:name="landAddressPostcode" th:value="${land.landAddressPostcode}" >
+																			<label th:for="landAddressPostcode">Mã bưu chính</label>
+																		</div>
+																      <!-- form edit land END -->
+															      </div>
+															      <div class="modal-footer">
+															        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+															        <input type="submit" value="Chỉnh sửa" class="btn btn-primary"/>
+															      </div>
+														      </form>
+														    </div>
+														  </div>
+													</div>
+													<!-- modal dialog foSr edit-land  END-->
+		</th:block>
+		<!-- edit land -->
+	    <script>
+	      //activate icon-feather
+	      feather.replace()
+	      //activate icon-feather
+	      
+	      //activate tooltip
+	      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		   return new bootstrap.Tooltip(tooltipTriggerEl)
+		  })
+	      //activate tooltip 	
+	    </script>
+	    <!-- end Modal list/edit/delete land -->
+	    <!-- google map geolocation script to create land -->
+	    <script>
+	        function getCoordinates_CreateLand() {
+	            // Get the address from the input field
+	            if (navigator.geolocation) {
+				    navigator.geolocation.getCurrentPosition(
+				        function(position) {
+				            const latitude = position.coords.latitude;
+				            const longitude = position.coords.longitude;
+
+	                        // Display the result
+	                        $('#result').text('Latitude: ' + latitude + ', Longitude: ' + longitude);
+							$('#landLat').val(latitude);
+							$('#landLng').val(longitude);
+				
+							loadGoogleMap_CreateLand();
+
+				        },
+				        function(error) {
+				            // Handle error (e.g., user denied location access)
+				            console.error("Error getting location: " + error.message);
+				        }
+				    );
+				} else {
+				    // Geolocation is not supported by the browser
+				    console.error("Geolocation is not supported by this browser.");
+				}
+	        }
+	        
+		function loadGoogleMap_CreateLand() { 
+	           var landLat=$("#landLat").val();
+	           var landLng=$("#landLng").val();
+	           var mapProp= {
+	             center:new google.maps.LatLng(landLat, landLng),
+	            zoom:16
+	           };
+	           const iconBase =
+	                      "https://developers.google.com/maps/documentation/javascript/examples/full/images/";
+	           const icons = {
+	                      info: {
+	                           icon: iconBase + "info-i_maps.png"
+	                          }
+	             };
+	            const clientLocation = {
+	                type: "info"
+		     };
+	            var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+	            // Create markers.
+	           const marker = new google.maps.Marker({
+	                      position: map.getCenter(),
+	                         icon: icons[clientLocation.type].icon,
+	                           map: map,
+	                           draggable: true
+	                         });
+	            google.maps.event.addListener(map, 'drag', function () {
+	                          marker.setPosition(map.getCenter());
+	                          
+	                          const markerPosition = marker.getPosition();
+	                          const markerLatitude = markerPosition.lat();
+	                          const markerLongitude = markerPosition.lng();
+	                          $('#landLat').val(markerLatitude);
+							  $('#landLng').val(markerLongitude);  
+							  //$('#result').text('Latitude: ' + markerLatitude + ', Longitude: ' + markerLongitude);
+							  
+	                        });
+	       }
+		   function loadDefaultGoogleMap_CreateLand() {
+			    //first run load google map if user not accept share their location
+			    //get default dev 's home location
+			   loadGoogleMap_CreateLand();				
+		   }
+		   function askUserToShareTheirLocation_For_CreateLand()
+		   {
+			    getCoordinates_CreateLand();
+		   }
+	       $(document).ready(function(){
+				
+				$("#createLandButton").click(function(){
+				    loadDefaultGoogleMap_CreateLand();
+				    askUserToShareTheirLocation_For_CreateLand();
+				});
+			});
+			    
+	    </script> 
+	
+	    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgJZulTLA5C5Rc9hGVWcp-QzuJrOxB5xU&callback=loadGoogleMap_CreateLand" defer></script>
+	    <!-- END google map geolocation script to create land --> 
+	     
+	</div>
+	
+</body>
+
+</html>

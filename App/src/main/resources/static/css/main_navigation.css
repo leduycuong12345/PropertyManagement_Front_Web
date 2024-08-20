@@ -1,0 +1,24 @@
+
+/*button for <a>*/
+header ul li a.icon-button{
+	display: flex;
+    padding: 0.5rem 1rem;
+    color: white;
+    text-decoration: none;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+    border:solid 1px;
+    border-color:white;
+    border-radius: 15px;
+    margin-left: 1rem!important;
+    background-color:#ff7337;
+    /*center the content icon*/
+    flex-direction:column;
+    -webki-box-align:center;
+    align-items:center;
+    position:relative;
+    /*center the content icon*/
+}
+header ul li a.icon-button:hover{
+	background-color:#ee2c4a;
+	text-decoration: underline;
+}
