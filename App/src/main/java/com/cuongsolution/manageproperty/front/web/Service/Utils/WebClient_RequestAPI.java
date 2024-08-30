@@ -1,9 +1,12 @@
 package com.cuongsolution.manageproperty.front.web.Service.Utils;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import reactor.core.publisher.Mono;
@@ -41,11 +44,13 @@ public class WebClient_RequestAPI implements RequestAPI_Service{
 	          return result;
 	    }
 	    @Override
-	    public <T, R> Mono<T> post(String url, R requestBody, Class<T> responseType) {
+	    public <T> Mono<T> post(String url, MultiValueMap<String, String> requestBody, Class<T> responseType) {
 	    	Mono<T> result = webClient.post()
 	                                    .uri(url)
-	                                    .contentType(MediaType.APPLICATION_JSON)
-	                                    .bodyValue(requestBody)
+	                                    .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+	                                    .accept(MediaType.APPLICATION_JSON)
+	                                    //.bodyValue(requestBody)
+	                                    .body(BodyInserters.fromFormData(requestBody))
 	                                    .retrieve()
 	                                    .onStatus(HttpStatusCode::is4xxClientError, clientResponse -> {
 	                                        if (clientResponse.statusCode().equals(HttpStatus.UNAUTHORIZED)) {

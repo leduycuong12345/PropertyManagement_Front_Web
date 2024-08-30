@@ -1,4 +1,4 @@
-package com.cuongsolution.manageproperty.front.web.Model;
+package com.cuongsolution.manageproperty.front.web.Model.API;
 
 import java.util.ArrayList;
 import java.util.List;

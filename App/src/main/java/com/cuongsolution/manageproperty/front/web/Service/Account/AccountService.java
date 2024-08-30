@@ -1,10 +1,8 @@
 package com.cuongsolution.manageproperty.front.web.Service.Account;
 
-
-
-import com.cuongsolution.manageproperty.front.web.Model.Account;
+import com.cuongsolution.manageproperty.front.web.DTO.UserInfo_AccountDTO;
 
 public interface AccountService {
-	public abstract Account findByUsername(String username);
-	public abstract Account findByUsername_Production(String username);
+	public abstract UserInfo_AccountDTO findByUsername(String username);
+	public abstract UserInfo_AccountDTO findByUsername_Production(String username);
 }

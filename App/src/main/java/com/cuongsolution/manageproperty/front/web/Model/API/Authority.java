@@ -1,4 +1,4 @@
-package com.cuongsolution.manageproperty.front.web.Model;
+package com.cuongsolution.manageproperty.front.web.Model.API;
 
 public class Authority {
     private AuthorityKey Id;

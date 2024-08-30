@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
 
 import com.cuongsolution.manageproperty.front.web.Service.Utils.RequestAPI_Service;
 
@@ -19,7 +20,8 @@ public class Register_AccountServiceImpl implements Register_AccountService{
 	public boolean existsByUsername(String username) {		
 		// POST request
 		String fullPostURL = kafkaBaseURL+"/userserivce/register_existsByUsername?username="+username;
-		String requestJson = "{\"account_ID\":\"username\", \"password\":\"bar\", \"userId\":1}";
+		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
+		requestJson.add("username", username);
 		Mono<Boolean> postMonoResponse = apiCaller.post(fullPostURL, requestJson, Boolean.class);
 		        
 		AtomicBoolean errorOccurred = new AtomicBoolean(false);

@@ -4,8 +4,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
 
-import com.cuongsolution.manageproperty.front.web.Model.Account;
+import com.cuongsolution.manageproperty.front.web.DTO.UserInfo_AccountDTO;
 import com.cuongsolution.manageproperty.front.web.Service.Utils.RequestAPI_Service;
 
 import reactor.core.publisher.Mono;
@@ -18,36 +19,24 @@ public class AccountServiceImp implements AccountService {
 	@Autowired
 	private RequestAPI_Service apiCaller;
 	@Override
-	public Account findByUsername(String username) {
+	public UserInfo_AccountDTO findByUsername(String username) {
 		// POST request
-		String fullPostURL = kafkaBaseURL+"/userserivce/findbyusername?username="+username;
-        String requestJson = "{\"account_ID\":\"username\", \"password\":\"bar\", \"userId\":1}";
-        Mono<Account> postMonoResponse = apiCaller.post(fullPostURL, requestJson, Account.class);
+		String fullPostURL = kafkaBaseURL+"/userserivce/findbyusername";
+		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
+		requestJson.add("username", username);
+        Mono<UserInfo_AccountDTO> postMonoResponse = apiCaller.post(fullPostURL, requestJson, UserInfo_AccountDTO.class);
         
-        AtomicBoolean errorOccurred = new AtomicBoolean(false);
-        postMonoResponse.doOnError(error -> errorOccurred.set(true))
-        .subscribe(response -> {
-            System.out.println("Response received: " + response);
-        }, error -> {
-            System.err.println("Error: " + error.getMessage());
-        });
-        if(errorOccurred.get())
-        {
-        	return postMonoResponse.block();
-        }
-        else
-        {
-        	return new Account();
-        }
+        return postMonoResponse.block();
 	}
 
 
 	@Override
-	public Account findByUsername_Production(String username) {
+	public UserInfo_AccountDTO findByUsername_Production(String username) {
 		// POST request
-		String fullPostURL = kafkaBaseURL+"/userserivce/findbyusername?username="+username;
-		String requestJson = "{\"account_ID\":\"username\", \"password\":\"bar\", \"userId\":1}";
-		Mono<Account> postMonoResponse = apiCaller.post(fullPostURL, requestJson, Account.class);
+		String fullPostURL = kafkaBaseURL+"/userserivce/findbyusername";
+		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
+		requestJson.add("username", username);
+		Mono<UserInfo_AccountDTO> postMonoResponse = apiCaller.post(fullPostURL, requestJson, UserInfo_AccountDTO.class);
 		        
 		AtomicBoolean errorOccurred = new AtomicBoolean(false);
 		postMonoResponse.doOnError(error -> errorOccurred.set(true))
@@ -56,14 +45,7 @@ public class AccountServiceImp implements AccountService {
 		        }, error -> {
 		            System.err.println("Error: " + error.getMessage());
 		        });
-		if(errorOccurred.get())
-		{
-		  	return postMonoResponse.block();
-		}
-		else
-		{
-		    return new Account();
-		}
+		return postMonoResponse.block();
 	}
 
 

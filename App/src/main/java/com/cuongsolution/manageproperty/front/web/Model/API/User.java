@@ -1,4 +1,4 @@
-package com.cuongsolution.manageproperty.front.web.Model;
+package com.cuongsolution.manageproperty.front.web.Model.API;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -16,7 +16,6 @@ public class User {
 	private Date userRegisterdDate;
 	private String userIP;
 	
-    private Account account;
 	
 	private List<Privilege> privileges = new ArrayList<>();
 	
@@ -114,11 +113,5 @@ public class User {
 	}
 	public void setAuthorities(Set<Authority> authorities) {
 		this.authorities = authorities;
-	}
-	public Account getAccount() {
-		return account;
-	}
-	public void setAccount(Account account) {
-		this.account = account;
 	}
 }
