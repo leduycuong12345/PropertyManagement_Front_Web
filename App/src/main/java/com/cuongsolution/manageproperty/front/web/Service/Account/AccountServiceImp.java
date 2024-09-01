@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 @Service
 public class AccountServiceImp implements AccountService {
 	
-	@Value("${cuongsolution.manageproperty.front.web.kafka.baseURL}")//this variable being declared at application.properties
+	@Value("${cuongsolution.manageproperty.userservice.kafka.baseURL}")//this variable being declared at application.properties
 	private String kafkaBaseURL;
 	@Autowired
 	private RequestAPI_Service apiCaller;

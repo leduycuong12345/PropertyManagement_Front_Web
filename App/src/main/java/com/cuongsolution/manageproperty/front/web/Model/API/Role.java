@@ -42,6 +42,16 @@ public class Role {
 
 
 
+	public Set<Authority> getAuthorities() {
+		return authorities;
+	}
+
+
+	public void setAuthorities(Set<Authority> authorities) {
+		this.authorities = authorities;
+	}
+
+
 	public Role() {
 		super();
 	}
