@@ -23,9 +23,11 @@ public class Register_UserServiceImpl implements Register_UserService{
 	@Override
 	public boolean existsByEmail(String email) {
 		// POST request
+		
 		String fullPostURL = kafkaBaseURL+"/userserivce/isexistbyemail";
 		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
 		requestJson.add("email", email);
+		
         Mono<Boolean> postMonoResponse = apiCaller.post(fullPostURL, requestJson, Boolean.class);
         
         return postMonoResponse.block();
