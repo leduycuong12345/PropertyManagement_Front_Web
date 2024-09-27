@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.cuongsolution.manageproperty.front.web.DTO.Register_UserDTO;
-import com.cuongsolution.manageproperty.front.web.Service.Account.Register_AccountServiceImpl;
-import com.cuongsolution.manageproperty.front.web.Service.User.Register_UserServiceImpl;
+import com.cuongsolution.manageproperty.front.web.Service.Account.Register_AccountService;
+import com.cuongsolution.manageproperty.front.web.Service.User.Register_UserService;
 @Controller
 public class RegisterController {
 
 	@Autowired
-	private Register_AccountServiceImpl accountService;
+	private Register_AccountService accountService;
 	@Autowired
-	private Register_UserServiceImpl userService;
+	private Register_UserService userService;
 	// handler method to handle user registration form request
     @GetMapping("/register")
     public String showRegistrationForm(Model model){
