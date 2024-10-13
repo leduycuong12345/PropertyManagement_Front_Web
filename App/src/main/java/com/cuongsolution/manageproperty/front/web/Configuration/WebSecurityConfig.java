@@ -54,7 +54,7 @@ public class WebSecurityConfig  {
 		//yeu cau dang nhap vs URI
 		
 		  http.authorizeHttpRequests((authorize) -> authorize
-				  .requestMatchers("/register","/register/**").permitAll()
+				  .requestMatchers("/register","/register/**","/test").permitAll()
 				  .anyRequest().authenticated()
 				  );
 		
