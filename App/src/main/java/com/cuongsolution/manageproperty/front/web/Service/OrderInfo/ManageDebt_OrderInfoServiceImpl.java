@@ -57,20 +57,42 @@ public class ManageDebt_OrderInfoServiceImpl implements ManageDebt_OrderInfoServ
 	@Override
 	public Page<ManageDebt_OrderDTO> getDebtList_BelongToLand_ManageDebt_Pageable(long landID, int selectedPage,
 			int totalRowPerPage) {
-		// TODO Auto-generated method stub
-		return null;
+		String fullPostURL = kafkaBaseURL+"/managedebt/getdebtlistbelongtoland";
+		LinkedMultiValueMap<String, String> requestJson = 
+				new LinkedMultiValueMap<String, String>();
+		requestJson.add("page", ""+selectedPage);
+		requestJson.add("size", ""+totalRowPerPage);
+		requestJson.add("landId", ""+landID);
+		Mono<RestResponsePage<ManageDebt_OrderDTO>> postMonoResponse = this.apiCaller.post_PageResult(fullPostURL, requestJson, ManageDebt_OrderDTO.class);
+
+        return postMonoResponse.block().getPageableObjectType();
 	}
 	@Override
 	public Page<ManageDebt_OrderDTO> getDebtList_BelongToLand_ManageDebt_PageableAndSorting(long landID,
 			int selectedPage, int totalRowPerPage, String keyword) {
-		// TODO Auto-generated method stub
-		return null;
+		String fullPostURL = kafkaBaseURL+"/managedebt/getdebtlistbelongtolandwithsorting";
+		LinkedMultiValueMap<String, String> requestJson = 
+				new LinkedMultiValueMap<String, String>();
+		requestJson.add("page", ""+selectedPage);
+		requestJson.add("size", ""+totalRowPerPage);
+		requestJson.add("landId", ""+landID);
+		requestJson.add("keyword", ""+keyword);
+		Mono<RestResponsePage<ManageDebt_OrderDTO>> postMonoResponse = this.apiCaller.post_PageResult(fullPostURL, requestJson, ManageDebt_OrderDTO.class);
+
+        return postMonoResponse.block().getPageableObjectType();
 	}
 	@Override
 	public Page<ManageDebt_OrderDTO> getDebtList_BelongToWorksheet_ManageDebt_Pageable(long worksheetId,
 			Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		String fullPostURL = kafkaBaseURL+"/managedebt/getdebtlistbelongtoworksheet";
+		LinkedMultiValueMap<String, String> requestJson = 
+				new LinkedMultiValueMap<String, String>();
+		requestJson.add("page", ""+pageable.getPageNumber());
+		requestJson.add("size", ""+pageable.getPageSize());
+		requestJson.add("worksheetId", ""+worksheetId);
+		Mono<RestResponsePage<ManageDebt_OrderDTO>> postMonoResponse = this.apiCaller.post_PageResult(fullPostURL, requestJson, ManageDebt_OrderDTO.class);
+
+        return postMonoResponse.block().getPageableObjectType();
 	}
 
 }
