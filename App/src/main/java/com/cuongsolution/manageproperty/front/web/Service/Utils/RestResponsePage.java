@@ -15,9 +15,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 public class RestResponsePage<T> extends PageImpl<T> {
 
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 461953186940153061L;
 
 	@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)

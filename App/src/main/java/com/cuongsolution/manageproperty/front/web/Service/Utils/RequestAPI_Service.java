@@ -15,7 +15,6 @@ public interface RequestAPI_Service {
 
 	public abstract <T> Mono<T> post(String url, MultiValueMap<String,
 			String> requestBody, Class<T> responseType);
-	
 	public abstract  <T> Mono<List<T>> getListResult(String url, Class<T> responseType);
 
 	public abstract <T> Mono<List<T>> postListResult(String url, MultiValueMap<String,
