@@ -11,9 +11,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class ManageProperty_CreateWorksheetDTO {
 	private long propertyID;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date worksheetCreateDate;
+	private LocalDate worksheetCreateDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date worksheetEndDate;
+	private LocalDate worksheetEndDate;
 	private String firstTenantName;
 	private String firstTenantPhoneNumber;
 	private String firstTenantCI;
@@ -29,16 +29,16 @@ public class ManageProperty_CreateWorksheetDTO {
 	public void setPropertyID(long propertyID) {
 		this.propertyID = propertyID;
 	}
-	public Date getWorksheetCreateDate() {
+	public LocalDate getWorksheetCreateDate() {
 		return worksheetCreateDate;
 	}
-	public void setWorksheetCreateDate(Date worksheetCreateDate) {
+	public void setWorksheetCreateDate(LocalDate worksheetCreateDate) {
 		this.worksheetCreateDate = worksheetCreateDate;
 	}
-	public Date getWorksheetEndDate() {
+	public LocalDate getWorksheetEndDate() {
 		return worksheetEndDate;
 	}
-	public void setWorksheetEndDate(Date worksheetEndDate) {
+	public void setWorksheetEndDate(LocalDate worksheetEndDate) {
 		this.worksheetEndDate = worksheetEndDate;
 	}
 	public String getFirstTenantName() {
@@ -96,8 +96,10 @@ public class ManageProperty_CreateWorksheetDTO {
 	public void setTimeInterval(int timeInterval) {
 		this.timeInterval = timeInterval;
 	}
-	public ManageProperty_CreateWorksheetDTO(long propertyID, Date worksheetCreateDate, Date worksheetEndDate,
-			String firstTenantName, String firstTenantPhoneNumber, String firstTenantCI, LocalDate tenantBirthDate,
+	public ManageProperty_CreateWorksheetDTO(long propertyID, LocalDate worksheetCreateDate,
+			LocalDate worksheetEndDate,
+			String firstTenantName, String firstTenantPhoneNumber,
+			String firstTenantCI, LocalDate tenantBirthDate,
 			List<String> selectedExpanseList) {
 		super();
 		this.propertyID = propertyID;

@@ -44,7 +44,8 @@ public class ManageProperty_AddTenantToWorksheetDTO {
 	public void setTenantCI(String tenantCI) {
 		this.tenantCI = tenantCI;
 	}
-	public ManageProperty_AddTenantToWorksheetDTO(long worksheetID, String tenantName, String tenantPhoneNumber,
+	public ManageProperty_AddTenantToWorksheetDTO(long worksheetID,
+			String tenantName, String tenantPhoneNumber,
 			String tenantCI, LocalDate tenantBirthDate) {
 		super();
 		this.worksheetID = worksheetID;

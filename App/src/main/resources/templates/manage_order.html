@@ -56,14 +56,13 @@
 							    <label class="form-check-label" for="paidOrderFilter">Đã thanh toán</label>
 							</div>
 							<div class="mb-3">
-							    <button id="exportToExcel" onclick="exportToExcel()">Xuất ra file excel</button>
-								<button id="sheetjsexport"><b>Export as XLSX</b></button>
+								<button id="sheetjsexport"><b>Xuất ra file excel</b></button>
 								<script>
 									document.getElementById("sheetjsexport").addEventListener('click', function() {
 									  /* Create worksheet from HTML DOM TABLE */
 									  var wb = XLSX.utils.table_to_book(document.getElementById("data-table"));
 									  /* Export to file (start a download) */
-									  XLSX.writeFile(wb, "SheetJSTable.xlsx");
+									  XLSX.writeFile(wb, "DanhSachHoaDon.xlsx");
 									});
 								</script>
 							</div>

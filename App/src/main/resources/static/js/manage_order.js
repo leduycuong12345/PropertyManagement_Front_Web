@@ -281,42 +281,8 @@ function statisticAmount()
 	$("#unpaidMonthAmount").text(unpaidMonthAmount);
 	$("#paidMonthAmount").text(paidMonthAmount);
 }
-function exportToExcel()
-{
-	
-	$("#exportToExcel").click(function(){
-            $("#data-table").table2excel({
-                filename: "DanhSachHoaDon", // Specify a filename for the download
-                fileext: ".xls" // Specify the file extension
-            });
-    });
-}
-function newExportToExcel()
-{
-	  /* reference to the table element */
-	  const tbl = React.useRef();
-	
-	  /* Callback invoked when the button is clicked */
-	  const xport = React.useCallback(() => {
-	    /* Create worksheet from HTML DOM TABLE */
-	    const wb = XLSX.utils.table_to_book(tbl.current);
-	
-	    /* Export to file (start a download) */
-	    XLSX.writeFile(wb, "SheetJSTable.xlsx");
-	  });
-	
-	  return ( <>
-	    <table ref={tbl}><tbody>
-	      <tr><td colSpan="3">SheetJS Table Export</td></tr>
-	      <tr><td>Author</td><td>ID</td><td>你好!</td></tr>
-	      <tr><td>SheetJS</td><td>7262</td><td>வணக்கம்!</td></tr>
-	      <tr><td colSpan="3">
-	        <a href="//sheetjs.com">Powered by SheetJS</a>
-	      </td></tr>
-	    </tbody></table>
-	    <button onClick={xport}><b>Export XLSX!</b></button>
-	  </> );
-}
+
+
 function formatRemainingAmountWithComma()
 {
 	// Iterate through each <li> with name "remainingAmount"

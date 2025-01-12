@@ -1,12 +1,9 @@
 package com.cuongsolution.manageproperty.front.web.Service.OrderInfo;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -38,7 +35,7 @@ public class ManageProperty_OrderInfoServiceImpl implements ManageProperty_Order
 		requestJson.add("expanseCost", ""+newOrder.getExpanseCost());
 		requestJson.add("expanseDetails", ""+newOrder.getExpanseDetails());
 		requestJson.add("orderBelongMonth", ""+newOrder.getOrderBelongMonth());
-
+		requestJson.add("worksheetID", ""+newOrder.getWorksheetID());
 		Mono<Boolean> postMonoResponse = apiCaller.post(fullPostURL, requestJson, Boolean.class);
 		postMonoResponse.block();
 	}
@@ -56,9 +53,7 @@ public class ManageProperty_OrderInfoServiceImpl implements ManageProperty_Order
                 .bodyToMono(String.class);
 
         // Subscribe to get the response
-        responseMono.subscribe(response -> {
-            System.out.println("Response from server: " + response);
-        });
+        responseMono.block();
 	}
 
 	@Override
@@ -74,9 +69,7 @@ public class ManageProperty_OrderInfoServiceImpl implements ManageProperty_Order
                 .bodyToMono(String.class);
 
         // Subscribe to get the response
-        responseMono.subscribe(response -> {
-            System.out.println("Response from server: " + response);
-        });
+        responseMono.block();
 		
 	}
 	

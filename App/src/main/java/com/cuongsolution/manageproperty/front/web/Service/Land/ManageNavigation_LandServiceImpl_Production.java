@@ -1,7 +1,6 @@
 package com.cuongsolution.manageproperty.front.web.Service.Land;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,13 +55,7 @@ public class ManageNavigation_LandServiceImpl_Production implements ManageNaviga
 		requestJson.add("username", ""+username);
 		Mono<ManageNavigation_FastCreateLandDTO> postMonoResponse = apiCaller.post(fullPostURL, requestJson, ManageNavigation_FastCreateLandDTO.class);
 				        
-				AtomicBoolean errorOccurred = new AtomicBoolean(false);
-				postMonoResponse.doOnError(error -> errorOccurred.set(true))
-				        .subscribe(response -> {
-				            System.out.println("Response received: " + response);
-				        }, error -> {
-				            System.err.println("Error: " + error.getMessage());
-				        });
+		
 		postMonoResponse.block();
 	}
 
@@ -75,20 +68,14 @@ public class ManageNavigation_LandServiceImpl_Production implements ManageNaviga
 				requestJson.add("username", ""+username);
 				Mono<UserInfo_AccountDTO> postMonoResponse = apiCaller.post(fullPostURL, requestJson, UserInfo_AccountDTO.class);
 				        
-				AtomicBoolean errorOccurred = new AtomicBoolean(false);
-				postMonoResponse.doOnError(error -> errorOccurred.set(true))
-				        .subscribe(response -> {
-				            System.out.println("Response received: " + response);
-				        }, error -> {
-				            System.err.println("Error: " + error.getMessage());
-				        });
+				
 				postMonoResponse.block();
 	}
 
 	@Override
 	public void editLand_ManageNavigation_Production(ManageNavigation_FastCreateLandDTO landDTO, String username) {
 		// POST request
-		String fullPostURL = kafkaBaseURL+"/managenavigation/createland";
+		String fullPostURL = kafkaBaseURL+"/managenavigation/editland";
 		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
 		requestJson.add("landID",""+landDTO.getLandID() );
 		requestJson.add("landName",landDTO.getLandName() );
@@ -99,13 +86,7 @@ public class ManageNavigation_LandServiceImpl_Production implements ManageNaviga
 		requestJson.add("username", ""+username);
 		Mono<ManageNavigation_FastCreateLandDTO> postMonoResponse = apiCaller.post(fullPostURL, requestJson, ManageNavigation_FastCreateLandDTO.class);
 		        
-		AtomicBoolean errorOccurred = new AtomicBoolean(false);
-		postMonoResponse.doOnError(error -> errorOccurred.set(true))
-		        .subscribe(response -> {
-		            System.out.println("Response received: " + response);
-		        }, error -> {
-		            System.err.println("Error: " + error.getMessage());
-		        });
+		
 		postMonoResponse.block();
 	}
 	

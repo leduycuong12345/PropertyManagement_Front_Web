@@ -9,7 +9,6 @@ import com.cuongsolution.manageproperty.front.web.DTO.ManageCharts_DepositChart;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageCharts_EconomicHealthyChart;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageCharts_ExpanseChart;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageCharts_PropertyRateChart;
-import com.cuongsolution.manageproperty.front.web.Model.API.Land;
 import com.cuongsolution.manageproperty.front.web.Service.Utils.RequestAPI_Service;
 
 import reactor.core.publisher.Mono;

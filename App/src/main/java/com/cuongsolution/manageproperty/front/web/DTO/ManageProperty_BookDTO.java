@@ -9,9 +9,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class ManageProperty_BookDTO {
 	private long propertyID;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date worksheetCreateDate;
+	private LocalDate worksheetCreateDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date worksheetEndDate;
+	private LocalDate worksheetEndDate;
 	private String firstTenantName;
 	private String firstTenantPhoneNumber;
 	private String firstTenantCI;
@@ -33,16 +33,16 @@ public class ManageProperty_BookDTO {
 	public void setPropertyID(long propertyID) {
 		this.propertyID = propertyID;
 	}
-	public Date getWorksheetCreateDate() {
+	public LocalDate getWorksheetCreateDate() {
 		return worksheetCreateDate;
 	}
-	public void setWorksheetCreateDate(Date worksheetCreateDate) {
+	public void setWorksheetCreateDate(LocalDate worksheetCreateDate) {
 		this.worksheetCreateDate = worksheetCreateDate;
 	}
-	public Date getWorksheetEndDate() {
+	public LocalDate getWorksheetEndDate() {
 		return worksheetEndDate;
 	}
-	public void setWorksheetEndDate(Date worksheetEndDate) {
+	public void setWorksheetEndDate(LocalDate worksheetEndDate) {
 		this.worksheetEndDate = worksheetEndDate;
 	}
 	public String getFirstTenantName() {
@@ -89,7 +89,7 @@ public class ManageProperty_BookDTO {
 		super();
 	}
 	
-	public ManageProperty_BookDTO(long propertyID, Date worksheetCreateDate, Date worksheetEndDate,
+	public ManageProperty_BookDTO(long propertyID, LocalDate worksheetCreateDate, LocalDate worksheetEndDate,
 			String firstTenantName, String firstTenantPhoneNumber, String firstTenantCI, LocalDate tenantBirthDate) {
 		super();
 		this.propertyID = propertyID;

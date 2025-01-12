@@ -43,7 +43,8 @@ public class ManageProperty_PropertyDTO {
 
 	public ManageProperty_PropertyDTO(long propertyID, String propertyName,
 			double propertyRentalPrice, int worksheettimeInverval, double worksheetTotalDeposit,
-			int worksheetOrderCreationDate, Date worksheetCreateDate, Date worksheetExpireDate, int rentStatus,
+			int worksheetOrderCreationDate, Date worksheetCreateDate, Date worksheetExpireDate, 
+			int rentStatus,
 			int paymentStatus, List<ManageProperty_RecurringExpanseDTO> recurringExpanseList) {
 		super();
 		this.propertyID = propertyID;

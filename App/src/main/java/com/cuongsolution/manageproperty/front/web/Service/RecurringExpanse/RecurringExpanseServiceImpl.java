@@ -47,7 +47,7 @@ public class RecurringExpanseServiceImpl implements RecurringExpanseService {
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();
 		requestJson.add("recurringExpanseID", ""+recurringExpanseID);
-		Mono<List<ManageExpanse_RecurringExpanseDTO>> postMonoResponse = apiCaller.postListResult(fullPostURL, requestJson, ManageExpanse_RecurringExpanseDTO.class);
+		Mono<String> postMonoResponse = apiCaller.post(fullPostURL, requestJson, String.class);
 		postMonoResponse.block();
 	}
 
