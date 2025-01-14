@@ -89,9 +89,6 @@ public class ManageDebt_OrderDTO {
 		this.totalAmount = totalAmount;
 	}
 
-	public long getOrderID() {
-		return orderID;
-	}
 	
 	public double getPropertyRentPrice() {
 		return propertyRentPrice;
@@ -101,9 +98,14 @@ public class ManageDebt_OrderDTO {
 		this.propertyRentPrice = propertyRentPrice;
 	}
 
+	public long getOrderID() {
+		return orderID;
+	}
+
 	public void setOrderID(long orderID) {
 		this.orderID = orderID;
 	}
+
 	public String getPropertyName() {
 		return propertyName;
 	}

@@ -22,7 +22,7 @@ public class ManageCharts_ChartServiceImpl implements ManageCharts_ChartService 
 
 	@Override
 	public ManageCharts_PropertyRateChart getPropertyRateChart_ManageCharts(long landId) {
-		String fullPostURL = kafkaBaseURL+"/manageexpanse/land/findlandbyid";
+		String fullPostURL = kafkaBaseURL+"/managechart/getpropertychart";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();
 		requestJson.add("LandID", ""+landId);
