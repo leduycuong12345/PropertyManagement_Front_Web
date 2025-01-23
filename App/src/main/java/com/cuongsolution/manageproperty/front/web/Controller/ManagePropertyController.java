@@ -88,12 +88,14 @@ public class ManagePropertyController {
 			}
 			else//neu chua chon land
 			{
+				
 				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName());//for land list/delete/update func
+				List<ManageProperty_PropertyDTO> propertyListBelongToLand=this.propertyService.getPropertyBelongToLand_ManageProperty(landList.get(0).getLandID());
 				model.addAttribute("landList",landList);//for land list/delete/update func
 				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
 				model.addAttribute("selectedLandID",landList.get(0).getLandID());//to create-property belong to land
 				model.addAttribute("selectedLand",landList.get(0));//to display selected-land-name at layout-sidebar
-				model.addAttribute("propertyList",this.propertyService.getPropertyBelongToLand_ManageProperty(landList.get(0).getLandID()));
+				model.addAttribute("propertyList",propertyListBelongToLand);
 				model.addAttribute("newWorksheet",new ManageProperty_CreateWorksheetDTO());//for create-worksheet function
 				model.addAttribute("newOrder",new ManageProperty_CreateOrderDTO());//for create-order function
 				model.addAttribute("editFastExpanseList",new ManageProperty_EditFastRecurringExpanseListDTO());//for edit-fast-recurring-expanse-list function;
@@ -101,6 +103,12 @@ public class ManagePropertyController {
 				model.addAttribute("fastCreateOrderList",new ManageProperty_FastCreateOrderListDTO());//for fast-create-order-list function;
 				model.addAttribute("newDeposit",new ManageProperty_DepositDTO());//for deposit function of worksheet which signed by tenant;
 				model.addAttribute("newBooking",new ManageProperty_BookDTO());//for book function;
+				
+				logger.info("land id:"+landList.get(0).getLandID()+" with property land:"+propertyListBelongToLand);
+				for( ManageProperty_PropertyDTO dto:propertyListBelongToLand)
+				{
+					logger.info("property id:"+dto.getPropertyID()+" is being load.");
+				}
 			}
 			return "manage_property";
 		}

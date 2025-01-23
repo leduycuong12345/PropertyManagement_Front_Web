@@ -1,4 +1,4 @@
-package com.cuongsolution.manageproperty.front.web.Service.Utils;
+package com.cuongsolution.manageproperty.front.web.Service.Utils.API_Connection;
 
 
 import java.util.List;

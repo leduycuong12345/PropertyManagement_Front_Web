@@ -11,7 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageExpanse_PropertyDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_EditPropertyDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_PropertyDTO;
-import com.cuongsolution.manageproperty.front.web.Service.Utils.RequestAPI_Service;
+import com.cuongsolution.manageproperty.front.web.Service.Utils.API_Connection.RequestAPI_Service;
 
 import reactor.core.publisher.Mono;
 @Service

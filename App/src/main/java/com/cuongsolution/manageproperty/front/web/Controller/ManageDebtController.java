@@ -1,12 +1,19 @@
 package com.cuongsolution.manageproperty.front.web.Controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +30,15 @@ import com.cuongsolution.manageproperty.front.web.Service.Land.ManageNavigation_
 import com.cuongsolution.manageproperty.front.web.Service.OrderInfo.ManageDebt_OrderInfoService;
 import com.cuongsolution.manageproperty.front.web.Service.Privileges.ManageDebt_PrivilegeService;
 import com.cuongsolution.manageproperty.front.web.Service.Receipt.ManageDebt_ReceiptService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class ManageDebtController {
+	private Logger logger = LoggerFactory.getLogger(ManageDebtController.class);
 	@Autowired
 	private ManageNavigation_LandService_Production landService;
 	@Autowired
@@ -64,10 +75,13 @@ public class ManageDebtController {
 						//model.addAttribute("selectedLandName",land.getLandName() );//to display selected-land-name at layout-sidebar
 						model.addAttribute("selectedLand",land );//to display selected-land-name at layout-sidebar
 						
-						Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_Pageable(land.getLandID()
-								,firstPage,totalRow);
+						Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_Pageable(landList.get(0).getLandID()
+								,firstPage,totalRow).getPageableObjectType();
 						model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(firstPage,debtList.getTotalPages()));//for pagination function
-						model.addAttribute("debtList",debtList );
+						model.addAttribute("debtList",debtList);
+						logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList);
+						logger.info("2.agination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
+						
 					}
 				}
 				
@@ -81,9 +95,14 @@ public class ManageDebtController {
 				model.addAttribute("selectedLand",landList.get(0));//to display selected-land-name at layout-sidebar
 				
 				Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_Pageable(landList.get(0).getLandID()
-						,firstPage,totalRow);
+						,firstPage,totalRow).getPageableObjectType();
 				model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(firstPage,debtList.getTotalPages()));//for pagination function
 				model.addAttribute("debtList",debtList );
+
+				logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList);
+				logger.info("2.agination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
+				
+				
 			}
 			return "manage_debt_by_land";
 		}
@@ -138,7 +157,10 @@ public class ManageDebtController {
 							Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_PageableAndSorting(land.getLandID()
 									,selectedPageResult,totalRow,searchKeyword);
 							model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(selectedPageResult,debtList.getTotalPages()));//for pagination function
-							model.addAttribute("debtList",debtList );
+							model.addAttribute("debtList",debtList.toList() );
+
+							logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
+							logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
 						}
 						else
 						{
@@ -146,7 +168,10 @@ public class ManageDebtController {
 							Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_Pageable(land.getLandID()
 									,selectedPageResult,totalRow);
 							model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(selectedPageResult,debtList.getTotalPages()));//for pagination function
-							model.addAttribute("debtList",debtList );
+							model.addAttribute("debtList",debtList.toList() );
+
+							logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
+							logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
 						}
 					}
 				}
@@ -166,14 +191,20 @@ public class ManageDebtController {
 					Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_PageableAndSorting(landList.get(0).getLandID()
 							,selectedPageResult,totalRow,searchKeyword);
 					model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(selectedPageResult,debtList.getTotalPages()));//for pagination function
-					model.addAttribute("debtList",debtList );
+					model.addAttribute("debtList",debtList.toList() );
+
+					logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
+					logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
 				}
 				else
 				{
 					Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_Pageable(landList.get(0).getLandID()
 							,selectedPageResult,totalRow);
 					model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(selectedPageResult,debtList.getTotalPages()));//for pagination function
-					model.addAttribute("debtList",debtList );
+					model.addAttribute("debtList",debtList.toList() );
+
+					logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
+					logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
 				}
 			}
 			return "manage_debt_by_land";
@@ -199,7 +230,10 @@ public class ManageDebtController {
 			
 			Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToWorksheet_ManageDebt(worksheetID,firstPageWithThirtyElements);
 			model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByWorksheet(firstPage,debtList.getTotalPages(),worksheetID));//for pagination function
-			model.addAttribute("debtList",debtList.toList());
+			model.addAttribute("debtList",debtList.getContent());
+
+			logger.info("pagination debt of worksheet id:"+worksheetID +" with debt list:"+debtList.toList());
+			logger.info("pagination debt of worksheet id:"+worksheetID +" with debt list:"+debtList.getContent());
 			return "manage_debt_by_worksheet";
 			
 		}
@@ -238,6 +272,9 @@ public class ManageDebtController {
 			Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToWorksheet_ManageDebt(worksheetID,selectedPageWithThirtyElements);
 			model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByWorksheet(selectedPageResult,debtList.getTotalPages(),worksheetID));//for pagination function
 			model.addAttribute("debtList",debtList.toList());
+
+			logger.info("pagination debt of worksheet id:"+worksheetID +" with debt list:"+debtList.toList());
+			logger.info("pagination debt of worksheet id:"+worksheetID +" with debt list:"+debtList.getContent());
 			return "manage_debt_by_worksheet";
 			
 		}

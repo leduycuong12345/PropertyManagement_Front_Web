@@ -62,37 +62,37 @@
 					          	
 								 <tbody id="debtList">
 								      <tr th:each="debt: ${debtList}">
-								      			<input type="hidden" th:name="orderID" th:value="${debt.getOrderID()}" />
-								                <input type="hidden" name="deligatedTenantName" th:value="${debt.getDeligatedTenantName()}"/>
-								                <input type="hidden" name="deligatedTenantPhoneNumber" th:value="${debt.getDeligatedTenantPhoneNumber()}" /> 
-								                <input type="hidden" name="expanseNote" th:value="${debt.getExpanseNote()}"/>
-								                <input type="hidden" name="orderStatus" th:value="${debt.getOrderStatus()}" />
-								                <input type="hidden" name="debtAmount" th:value="${debt.getDebtAmount()}" />
+								      			<input type="hidden" th:name="orderID" th:value="${debt.orderID}" />
+								                <input type="hidden" name="deligatedTenantName" th:value="${debt.deligatedTenantName}"/>
+								                <input type="hidden" name="deligatedTenantPhoneNumber" th:value="${debt.deligatedTenantPhoneNumber}" /> 
+								                <input type="hidden" name="expanseNote" th:value="${debt.expanseNote}"/>
+								                <input type="hidden" name="orderStatus" th:value="${debt.orderStatus}" />
+								                <input type="hidden" name="debtAmount" th:value="${debt.debtAmount}" />
 								                <td name="propertyName" class="content-table-data">
-								                    <p th:text="${order.getPropertyName()}" />
-								                    <th:block th:switch="${order.getOrderType()}">
+								                    <p th:text="${debt.propertyName}" />
+								                    <th:block th:switch="${debt.orderType}">
 														<th:block th:case="0">
 															<p>Thu tiền cọc</p>
 														</th:block>
 														<th:block th:case="1">
 															<p>Thu theo chu kỳ</p>
-								                            <p th:text="'( '+${#temporals.format(order.getOrderStartChargeDate(), 'dd-MM-yyyy')}+' )'" />
+															<p th:text="${debt.orderStartChargeDate}" />
 														</th:block>
 														<th:block th:case="2">
 															<p>Thu kết thúc hợp đồng</p>
-														    <p th:text="'( '+${#temporals.format(order.getOrderStartChargeDate(), 'dd-MM-yyyy')}+' )'" />
+														    <p th:text="${debt.orderStartChargeDate}" />
 														</th:block>
 													</th:block>
 								                </td>
 								                <td name="totalAmount">
-								                	<p th:text="${order.getTotalAmount()}"></p>
-								                	Đã thu:<p th:text="${order.getTotalAmount()-order.getRemainingAmount()}"></p>
+								                	<p th:text="${debt.totalAmount}"></p>
+								                	Đã thu:<p th:text="${debt.totalAmount-debt.remainingAmount}"></p>
 								                </td>
 								                <td name="remainingAmount">
-								                	<p th:text="${order.getRemainingAmount()}"></p>
+								                	<p th:text="${debt.remainingAmount}"></p>
 								                </td>
 								                <td>
-								                	<div th:switch="${order.getOrderStatus()}" >
+								                	<div th:switch="${debt.orderStatus}" >
 								                		<div th:case="1">
 															<p>Đã bị hủy</p>
 								                		</div>
@@ -108,31 +108,31 @@
 								                	</div>
 								                </td>
 								                <td name="totalMonth" class="content-table-data">
-								                	<p th:text="${order.getTotalMonth()}" />
+								                	<p th:text="${debt.totalMonth}" />
 								                </td>
 								                <td name="totalDay" class="content-table-data">
-								                	<p th:text="${order.getTotalDay()}" />
+								                	<p th:text="${debt.totalDay}" />
 								                </td>
-								                <input type="hidden" name="propertyRentPrice" th:value="${order.getPropertyRentPrice()}"/>
+								                <input type="hidden" name="propertyRentPrice" th:value="${debt.propertyRentPrice}"/>
 								                <td name="totalRentCost" class="content-table-data">
  													<p></p>
  								                </td>
-								                <th:block th:each="expanse : ${order.getExpanseList()}">
+								                <th:block th:each="expanse : ${debt.expanseList}">
 								                	<td name="previousReadingValue" class="content-table-data">
-								                		<p th:text="${expanse.getPreviousReadingValue()}"></p>
+								                		<p th:text="${expanse.previousReadingValue}"></p>
 								                	</td>
 								                	<td name="currentReadingValue" class="content-table-data">
-								                		<p th:text="${expanse.getCurrentReadingValue()}"></p>
+								                		<p th:text="${expanse.currentReadingValue}"></p>
 								                	</td>
 								                	<td name="totalExpanseCost" class="content-table-data">
-								                		<p th:text="${expanse.getTotalCost()}"></p>
+								                		<p th:text="${expanse.totalCost}"></p>
 								                	</td>
-								                	<input type="hidden" name="expanseQuantity" th:value="${expanse.getQuantity()}" />
-								                	<input type="hidden" name="expansePrice" th:value="${expanse.getExpansePrice()}" />
+								                	<input type="hidden" name="expanseQuantity" th:value="${expanse.quantity}" />
+								                	<input type="hidden" name="expansePrice" th:value="${expanse.expansePrice}" />
 								                </th:block>
 								                <td class="content-table-data">
-								                	<input type="hidden" name="expanseType" th:value="${order.isExpanseType()}" />
-								                	<p name="expanseCost" th:text="${order.getExpanseCost()}"></p>
+								                	<input type="hidden" name="expanseType" th:value="${debt.expanseType}" />
+								                	<p name="expanseCost" th:text="${debt.expanseCost}"></p>
 								                </td>
 								                <td>
 								                	<div class="btn-group">
@@ -140,8 +140,8 @@
 													    Chức năng
 													  </button>
 													  <ul class="dropdown-menu">
-														<li th:if="${order.getOrderStatus()==2 OR order.getOrderStatus()==3}" class="dropdown-item">
-														    	<div data-bs-toggle="modal" th:data-bs-target="'#payOrderModal-'+${order.getOrderID()}">
+														<li th:if="${debt.orderStatus==2 OR debt.orderStatus==3}" class="dropdown-item">
+														    	<div data-bs-toggle="modal" th:data-bs-target="'#payOrderModal-'+${debt.orderID}">
 																  Thu tiền
 																</div>
 														</li>
@@ -150,13 +150,13 @@
 																  	In phiếu thu tiền
 																</button>
 														</li>
-													    <li th:if="${order.getOrderStatus()!=1}"  class="dropdown-item">
-													    	<div data-bs-toggle="modal" th:data-bs-target="'#deleteOrderModal-'+${order.getOrderID()}">
+													    <li th:if="${debt.orderStatus!=1}"  class="dropdown-item">
+													    	<div data-bs-toggle="modal" th:data-bs-target="'#deleteOrderModal-'+${debt.orderID}">
 															  Hủy hóa đơn
 															</div>
 													    </li>
-													    <li th:if="${order.getOrderStatus()==1}"  class="dropdown-item">
-													    	<div data-bs-toggle="modal" th:data-bs-target="'#hardDeleteOrderModal-'+${order.getOrderID()}">
+													    <li th:if="${debt.orderStatus==1}"  class="dropdown-item">
+													    	<div data-bs-toggle="modal" th:data-bs-target="'#hardDeleteOrderModal-'+${debt.orderID}">
 															  Xóa hóa đơn
 															</div>
 													    </li>
@@ -164,6 +164,7 @@
 													</div>
 								                </td>
 								       </tr>
+								       
 				              </tbody>
 					        </table>
 										                
@@ -174,42 +175,42 @@
 	      </div>
 	    </main>
 	    <!-- create receipt -->
-	    <th:block th:each="order: ${debtList}">
-	    		<div class="modal fade" th:id="'payOrderModal-'+${order.getOrderID()}" tabindex="-1" aria-labelledby="createreceiptLabel" aria-hidden="true">
+	    <th:block th:each="order: ${debtList.content}">
+	    		<div class="modal fade" th:id="'payOrderModal-'+${order.orderID}" tabindex="-1" aria-labelledby="createreceiptLabel" aria-hidden="true">
 													  <div class="modal-dialog">
 													    <div class="modal-content">
 													      <div class="modal-header">
-													        <h5 class="modal-title" id="createreceiptLabel">Thu tiền <span th:text=${order.getPropertyName()}></span></h5> 
+													        <h5 class="modal-title" id="createreceiptLabel">Thu tiền <span th:text=${order.propertyName}></span></h5> 
 													        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 													      </div>
 														  <div class="modal-body">
-														  	<form  th:action="@{/quan-ly-cong-no/thanh-toan}"  method="post" th:object="${newReceipt}" th:id="'receiptForm-'+${order.getOrderID()}">
-													          		<input type="hidden"  name="orderID" th:value="${order.getOrderID()}" />
+														  	<form  th:action="@{/quan-ly-cong-no/thanh-toan}"  method="post" th:object="${newReceipt}" th:id="'receiptForm-'+${order.orderID}">
+													          		<input type="hidden"  name="orderID" th:value="${order.orderID}" />
 														      		<div class="form-floating mb-3 mt-3">
-																      <input type="number" class="form-control" name="receiptAmount" th:id="'receiptAmount-'+${order.getOrderID()}" th:value="${order.getRemainingAmount()}" required min="0" th:max="${order.getRemainingAmount()}" step="any">
-																      <label th:for="'receiptAmount-'+${order.getOrderID()}">Nhập số tiền khách thuê thanh toán</label>
+																      <input type="number" class="form-control" name="receiptAmount" th:id="'receiptAmount-'+${order.orderID}" th:value="${order.remainingAmount}" required min="0" th:max="${order.remainingAmount}" step="any">
+																      <label th:for="'receiptAmount-'+${order.orderID}">Nhập số tiền khách thuê thanh toán</label>
 																	</div>
 																	<div class="form-floating mb-3 mt-3">
-																      <select class="form-control" name="receiptType" th:id="'receiptType-'+${order.getOrderID()}">
+																      <select class="form-control" name="receiptType" th:id="'receiptType-'+${order.orderID}">
 																	    <option th:value="1" selected>Trả bằng tiền mặt</option>
 																	    <option th:value="2" >Chuyển khoản</option>
 																	  </select>
-																      <label th:for="'receiptType-'+${order.getOrderID()}">Phương thức thanh toán</label>
+																      <label th:for="'receiptType-'+${order.orderID}">Phương thức thanh toán</label>
 																	</div>
 																	<div class="form-floating mb-3 mt-3">
-																      <input type="text" class="form-control" name="receiptNote" th:id="'receiptNote-'+${order.getOrderID()}" >
-																      <label th:for="'receiptNote-'+${order.getOrderID()}">Ghi chú</label>
+																      <input type="text" class="form-control" name="receiptNote" th:id="'receiptNote-'+${order.orderID}" >
+																      <label th:for="'receiptNote-'+${order.orderID}">Ghi chú</label>
 																	</div>
 																	<div class="form-floating mb-3 mt-3">
-																      <input type="date" class="form-control" name="receiptDate" th:id="'receiptDate-'+${order.getOrderID()}" required>
-																      <label th:for="'receiptDate-'+${order.getOrderID()}">Ngày ghi nhận thu chi</label>
+																      <input type="date" class="form-control" name="receiptDate" th:id="'receiptDate-'+${order.orderID}" required>
+																      <label th:for="'receiptDate-'+${order.orderID}">Ngày ghi nhận thu chi</label>
 																	</div>
 															</form>
 														  </div>
 														  <div class="modal-footer">
-														  		<p th:text="'Tổng nợ: '+${order.getDebtAmount()}"></p>
+														  		<p th:text="'Tổng nợ: '+${order.debtAmount}"></p>
 														        <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Đóng</button>
-																<input type="submit" value="Thu tiền" class="btn btn-primary" th:form="'receiptForm-'+${order.getOrderID()}" />
+																<input type="submit" value="Thu tiền" class="btn btn-primary" th:form="'receiptForm-'+${order.orderID}" />
 														  </div>
 														  
 													    </div>
@@ -219,7 +220,7 @@
 	    <!-- END create receipt -->
 	    <!-- delete order select modal -->
 	    <th:block th:each="order: ${debtList}">
-			<div th:if="${order.getOrderStatus()!=1}"  class="modal fade" th:id="'deleteOrderModal-'+${order.getOrderID()}" tabindex="-1"  aria-hidden="true">
+			<div th:if="${order.orderStatus!=1}"  class="modal fade" th:id="'deleteOrderModal-'+${order.orderID}" tabindex="-1"  aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-body" style="text-align:center;item-align:center;">
@@ -232,7 +233,7 @@
 						 </div>
 						 <div class="modal-footer">
 						 	 <form th:action="@{/quan-ly-cong-no/xoa-hoa-don}" method="post">
-									<input type="hidden" name="orderID" th:value="${order.getOrderID()}">
+									<input type="hidden" name="orderID" th:value="${order.orderID}">
 									<button type="submit" class="btn btn-danger">Xóa</button>
 					          </form>
 					          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
@@ -245,7 +246,7 @@
 	    <!-- END delete order modal -->
 	    <!-- hard delete order select modal -->
 	    <th:block th:each="order: ${debtList}">
-			<div th:if="${order.getOrderStatus()==1}"  class="modal fade" th:id="'hardDeleteOrderModal-'+${order.getOrderID()}" tabindex="-1"  aria-hidden="true">
+			<div th:if="${order.orderStatus==1}"  class="modal fade" th:id="'hardDeleteOrderModal-'+${order.orderID}" tabindex="-1"  aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-body" style="text-align:center;item-align:center;">
@@ -257,7 +258,7 @@
 						 </div>
 						 <div class="modal-footer">
 						 	 <form th:action="@{/quan-ly-cong-no/xoa-hoan-toan-hoa-don}" method="post">
-									<input type="hidden" name="orderID" th:value="${order.getOrderID()}">
+									<input type="hidden" name="orderID" th:value="${order.orderID}">
 									<button type="submit" class="btn btn-danger">Xóa</button>
 					          </form>
 					          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
@@ -278,8 +279,8 @@
 			</thead>
 			<tbody>
 				<tr th:each="order: ${debtList}">
-					<td th:text="${order.getPropertyName()}"></td>
-					<td th:text="${order.getRemainingAmount()}"></td>
+					<td th:text="${order.propertyName}"></td>
+					<td th:text="${order.remainingAmount}"></td>
 				</tr>
 			</tbody>
 		</table>

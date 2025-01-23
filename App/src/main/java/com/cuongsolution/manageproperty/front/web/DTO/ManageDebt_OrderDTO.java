@@ -183,4 +183,12 @@ public class ManageDebt_OrderDTO {
 		this.orderStatus=orderStatus;
 		this.orderType=orderType;
 	}
+	public ManageDebt_OrderDTO(String getDebtList_BelongToWorksheet_ManageDebt_Result)
+	{
+		getDebtList_BelongToWorksheet_ManageDebt_Result=getDebtList_BelongToWorksheet_ManageDebt_Result
+				.replace("=", ":")
+                .replace("null", "null") // Handle nulls if necessary
+                .replaceAll("([a-zA-Z0-9_]+)", "\"$1\"")
+                .replace("\"null\"", "null");
+	}
 }

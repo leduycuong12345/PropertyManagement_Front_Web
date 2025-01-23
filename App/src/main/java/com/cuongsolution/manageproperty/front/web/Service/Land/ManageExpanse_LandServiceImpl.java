@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import com.cuongsolution.manageproperty.front.web.Model.API.Land;
-import com.cuongsolution.manageproperty.front.web.Service.Utils.RequestAPI_Service;
+import com.cuongsolution.manageproperty.front.web.Service.Utils.API_Connection.RequestAPI_Service;
 
 import reactor.core.publisher.Mono;
 

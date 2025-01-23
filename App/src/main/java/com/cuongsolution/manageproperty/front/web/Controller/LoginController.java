@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.cuongsolution.manageproperty.front.web.Service.Utils.WebUtils;
+import com.cuongsolution.manageproperty.front.web.Service.Utils.Security.WebUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

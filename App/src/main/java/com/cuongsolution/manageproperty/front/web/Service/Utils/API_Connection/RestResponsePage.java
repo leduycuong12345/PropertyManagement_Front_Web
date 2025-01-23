@@ -1,6 +1,7 @@
-package com.cuongsolution.manageproperty.front.web.Service.Utils;
+package com.cuongsolution.manageproperty.front.web.Service.Utils.API_Connection;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -11,7 +12,9 @@ import org.springframework.data.domain.Pageable;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+@JsonSerialize
 public class RestResponsePage<T> extends PageImpl<T> {
 
 
@@ -24,7 +27,8 @@ public class RestResponsePage<T> extends PageImpl<T> {
                     @JsonProperty("numberOfElements") int numberOfElements) {
         super(content, PageRequest.of(number, size), totalElements);
     }
-
+	
+	
     public RestResponsePage(List<T> content, Pageable pageable, long total) {
         super(content, pageable, total);
     }
@@ -32,9 +36,9 @@ public class RestResponsePage<T> extends PageImpl<T> {
     public RestResponsePage(List<T> content) {
         super(content);
     }
-
+    // Default constructor (for deserialization)
     public RestResponsePage() {
-        super(new ArrayList<T>());
+        super(Collections.emptyList());
     }
     public Page<T> getPageableObjectType()
     {

@@ -1,4 +1,4 @@
-package com.cuongsolution.manageproperty.front.web.Service.Utils;
+package com.cuongsolution.manageproperty.front.web.Service.Utils.Security;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;

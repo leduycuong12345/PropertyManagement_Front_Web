@@ -63,13 +63,13 @@
 					        	</thead>
 					          	
 								 <tbody id="debtList">
-								      <tr th:each="order: ${debtList}">
-								      			<input type="hidden" th:name="orderID" th:value="${order.getOrderID()}" />
-								                <input type="hidden" name="deligatedTenantName" th:value="${order.getDeligatedTenantName()}"/>
-								                <input type="hidden" name="deligatedTenantPhoneNumber" th:value="${order.getDeligatedTenantPhoneNumber()}" /> 
-								                <input type="hidden" name="expanseNote" th:value="${order.getExpanseNote()}"/>
-								                <input type="hidden" name="orderStatus" th:value="${order.getOrderStatus()}" />
-								                <input type="hidden" name="debtAmount" th:value="${order.getDebtAmount()}" />
+								      <tr th:each="debt: ${debtList}">
+								      			<input type="hidden" th:name="orderID" th:value="${debt.getOrderID()}" />
+								                <input type="hidden" name="deligatedTenantName" th:value="${debt.getDeligatedTenantName()}"/>
+								                <input type="hidden" name="deligatedTenantPhoneNumber" th:value="${debt.getDeligatedTenantPhoneNumber()}" /> 
+								                <input type="hidden" name="expanseNote" th:value="${debt.getExpanseNote()}"/>
+								                <input type="hidden" name="orderStatus" th:value="${debt.getOrderStatus()}" />
+								                <input type="hidden" name="debtAmount" th:value="${debt.getDebtAmount()}" />
 								                <td name="propertyName" class="content-table-data">
 								                    <p th:text="${order.getPropertyName()}" />
 								                    <th:block th:switch="${order.getOrderType()}">

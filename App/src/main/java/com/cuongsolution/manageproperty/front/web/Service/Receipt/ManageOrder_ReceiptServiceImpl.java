@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 
 import com.cuongsolution.manageproperty.front.web.DTO.ManageOrder_ReceiptDTO;
-import com.cuongsolution.manageproperty.front.web.Service.Utils.RequestAPI_Service;
+import com.cuongsolution.manageproperty.front.web.Service.Utils.API_Connection.RequestAPI_Service;
 
 import reactor.core.publisher.Mono;
 
