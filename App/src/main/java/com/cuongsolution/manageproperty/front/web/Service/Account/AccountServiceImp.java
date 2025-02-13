@@ -38,13 +38,7 @@ public class AccountServiceImp implements AccountService {
 		requestJson.add("username", username);
 		Mono<UserInfo_AccountDTO> postMonoResponse = apiCaller.post(fullPostURL, requestJson, UserInfo_AccountDTO.class);
 		        
-		AtomicBoolean errorOccurred = new AtomicBoolean(false);
-		postMonoResponse.doOnError(error -> errorOccurred.set(true))
-		        .subscribe(response -> {
-		            System.out.println("Response received: " + response);
-		        }, error -> {
-		            System.err.println("Error: " + error.getMessage());
-		        });
+		
 		return postMonoResponse.block();
 	}
 

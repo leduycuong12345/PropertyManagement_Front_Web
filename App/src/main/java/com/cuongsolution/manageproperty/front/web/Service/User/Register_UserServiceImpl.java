@@ -1,5 +1,7 @@
 package com.cuongsolution.manageproperty.front.web.Service.User;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +16,8 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class Register_UserServiceImpl implements Register_UserService{
+	private Logger logger = LoggerFactory.getLogger(Register_UserServiceImpl.class);
+	
 	@Value("${cuongsolution.manageproperty.userservice.kafka.baseURL}")//this variable being declared at application.properties
 	private String kafkaBaseURL;
 	@Autowired
@@ -47,14 +51,19 @@ public class Register_UserServiceImpl implements Register_UserService{
 	public void createNewUser(Register_UserDTO user) {
 		String fullPostURL = kafkaBaseURL+"/userserivce/createnewuser";
 		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
+		 
 		
 		String encryptedPassword=passwordEncoder.encode(user.getPassword());//by default s BCryptPasswordEncoder it may change in future
+		logger.info("register user with id"+user.getUsername() +" pass(still not encode):"+user.getPassword()
+		+" and pass(encoded):"+encryptedPassword);
+		
 		requestJson.add("username", user.getUsername());
 		requestJson.add("password", encryptedPassword);
 		requestJson.add("firstName", user.getFirstName());
 		requestJson.add("lastName", user.getLastName());
 		requestJson.add("email", user.getEmail());
 		requestJson.add("phoneNumber", user.getPhoneNumber());
+		
 		
         Mono<Boolean> postMonoResponse = apiCaller.post(fullPostURL, requestJson, Boolean.class);        
         //Boolean

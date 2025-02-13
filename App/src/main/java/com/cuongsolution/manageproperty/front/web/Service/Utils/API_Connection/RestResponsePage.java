@@ -1,6 +1,5 @@
 package com.cuongsolution.manageproperty.front.web.Service.Utils.API_Connection;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

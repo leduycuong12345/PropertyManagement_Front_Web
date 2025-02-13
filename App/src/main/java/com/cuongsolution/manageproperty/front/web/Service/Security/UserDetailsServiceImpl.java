@@ -4,6 +4,8 @@ package com.cuongsolution.manageproperty.front.web.Service.Security;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,6 +21,8 @@ import com.cuongsolution.manageproperty.front.web.Service.Account.AccountService
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+	private Logger logger = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+	
 	@Autowired
 	private AccountService accountDAO;
 	@Override
@@ -31,7 +35,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
            throw new UsernameNotFoundException("User " + username + " was not found in the database");
        }
 
-       System.out.println("Found User: " + account.getUsername());
+       logger.info("Found User when loggin: " + account.getUsername()+
+    		   " with password:"+account.getPassword());
 
        // [ROLE_USER, ROLE_ADMIN,..]
        List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
