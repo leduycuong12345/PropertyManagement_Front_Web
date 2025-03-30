@@ -175,7 +175,7 @@
 	      </div>
 	    </main>
 	    <!-- create receipt -->
-	    <th:block th:each="order: ${debtList.content}">
+	    <th:block th:each="order: ${debtList}">
 	    		<div class="modal fade" th:id="'payOrderModal-'+${order.orderID}" tabindex="-1" aria-labelledby="createreceiptLabel" aria-hidden="true">
 													  <div class="modal-dialog">
 													    <div class="modal-content">
