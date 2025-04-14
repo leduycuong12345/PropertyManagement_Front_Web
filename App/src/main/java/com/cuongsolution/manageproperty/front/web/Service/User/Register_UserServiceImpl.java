@@ -28,7 +28,7 @@ public class Register_UserServiceImpl implements Register_UserService{
 	public boolean existsByEmail(String email) {
 		// POST request
 		
-		String fullPostURL = kafkaBaseURL+"/userserivce/isexistbyemail";
+		String fullPostURL = kafkaBaseURL+"/userservice/isexistbyemail";
 		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
 		requestJson.add("email", email);
 		
@@ -39,7 +39,7 @@ public class Register_UserServiceImpl implements Register_UserService{
 
 	@Override
 	public boolean existsByPhoneNumber(String phoneNumber) {
-		String fullPostURL = kafkaBaseURL+"/userserivce/isexistbyphonenumber";
+		String fullPostURL = kafkaBaseURL+"/userservice/isexistbyphonenumber";
 		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
 		requestJson.add("phoneNumber", phoneNumber);
         Mono<Boolean> postMonoResponse = apiCaller.post(fullPostURL, requestJson, Boolean.class);
@@ -49,7 +49,7 @@ public class Register_UserServiceImpl implements Register_UserService{
 
 	@Override
 	public void createNewUser(Register_UserDTO user) {
-		String fullPostURL = kafkaBaseURL+"/userserivce/createnewuser";
+		String fullPostURL = kafkaBaseURL+"/userservice/createnewuser";
 		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
 		 
 		

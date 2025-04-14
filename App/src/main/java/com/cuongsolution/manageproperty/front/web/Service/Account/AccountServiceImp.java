@@ -1,5 +1,4 @@
 package com.cuongsolution.manageproperty.front.web.Service.Account;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +20,7 @@ public class AccountServiceImp implements AccountService {
 	@Override
 	public UserInfo_AccountDTO findByUsername(String username) {
 		// POST request
-		String fullPostURL = kafkaBaseURL+"/userserivce/findbyusername";
+		String fullPostURL = kafkaBaseURL+"/userservice/findbyusername";
 		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
 		requestJson.add("username", username);
         Mono<UserInfo_AccountDTO> postMonoResponse = apiCaller.post(fullPostURL, requestJson, UserInfo_AccountDTO.class);
