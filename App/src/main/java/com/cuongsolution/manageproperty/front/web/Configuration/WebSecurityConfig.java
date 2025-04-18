@@ -55,7 +55,7 @@ public class WebSecurityConfig  {
 		//login logout
 		http
 		.formLogin((form) -> form .loginPage("/login") // somehow this line
-				.defaultSuccessUrl("/quan-ly").permitAll()
+				.defaultSuccessUrl("/quan-ly",true).permitAll()
 				)
 		.logout((logout)
 		 -> logout.logoutUrl("/logout").permitAll());		 
