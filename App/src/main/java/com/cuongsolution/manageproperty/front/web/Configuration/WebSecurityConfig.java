@@ -12,6 +12,8 @@ import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import com.cuongsolution.manageproperty.front.web.Service.Security.UserDetailsServiceImpl;
@@ -66,9 +68,11 @@ public class WebSecurityConfig  {
 	CorsConfigurationSource myGoogleGeoAPIConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		//configuration.setAllowedOrigins(Arrays.asList("https://localhost:8080")); // Add your frontend origin
-		configuration.setAllowedOrigins(Arrays.asList("https://quanlytaisan.site","https://localhost:8080")); // Add your frontend origin
-		configuration.setAllowedMethods(Arrays.asList("GET","POST","HEAD"));
+		configuration.setAllowedOrigins(Arrays.asList("https://hyderson.vn","https://localhost:8080")); // Add your frontend origin
+		//configuration.setAllowedOrigins(Arrays.asList("*")); // Add your frontend origin
+		configuration.setAllowedMethods(Arrays.asList("GET","POST","HEAD", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("Content-Type","Authorization"));
+		configuration.setAllowCredentials(true);
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
@@ -85,6 +89,6 @@ public class WebSecurityConfig  {
 	public static BCryptPasswordEncoder passwordEncoder() {
 	    return new BCryptPasswordEncoder();
 	}
-
+	
 
 }

@@ -1,6 +1,5 @@
 package com.cuongsolution.manageproperty.front.web.Controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 //@Controller
