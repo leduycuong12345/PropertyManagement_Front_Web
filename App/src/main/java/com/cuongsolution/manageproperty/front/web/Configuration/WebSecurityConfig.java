@@ -50,7 +50,7 @@ public class WebSecurityConfig  {
 		//yeu cau dang nhap vs URI
 		
 		  http.authorizeHttpRequests((authorize) -> authorize
-				  .requestMatchers("/register","/register/**","/test").permitAll()
+				  .requestMatchers("/register","/register/**").permitAll()
 				  .anyRequest().authenticated()
 				  );
 		
@@ -72,7 +72,7 @@ public class WebSecurityConfig  {
 		//configuration.setAllowedOrigins(Arrays.asList("*")); // Add your frontend origin
 		configuration.setAllowedMethods(Arrays.asList("GET","POST","HEAD", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("Content-Type","Authorization"));
-		configuration.setAllowCredentials(true);
+		//configuration.setAllowCredentials(true);
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
