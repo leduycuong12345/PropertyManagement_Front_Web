@@ -47,7 +47,7 @@ public class ManageProperty_OrderInfoServiceImpl implements ManageProperty_Order
 		WebClient webClient = WebClient.create(kafkaBaseURL);
 		// Perform the POST request
         Mono<String> responseMono = webClient.post()
-                .uri("/manageproperty/createfastorderlist")
+                .uri(fullPostURL)
                 .bodyValue(newOrderList) // Send the list of Product objects
                 .retrieve()
                 .bodyToMono(String.class);
@@ -63,7 +63,7 @@ public class ManageProperty_OrderInfoServiceImpl implements ManageProperty_Order
 		WebClient webClient = WebClient.create(kafkaBaseURL);
 		// Perform the POST request
         Mono<String> responseMono = webClient.post()
-                .uri("/manageproperty/createorderfordeposit")
+                .uri(fullPostURL)
                 .bodyValue(depositDTO) // Send the list of Product objects
                 .retrieve()
                 .bodyToMono(String.class);
