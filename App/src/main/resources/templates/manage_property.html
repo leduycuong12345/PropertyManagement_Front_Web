@@ -71,7 +71,7 @@
 				                <td>
 				                	<div th:switch="${property.getRentStatus()}" >
 				                		<div th:case="0">
-				                			<span style="color:red;" class="h-100 w-auto d-inline-block" >Chưa lập hợp đồng</span>
+				                			<textarea style="color:red;" class="editable_property_textarea h-100 w-auto d-inline-block" readonly>Chưa lập hợp đồng</textarea>
 				                		</div>
 				                		<div th:case="*">
 				                			<textarea  onchange="allowToSave(this)" class="editable_property_textarea h-100 w-auto d-inline-block" th:name="worksheetTotalDeposit" th:text="${#numbers.formatDecimal(property.getWorksheetTotalDeposit(), 0, 'COMMA', 0, 'POINT')}" ></textarea>
