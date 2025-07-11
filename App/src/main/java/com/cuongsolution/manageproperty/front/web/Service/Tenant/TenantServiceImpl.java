@@ -22,7 +22,7 @@ public class TenantServiceImpl implements TenantService{
 		WebClient webClient = WebClient.create(kafkaBaseURL);
 		// Perform the POST request
         Mono<String> responseMono = webClient.post()
-                .uri("/managetenant/addtenanttoworksheet")
+                .uri(fullPostURL)
                 .bodyValue(newTenantDTO) // Send the list of Product objects
                 .retrieve()
                 .bodyToMono(String.class);

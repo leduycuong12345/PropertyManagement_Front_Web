@@ -23,7 +23,7 @@ public class ManageTenant_TenantServiceImpl implements ManageTenant_TenantServic
 		WebClient webClient = WebClient.create(kafkaBaseURL);
 		// Perform the POST request
         Mono<String> responseMono = webClient.post()
-                .uri("/managetenant/edittenant")
+                .uri(fullPostURL)
                 .bodyValue(tenantDTO) // Send the list of Product objects
                 .retrieve()
                 .bodyToMono(String.class);

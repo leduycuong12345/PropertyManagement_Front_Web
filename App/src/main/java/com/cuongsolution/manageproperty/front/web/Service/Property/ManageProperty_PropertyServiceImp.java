@@ -59,7 +59,7 @@ public class ManageProperty_PropertyServiceImp implements ManageProperty_Propert
 		WebClient webClient = WebClient.create(kafkaBaseURL);
 		// Perform the POST request
         Mono<String> responseMono = webClient.post()
-                .uri("/manageproperty/editproperty")
+                .uri(fullPostURL)
                 .bodyValue(propertyDTO) // Send the list of Product objects
                 .retrieve()
                 .bodyToMono(String.class);
@@ -76,7 +76,7 @@ public class ManageProperty_PropertyServiceImp implements ManageProperty_Propert
 		WebClient webClient = WebClient.create(kafkaBaseURL);
 		// Perform the POST request
         Mono<String> responseMono = webClient.post()
-                .uri("/manageproperty/editpropertyincludedworksheet")
+                .uri(fullPostURL)
                 .bodyValue(propertyDTO) // Send the list of Product objects
                 .retrieve()
                 .bodyToMono(String.class);

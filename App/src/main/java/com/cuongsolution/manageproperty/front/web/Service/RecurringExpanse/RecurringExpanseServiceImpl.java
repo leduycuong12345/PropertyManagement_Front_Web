@@ -58,7 +58,7 @@ public class RecurringExpanseServiceImpl implements RecurringExpanseService {
 		WebClient webClient = WebClient.create(kafkaBaseURL);
 		// Perform the POST request
         Mono<String> responseMono = webClient.post()
-                .uri("/manageexpanse/editrecurringexpanse")
+                .uri(fullPostURL)
                 .bodyValue(editRecurringExpanseDTO) // Send the list of Product objects
                 .retrieve()
                 .bodyToMono(String.class);
@@ -76,7 +76,7 @@ public class RecurringExpanseServiceImpl implements RecurringExpanseService {
 		WebClient webClient = WebClient.create(kafkaBaseURL);
 		// Perform the POST request
         Mono<String> responseMono = webClient.post()
-                .uri("/manageexpanse/createrecurringexpanse")
+                .uri(fullPostURL)
                 .bodyValue(newExpanseDTO) // Send the list of Product objects
                 .retrieve()
                 .bodyToMono(String.class);

@@ -29,7 +29,7 @@ public class WorksheetServiceImp implements WorksheetService {
 		WebClient webClient = WebClient.create(kafkaBaseURL);
 		// Perform the POST request
         Mono<String> responseMono = webClient.post()
-                .uri("/manageworksheet/createworksheet")
+                .uri(fullPostURL)
                 .bodyValue(worksheetDTO) // Send the list of Product objects
                 .retrieve()
                 .bodyToMono(String.class);
@@ -45,7 +45,7 @@ public class WorksheetServiceImp implements WorksheetService {
 		WebClient webClient = WebClient.create(kafkaBaseURL);
 		// Perform the POST request
         Mono<String> responseMono = webClient.post()
-                .uri("/manageworksheet/bookproperty")
+                .uri(fullPostURL)
                 .bodyValue(bookDTO) // Send the list of Product objects
                 .retrieve()
                 .bodyToMono(String.class);
