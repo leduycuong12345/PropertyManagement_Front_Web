@@ -16,7 +16,15 @@ public class UserInfo_AccountDTO {
 	private String userVerifiedEmail;
 	private Date userRegisterdDate;
 	private String userIP;
+	private Boolean userIsEnabled;
 	private List<String> roles;
+	
+	public Boolean getUserIsEnabled() {
+		return userIsEnabled;
+	}
+	public void setUserIsEnabled(Boolean userIsEnabled) {
+		this.userIsEnabled = userIsEnabled;
+	}
 	public long getAccountID() {
 		return account_ID;
 	}

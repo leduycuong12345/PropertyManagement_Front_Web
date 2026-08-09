@@ -1,5 +1,7 @@
 package com.cuongsolution.manageproperty.front.web.Controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +16,7 @@ import com.cuongsolution.manageproperty.front.web.Service.Account.Register_Accou
 import com.cuongsolution.manageproperty.front.web.Service.User.Register_UserService;
 @Controller
 public class RegisterController {
-
+	private Logger logger = LoggerFactory.getLogger(ManageOrderController.class);
 	@Autowired
 	private Register_AccountService accountService;
 	@Autowired
@@ -33,7 +35,14 @@ public class RegisterController {
     public String registration(@Validated @ModelAttribute("user") Register_UserDTO userDto,
                                BindingResult result,
                                Model model){
+    	
         boolean existingEmail = userService.existsByEmail(userDto.getEmail());
+        logger.info("RegisterController registration received registration form with username:{},pass:{},rePass:{},phonenumber:{},email:{}"
+        		,userDto.getUsername()
+        		,userDto.getPassword()
+        		,userDto.getRePassword()
+        		,userDto.getPhoneNumber()
+        		,userDto.getEmail());
         if(existingEmail){
             result.rejectValue("email", null,
                     "There is already an account registered with the same email");

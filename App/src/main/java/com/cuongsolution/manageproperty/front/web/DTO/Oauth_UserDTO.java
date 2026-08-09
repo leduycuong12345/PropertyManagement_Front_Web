@@ -1,12 +1,15 @@
-package com.cuongsolution.manageproperty.front.web.Model.API;
+package com.cuongsolution.manageproperty.front.web.DTO;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.cuongsolution.manageproperty.front.web.Model.API.Authority;
+import com.cuongsolution.manageproperty.front.web.Model.API.Privilege;
 
-public class User {
+public class Oauth_UserDTO {
 	private long userId;
 	private String userFirstName;
 	private String userLastName;
@@ -16,16 +19,24 @@ public class User {
 	private Date userRegisterdDate;
 	private String userIP;
 	private Boolean userIsEnabled;
+	private boolean isPresenting;
+
+	//private Set<Authority> authorities = new HashSet<>();
 	
-	private List<Privilege> privileges = new ArrayList<>();
-	
+	//private List<Privilege> privilegeList = new ArrayList<>();
+	public boolean isPresenting() {
+		return isPresenting;
+	}
+	public void setPresenting(boolean isPresenting) {
+		this.isPresenting = isPresenting;
+	}
 	public Boolean getUserIsEnabled() {
 		return userIsEnabled;
 	}
 	public void setUserIsEnabled(Boolean userIsEnabled) {
 		this.userIsEnabled = userIsEnabled;
 	}
-	public User(String userFirstName, String userLastName, String userPhoneNumber, String userVerifiedEmail) {
+	public Oauth_UserDTO(String userFirstName, String userLastName, String userPhoneNumber, String userVerifiedEmail) {
 		super();
 		this.userFirstName = userFirstName;
 		this.userLastName = userLastName;
@@ -33,14 +44,11 @@ public class User {
 		this.userVerifiedEmail = userVerifiedEmail;
 	}
 
-	private Set<Authority> authorities = new HashSet<>();
 	
-	private List<Privilege> privilegeList = new ArrayList<>();
-	
-	public User() {
+	public Oauth_UserDTO() {
 		super();
 	}
-	public User(long userId, String userFirstName, String userLastName, String userCI, String userPhoneNumber,
+	public Oauth_UserDTO(long userId, String userFirstName, String userLastName, String userCI, String userPhoneNumber,
 			String userVerifiedEmail, Date userRegisterdDate, String userIP) {
 		super();
 		this.userId = userId;
@@ -51,13 +59,6 @@ public class User {
 		this.userVerifiedEmail = userVerifiedEmail;
 		this.userRegisterdDate = userRegisterdDate;
 		this.userIP = userIP;
-	}
-	
-	public List<Privilege> getPrivilegeList() {
-		return privilegeList;
-	}
-	public void setPrivilegeList(List<Privilege> privilegeList) {
-		this.privilegeList = privilegeList;
 	}
 	public long getUserId() {
 		return userId;
@@ -76,13 +77,6 @@ public class User {
 	}
 	public void setUserLastName(String userLastName) {
 		this.userLastName = userLastName;
-	}
-	
-	public List<Privilege> getPrivileges() {
-		return privileges;
-	}
-	public void setPrivileges(List<Privilege> privileges) {
-		this.privileges = privileges;
 	}
 	public String getUserCI() {
 		return userCI;
@@ -113,11 +107,5 @@ public class User {
 	}
 	public void setUserIP(String userIP) {
 		this.userIP = userIP;
-	}
-	public Set<Authority> getAuthorities() {
-		return authorities;
-	}
-	public void setAuthorities(Set<Authority> authorities) {
-		this.authorities = authorities;
 	}
 }

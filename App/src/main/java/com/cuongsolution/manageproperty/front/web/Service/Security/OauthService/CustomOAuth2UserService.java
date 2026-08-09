@@ -1,0 +1,75 @@
+package com.cuongsolution.manageproperty.front.web.Service.Security.OauthService;
+
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Service;
+
+import com.cuongsolution.manageproperty.front.web.DTO.OAuth2_GmailRegister_UserDTO;
+import com.cuongsolution.manageproperty.front.web.DTO.Oauth_UserDTO;
+import com.cuongsolution.manageproperty.front.web.Model.API.User;
+import com.cuongsolution.manageproperty.front.web.Service.User.Oauth_UserService;
+
+@Service
+public class CustomOAuth2UserService
+        extends DefaultOAuth2UserService {
+	private Logger logger = LoggerFactory.getLogger(CustomOAuth2UserService.class);
+	
+	@Autowired
+	private Oauth_UserService oauth_UserService;
+    @Override
+    public OAuth2User loadUser(
+            OAuth2UserRequest request)
+            throws OAuth2AuthenticationException {
+
+        OAuth2User oauthUser =
+                super.loadUser(request);
+
+        // Save/update database if email s new then create new user.
+        
+        // Provider information
+        String provider = request.getClientRegistration().getRegistrationId();
+     // User information
+        String email = oauthUser.getAttribute("email");
+        String name = oauthUser.getAttribute("name");
+        String googleId = oauthUser.getAttribute("sub");
+        logger.info(" CustomOAuth2UserService loadUser email:{},name:{}",email,name);
+        Oauth_UserDTO isUserPresenting=this.oauth_UserService.getUserByGmail_OAuth2(
+        		email
+        		);
+        if(isUserPresenting.isPresenting())//is user registered or not
+        {
+        	if(isUserPresenting.getUserIsEnabled()==false)
+        	{
+        		//user regiser account by local and access by oauth2 but not verify yet 
+        		//=>force user to email_verification.
+        		throw new DisabledException("Account is not activated.");
+        	}
+        	else
+        	{	
+        		//account is registered and activated then return 
+        		return oauthUser;
+        	}
+        }
+        else //dont have account yet then registering
+        {
+        	this.oauth_UserService.createUserByGmail_OAuth2(
+        			new OAuth2_GmailRegister_UserDTO(
+        					name,
+        					email,
+        					name,
+        					"GOOGLE",//gmail belong to google ofc
+        					googleId
+        					)
+        			);
+        }
+        return oauthUser;
+    }
+}

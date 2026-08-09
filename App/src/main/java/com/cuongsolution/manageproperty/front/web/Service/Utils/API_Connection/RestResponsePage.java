@@ -10,8 +10,9 @@ import org.springframework.data.domain.Pageable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize
 public class RestResponsePage<T> extends PageImpl<T> {

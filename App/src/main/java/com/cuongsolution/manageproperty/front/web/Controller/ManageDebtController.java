@@ -30,10 +30,6 @@ import com.cuongsolution.manageproperty.front.web.Service.Land.ManageNavigation_
 import com.cuongsolution.manageproperty.front.web.Service.OrderInfo.ManageDebt_OrderInfoService;
 import com.cuongsolution.manageproperty.front.web.Service.Privileges.ManageDebt_PrivilegeService;
 import com.cuongsolution.manageproperty.front.web.Service.Receipt.ManageDebt_ReceiptService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import jakarta.servlet.http.HttpSession;
 
 @Controller

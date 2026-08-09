@@ -8,15 +8,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import com.cuongsolution.manageproperty.front.web.Service.Security.UserDetailsServiceImpl;
+import com.cuongsolution.manageproperty.front.web.Service.Security.OauthService.CustomOAuth2UserService;
 
 import java.util.Arrays;
 
@@ -24,14 +21,13 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class WebSecurityConfig  {
 	@Autowired
+	private CustomOAuth2UserService customOAuth2UserService;
+	@Autowired
     private UserDetailsServiceImpl userDetailsService;
 	
 	@Bean
-	MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-		return new MvcRequestMatcher.Builder(introspector).servletPath("/spring-mvc");
-	}
-	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		/*
 		//cors to send GET request to google geocode api
 		http.cors((cors) -> cors
 				.configurationSource(myGoogleGeoAPIConfigurationSource())
@@ -42,11 +38,6 @@ public class WebSecurityConfig  {
 		.csrf((csrf) -> csrf
 			.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
 		);
-		//khong yeu cau dang nhap voi URI
-		/*http.authorizeHttpRequests((authorize) -> authorize
-				.requestMatchers("/api/manage/edit-property")
-				.permitAll()
-			);*/
 		//yeu cau dang nhap vs URI
 		
 		  http.authorizeHttpRequests((authorize) -> authorize
@@ -62,13 +53,37 @@ public class WebSecurityConfig  {
 		.logout((logout)
 		 -> logout.logoutUrl("/logout").permitAll());		 
 		return http.build();
+		*/
+		//cors to send GET request to google geocode api
+		http.cors((cors) -> cors
+				.configurationSource(myGoogleGeoAPIConfigurationSource())
+			);
+		//csrf
+        http
+		.csrf((csrf) -> csrf
+			.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
+		);
+    	
+    	//end csrf
+    	
+    	http
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/register","/login", "/error", "/webjars/**").permitAll()
+            .anyRequest().authenticated()
+        )
+        .oauth2Login(oauth2 -> oauth2
+        		.loginPage("/login")
+        	    .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
+        	    .defaultSuccessUrl("/quan-ly", true)
+        );
+    	return http.build();
     }
 	
 	//cors to send GET request to google geocode API
 	CorsConfigurationSource myGoogleGeoAPIConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		//configuration.setAllowedOrigins(Arrays.asList("https://localhost:8080")); // Add your frontend origin
-		configuration.setAllowedOrigins(Arrays.asList("https://hyderson.vn","https://localhost:8080")); // Add your frontend origin
+		configuration.setAllowedOrigins(Arrays.asList("https://hyderson.vn","https://localhost:8080","")); // Add your frontend origin
 		//configuration.setAllowedOrigins(Arrays.asList("*")); // Add your frontend origin
 		configuration.setAllowedMethods(Arrays.asList("GET","POST","HEAD", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("Content-Type","Authorization"));
