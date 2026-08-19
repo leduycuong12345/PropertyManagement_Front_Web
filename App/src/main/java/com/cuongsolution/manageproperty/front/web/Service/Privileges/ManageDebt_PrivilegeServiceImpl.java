@@ -1,5 +1,7 @@
 package com.cuongsolution.manageproperty.front.web.Service.Privileges;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ public class ManageDebt_PrivilegeServiceImpl implements ManageDebt_PrivilegeServ
 	@Autowired
 	private RequestAPI_Service apiCaller;
 	@Override
-	public boolean isWorksheetBelongToUser(long worksheetId, String username) {
+	public boolean isWorksheetBelongToUser(UUID worksheetId, String username) {
 		// POST request
 		String fullPostURL = kafkaBaseURL+"/managedebt/privilege/isworksheetbelongtouser";
 		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();

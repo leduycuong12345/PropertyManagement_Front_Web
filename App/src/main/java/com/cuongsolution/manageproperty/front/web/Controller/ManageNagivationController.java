@@ -1,6 +1,7 @@
 package com.cuongsolution.manageproperty.front.web.Controller;
 
 import java.security.Principal;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,7 @@ public class ManageNagivationController {
 		return "redirect:/quan-ly";
     }
 	@PostMapping(value="/land/edit")
-	public String postEditLand( @RequestParam("landID") Long landID
+	public String postEditLand( @RequestParam("landID") UUID landID
 			,@RequestParam("landName") String landName
 			,@RequestParam("propertyRentalPrice") double propertyRentalPrice
 			,@RequestParam("orderCreationDate") int orderCreationDate

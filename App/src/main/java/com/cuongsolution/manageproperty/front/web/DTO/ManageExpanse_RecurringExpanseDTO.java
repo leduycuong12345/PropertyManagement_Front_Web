@@ -1,13 +1,14 @@
 package com.cuongsolution.manageproperty.front.web.DTO;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ManageExpanse_RecurringExpanseDTO {
-	private long recurringExpanseID;
+	private UUID recurringExpanseID;
 	private String recurringExpanseName;
 	private float recurringExpansePrice;
 	private int recurringExpanseType;
-	private long recurringExpanseUnitID;
+	private UUID recurringExpanseUnitID;
 	private String recurringExpanseUnitName;
 	private int totalAppliedProperty;
 	private List<ManageExpanse_PropertyServiceDTO> propertyServiceList=
@@ -16,11 +17,11 @@ public class ManageExpanse_RecurringExpanseDTO {
 		super();
 	}
 
-	public long getRecurringExpanseID() {
+	public UUID getRecurringExpanseID() {
 		return recurringExpanseID;
 	}
 
-	public void setRecurringExpanseID(long recurringExpanseID) {
+	public void setRecurringExpanseID(UUID recurringExpanseID) {
 		this.recurringExpanseID = recurringExpanseID;
 	}
 	
@@ -51,11 +52,11 @@ public class ManageExpanse_RecurringExpanseDTO {
 
 	
 
-	public long getRecurringExpanseUnitID() {
+	public UUID getRecurringExpanseUnitID() {
 		return recurringExpanseUnitID;
 	}
 
-	public void setRecurringExpanseUnitID(long recurringExpanseUnitID) {
+	public void setRecurringExpanseUnitID(UUID recurringExpanseUnitID) {
 		this.recurringExpanseUnitID = recurringExpanseUnitID;
 	}
 
@@ -83,8 +84,8 @@ public class ManageExpanse_RecurringExpanseDTO {
 		this.propertyServiceList = propertyServiceList;
 	}
 
-	public ManageExpanse_RecurringExpanseDTO(long recurringExpanseID, String recurringExpanseName,
-			float recurringExpansePrice, int recurringExpanseType, long recurringExpanseUnitID,
+	public ManageExpanse_RecurringExpanseDTO(UUID recurringExpanseID, String recurringExpanseName,
+			float recurringExpansePrice, int recurringExpanseType, UUID recurringExpanseUnitID,
 			String recurringExpanseUnitName, int totalAppliedProperty,
 			List<ManageExpanse_PropertyServiceDTO> propertyServiceList) {
 		super();

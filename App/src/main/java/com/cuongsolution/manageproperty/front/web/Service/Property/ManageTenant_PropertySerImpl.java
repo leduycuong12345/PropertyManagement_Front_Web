@@ -1,6 +1,7 @@
 package com.cuongsolution.manageproperty.front.web.Service.Property;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +20,7 @@ public class ManageTenant_PropertySerImpl implements ManageTenant_PropertySer{
 	@Autowired
 	private RequestAPI_Service apiCaller;
 	@Override
-	public List<ManageTenant_PropertyDTO> getPropertyListIncludedTenantsByLandId(Long landID) {
+	public List<ManageTenant_PropertyDTO> getPropertyListIncludedTenantsByLandId(UUID landID) {
 		String fullPostURL = kafkaBaseURL+"/managetenant/getpropertylistincludedtenantsbylandid";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();

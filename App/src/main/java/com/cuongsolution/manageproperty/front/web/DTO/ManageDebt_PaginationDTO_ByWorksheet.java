@@ -1,15 +1,17 @@
 package com.cuongsolution.manageproperty.front.web.DTO;
 
+import java.util.UUID;
+
 public class ManageDebt_PaginationDTO_ByWorksheet {
 	public int currentPage=0;
 	public int totalPage=0;
-	public long worksheetId;
+	public UUID worksheetId;
 	
 	
-	public long getWorksheetId() {
+	public UUID getWorksheetId() {
 		return worksheetId;
 	}
-	public void setWorksheetId(long worksheetId) {
+	public void setWorksheetId(UUID worksheetId) {
 		this.worksheetId = worksheetId;
 	}
 	public int getCurrentPage() {
@@ -24,7 +26,7 @@ public class ManageDebt_PaginationDTO_ByWorksheet {
 	public void setTotalPage(int totalPage) {
 		this.totalPage = totalPage;
 	}
-	public ManageDebt_PaginationDTO_ByWorksheet(int currentPage, int totalPage, long worksheetId) {
+	public ManageDebt_PaginationDTO_ByWorksheet(int currentPage, int totalPage, UUID worksheetId) {
 		super();
 		this.currentPage = currentPage;
 		this.totalPage = totalPage;

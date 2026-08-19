@@ -2,6 +2,7 @@ package com.cuongsolution.manageproperty.front.web.Service.RecurringExpanse;
 
 
 import java.util.List;
+import java.util.UUID;
 
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_RecurringExpanseDTO;
 import com.cuongsolution.manageproperty.front.web.Model.API.DetailsRecurringExpanse;
@@ -18,9 +19,9 @@ import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_CreateWorks
 
 
 public interface RecurringExpanseService {
-	public abstract List<ManageOrder_ExpanseHeaderDTO> manageOrder_findRecurringExpanseBelongToLand(long landID);
-	public abstract List<ManageExpanse_RecurringExpanseDTO> manageExpanse_findRecurringExpanseBelongToLand(long landID); 
-	public abstract void manageExpanse_deleteByID(long recurringExpanseID);
+	public abstract List<ManageOrder_ExpanseHeaderDTO> manageOrder_findRecurringExpanseBelongToLand(UUID landID);
+	public abstract List<ManageExpanse_RecurringExpanseDTO> manageExpanse_findRecurringExpanseBelongToLand(UUID landID); 
+	public abstract void manageExpanse_deleteByID(UUID recurringExpanseID);
 	public abstract void manageExpanse_editExpanseDTO(ManageExpanse_EditRecurringExpanseDTO editRecurringExpanseDTO);
 	public abstract void manageExpanse_createRecurringExpanse(ManageExpanse_CreateRecurringExpanseDTO newExpanseDTO);
 }

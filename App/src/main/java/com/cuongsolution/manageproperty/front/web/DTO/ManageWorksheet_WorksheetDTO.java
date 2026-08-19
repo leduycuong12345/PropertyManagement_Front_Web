@@ -1,10 +1,12 @@
 package com.cuongsolution.manageproperty.front.web.DTO;
 import java.util.Date;
+import java.util.UUID;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 public class ManageWorksheet_WorksheetDTO {
-	private long worksheetID;
+	private UUID worksheetID;
 	//private PropertyDTO property;
 	private double currentPropertyRentalPrice;
 	private double depositAmount;
@@ -19,10 +21,10 @@ public class ManageWorksheet_WorksheetDTO {
 	public ManageWorksheet_WorksheetDTO() {
 		super();
 	}
-	public long getWorksheetID() {
+	public UUID getWorksheetID() {
 		return worksheetID;
 	}
-	public void setWorksheetID(long worksheetID) {
+	public void setWorksheetID(UUID worksheetID) {
 		this.worksheetID = worksheetID;
 	}
 	public double getCurrentPropertyRentalPrice() {
@@ -73,7 +75,7 @@ public class ManageWorksheet_WorksheetDTO {
 	public void setDelegateTenantName(String delegateTenantName) {
 		this.delegateTenantName = delegateTenantName;
 	}
-	public ManageWorksheet_WorksheetDTO(long worksheetID, double currentPropertyRentalPrice, double depositAmount,
+	public ManageWorksheet_WorksheetDTO(UUID worksheetID, double currentPropertyRentalPrice, double depositAmount,
 			int timeInterval, String propertyName, int tenantTotal, String delegateTenantName, Date worksheetCreateDate,
 			Date worksheetExpireDate) {
 		super();

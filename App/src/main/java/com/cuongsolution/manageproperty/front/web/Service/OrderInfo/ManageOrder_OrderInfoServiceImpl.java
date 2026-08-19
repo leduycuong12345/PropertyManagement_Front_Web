@@ -2,6 +2,7 @@ package com.cuongsolution.manageproperty.front.web.Service.OrderInfo;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,7 @@ public class ManageOrder_OrderInfoServiceImpl implements ManageOrder_OrderInfoSe
 	
 	@Override
 	public List<ManageOrder_OrderDTO> getOrderList_ManageOrder(
-			long landID, LocalDate selectedDate) {
+			UUID landID, LocalDate selectedDate) {
 		String fullPostURL = kafkaBaseURL+"/manageorder/getorderlist";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();
@@ -38,7 +39,7 @@ public class ManageOrder_OrderInfoServiceImpl implements ManageOrder_OrderInfoSe
 	}
 
 	@Override
-	public void deleteOrder_ManageOrder(long orderID) {
+	public void deleteOrder_ManageOrder(UUID orderID) {
 		String fullPostURL = kafkaBaseURL+"/manageorder/deteleorder";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();
@@ -48,7 +49,7 @@ public class ManageOrder_OrderInfoServiceImpl implements ManageOrder_OrderInfoSe
 	}
 
 	@Override
-	public void hardDeleteOrder_ManageOrder(long orderID) {
+	public void hardDeleteOrder_ManageOrder(UUID orderID) {
 		String fullPostURL = kafkaBaseURL+"/manageorder/harddeteleorder";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();

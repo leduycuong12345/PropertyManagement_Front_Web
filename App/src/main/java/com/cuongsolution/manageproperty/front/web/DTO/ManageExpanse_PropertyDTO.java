@@ -1,13 +1,15 @@
 package com.cuongsolution.manageproperty.front.web.DTO;
 
+import java.util.UUID;
+
 public class ManageExpanse_PropertyDTO {
-	private long propertyID;
+	private UUID propertyID;
 	private String propertyName;
 	
-	public long getPropertyID() {
+	public UUID getPropertyID() {
 		return propertyID;
 	}
-	public void setPropertyID(long propertyID) {
+	public void setPropertyID(UUID propertyID) {
 		this.propertyID = propertyID;
 	}
 	public String getPropertyName() {
@@ -20,7 +22,7 @@ public class ManageExpanse_PropertyDTO {
 	public ManageExpanse_PropertyDTO() {
 		super();
 	}
-	public ManageExpanse_PropertyDTO(long propertyID, String propertyName) {
+	public ManageExpanse_PropertyDTO(UUID propertyID, String propertyName) {
 		super();
 		this.propertyID = propertyID;
 		this.propertyName = propertyName;

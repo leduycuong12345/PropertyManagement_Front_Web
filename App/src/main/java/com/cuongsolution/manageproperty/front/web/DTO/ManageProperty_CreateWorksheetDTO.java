@@ -4,12 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 
 public class ManageProperty_CreateWorksheetDTO {
-	private long propertyID;
+	private UUID propertyID;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate worksheetCreateDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -23,10 +24,10 @@ public class ManageProperty_CreateWorksheetDTO {
 	@DateTimeFormat(pattern = "yyyy-MM-dd",iso = DateTimeFormat.ISO.DATE)
 	private LocalDate firstTenantBirthDate;
 	private List<String> selectedExpanseList=new ArrayList<String>();//at the client-side , form post ll send a string that content object[id:long,value:float] as "object.id,object.value"
-	public long getPropertyID() {
+	public UUID getPropertyID() {
 		return propertyID;
 	}
-	public void setPropertyID(long propertyID) {
+	public void setPropertyID(UUID propertyID) {
 		this.propertyID = propertyID;
 	}
 	public LocalDate getWorksheetCreateDate() {
@@ -96,7 +97,7 @@ public class ManageProperty_CreateWorksheetDTO {
 	public void setTimeInterval(int timeInterval) {
 		this.timeInterval = timeInterval;
 	}
-	public ManageProperty_CreateWorksheetDTO(long propertyID, LocalDate worksheetCreateDate,
+	public ManageProperty_CreateWorksheetDTO(UUID propertyID, LocalDate worksheetCreateDate,
 			LocalDate worksheetEndDate,
 			String firstTenantName, String firstTenantPhoneNumber,
 			String firstTenantCI, LocalDate tenantBirthDate,

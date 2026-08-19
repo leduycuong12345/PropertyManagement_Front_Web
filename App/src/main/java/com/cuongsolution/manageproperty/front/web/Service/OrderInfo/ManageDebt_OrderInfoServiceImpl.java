@@ -1,6 +1,8 @@
 package com.cuongsolution.manageproperty.front.web.Service.OrderInfo;
 
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -21,7 +23,7 @@ public class ManageDebt_OrderInfoServiceImpl implements ManageDebt_OrderInfoServ
 	@Autowired
 	private RequestAPI_Service apiCaller;
 	@Override
-	public void deleteOrder_ManageDebt(long orderID) {
+	public void deleteOrder_ManageDebt(UUID orderID) {
 		String fullPostURL = kafkaBaseURL+"/managedebt/deleteorder";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();
@@ -31,7 +33,7 @@ public class ManageDebt_OrderInfoServiceImpl implements ManageDebt_OrderInfoServ
         postMonoResponse.block();
 	}
 	@Override
-	public void hardDeleteOrder_ManageDebt(long orderID) {
+	public void hardDeleteOrder_ManageDebt(UUID orderID) {
 		String fullPostURL = kafkaBaseURL+"/managedebt/harddeleteorder";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();
@@ -41,7 +43,7 @@ public class ManageDebt_OrderInfoServiceImpl implements ManageDebt_OrderInfoServ
         postMonoResponse.block();
 	}
 	@Override
-	public RestResponsePage<ManageDebt_OrderDTO> getDebtList_BelongToWorksheet_ManageDebt(long worksheetId,Pageable pageable) 
+	public RestResponsePage<ManageDebt_OrderDTO> getDebtList_BelongToWorksheet_ManageDebt(UUID worksheetId,Pageable pageable) 
 	{
 		
 		String fullPostURL = kafkaBaseURL+"/managedebt/getdebtlistbelongtoworksheet";
@@ -55,7 +57,7 @@ public class ManageDebt_OrderInfoServiceImpl implements ManageDebt_OrderInfoServ
         return postMonoResponse.block();
 	}
 	@Override
-	public RestResponsePage<ManageDebt_OrderDTO> getDebtList_BelongToLand_ManageDebt_Pageable(long landID, int selectedPage,
+	public RestResponsePage<ManageDebt_OrderDTO> getDebtList_BelongToLand_ManageDebt_Pageable(UUID landID, int selectedPage,
 			int totalRowPerPage) {
 		String fullPostURL = kafkaBaseURL+"/managedebt/getdebtlistbelongtoland";
 		LinkedMultiValueMap<String, String> requestJson = 
@@ -68,7 +70,7 @@ public class ManageDebt_OrderInfoServiceImpl implements ManageDebt_OrderInfoServ
         return postMonoResponse.block();
 	}
 	@Override
-	public RestResponsePage<ManageDebt_OrderDTO> getDebtList_BelongToLand_ManageDebt_PageableAndSorting(long landID,
+	public RestResponsePage<ManageDebt_OrderDTO> getDebtList_BelongToLand_ManageDebt_PageableAndSorting(UUID landID,
 			int selectedPage, int totalRowPerPage, String keyword) {
 		String fullPostURL = kafkaBaseURL+"/managedebt/getdebtlistbelongtolandwithsorting";
 		LinkedMultiValueMap<String, String> requestJson = 
@@ -82,7 +84,7 @@ public class ManageDebt_OrderInfoServiceImpl implements ManageDebt_OrderInfoServ
         return postMonoResponse.block();
 	}
 	@Override
-	public RestResponsePage<ManageDebt_OrderDTO> getDebtList_BelongToWorksheet_ManageDebt_Pageable(long worksheetId,
+	public RestResponsePage<ManageDebt_OrderDTO> getDebtList_BelongToWorksheet_ManageDebt_Pageable(UUID worksheetId,
 			Pageable pageable) {
 		String fullPostURL = kafkaBaseURL+"/managedebt/getdebtlistbelongtoworksheet";
 		LinkedMultiValueMap<String, String> requestJson = 

@@ -48,7 +48,7 @@ public class Register_UserServiceImpl implements Register_UserService{
 	}
 
 	@Override
-	public void createNewUser(Register_UserDTO user) {
+	public boolean createNewUser(Register_UserDTO user) {
 		String fullPostURL = kafkaBaseURL+"/userservice/createnewuser";
 		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
 		 
@@ -67,7 +67,7 @@ public class Register_UserServiceImpl implements Register_UserService{
 		
         Mono<Boolean> postMonoResponse = apiCaller.post(fullPostURL, requestJson, Boolean.class);        
         //Boolean
-        postMonoResponse.block();
+        return postMonoResponse.block();
 
 	}
 }

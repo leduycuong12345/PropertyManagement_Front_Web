@@ -1,5 +1,7 @@
 package com.cuongsolution.manageproperty.front.web.Service.Chart;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,7 @@ public class ManageCharts_ChartServiceImpl implements ManageCharts_ChartService 
 	private RequestAPI_Service apiCaller;
 
 	@Override
-	public ManageCharts_PropertyRateChart getPropertyRateChart_ManageCharts(long landId) {
+	public ManageCharts_PropertyRateChart getPropertyRateChart_ManageCharts(UUID landId) {
 		String fullPostURL = kafkaBaseURL+"/managechart/getpropertychart";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();
@@ -32,19 +34,19 @@ public class ManageCharts_ChartServiceImpl implements ManageCharts_ChartService 
 	}
 
 	@Override
-	public ManageCharts_EconomicHealthyChart getEconomicHealthyChart_ManageCharts(long landId) {
+	public ManageCharts_EconomicHealthyChart getEconomicHealthyChart_ManageCharts(UUID landId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ManageCharts_DepositChart getDepositChart_ManageCharts(long landId) {
+	public ManageCharts_DepositChart getDepositChart_ManageCharts(UUID landId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ManageCharts_ExpanseChart getExpanseChart_ManageCharts(long landId) {
+	public ManageCharts_ExpanseChart getExpanseChart_ManageCharts(UUID landId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

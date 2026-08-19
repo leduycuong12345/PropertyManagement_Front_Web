@@ -3,12 +3,13 @@ package com.cuongsolution.manageproperty.front.web.DTO;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 public class ManageProperty_PropertyDTO {
-	private long propertyID;
+	private UUID propertyID;
 	private String propertyName;
 	private double propertyRentalPrice;
 	private int worksheettimeInverval;
@@ -23,7 +24,7 @@ public class ManageProperty_PropertyDTO {
 	private int paymentStatus;//0: phòng trống chưa cho thuê,1: phòng đã được đặt cọc,2: phong da co hop-dong-thue nhung chua coc,3:  phong da co hop-dong-thue nhung chua thu tien coc va tien chu ky thang nay,4 phong da co hop-dong-thue da thu du tien coc va tien chu ky thang nay
 	private List<ManageProperty_RecurringExpanseDTO> recurringExpanseList=new ArrayList<>();
 	
-	private long worksheetID;//only init when property_Status != 0 
+	private UUID worksheetID;//only init when property_Status != 0 
 
 	public double getWorksheetDepositRemaining() {
 		return worksheetDepositRemaining;
@@ -41,7 +42,7 @@ public class ManageProperty_PropertyDTO {
 
 
 
-	public ManageProperty_PropertyDTO(long propertyID, String propertyName,
+	public ManageProperty_PropertyDTO(UUID propertyID, String propertyName,
 			double propertyRentalPrice, int worksheettimeInverval, double worksheetTotalDeposit,
 			int worksheetOrderCreationDate, Date worksheetCreateDate, Date worksheetExpireDate, 
 			int rentStatus,
@@ -60,11 +61,11 @@ public class ManageProperty_PropertyDTO {
 		this.recurringExpanseList = recurringExpanseList;
 	}
 
-	public ManageProperty_PropertyDTO(long propertyID, String propertyName,
+	public ManageProperty_PropertyDTO(UUID propertyID, String propertyName,
 			double propertyRentalPrice, int worksheettimeInverval, double worksheetTotalDeposit,
 			int worksheetOrderCreationDate, Date worksheetCreateDate, Date worksheetExpireDate, int rentStatus,
 			int paymentStatus, List<ManageProperty_RecurringExpanseDTO> recurringExpanseList
-			,long worksheetID,double worksheetDepositRemaining) {
+			,UUID worksheetID,double worksheetDepositRemaining) {
 		super();
 		this.propertyID = propertyID;
 		this.propertyName = propertyName;
@@ -83,10 +84,10 @@ public class ManageProperty_PropertyDTO {
 	public List<ManageProperty_RecurringExpanseDTO> getRecurringExpanseList() {
 		return recurringExpanseList;
 	}
-	public long getWorksheetID() {
+	public UUID getWorksheetID() {
 		return worksheetID;
 	}
-	public void setWorksheetID(long worksheetID) {
+	public void setWorksheetID(UUID worksheetID) {
 		this.worksheetID = worksheetID;
 	}
 	public void setRecurringExpanseList(List<ManageProperty_RecurringExpanseDTO> recurringExpanseList) {
@@ -163,7 +164,7 @@ public class ManageProperty_PropertyDTO {
 
 
 
-	public ManageProperty_PropertyDTO(long propertyID, String propertyName) {
+	public ManageProperty_PropertyDTO(UUID propertyID, String propertyName) {
 		super();
 		this.propertyID = propertyID;
 		this.propertyName = propertyName;
@@ -171,7 +172,7 @@ public class ManageProperty_PropertyDTO {
 
 
 
-	public ManageProperty_PropertyDTO(long propertyID, String propertyName, double propertyRentalPrice) {
+	public ManageProperty_PropertyDTO(UUID propertyID, String propertyName, double propertyRentalPrice) {
 		super();
 		this.propertyID = propertyID;
 		this.propertyName = propertyName;
@@ -221,10 +222,10 @@ public class ManageProperty_PropertyDTO {
 		this.propertyRentalPrice = propertyRentalPrice;
 	}
 
-	public long getPropertyID() {
+	public UUID getPropertyID() {
 		return propertyID;
 	}
-	public void setPropertyID(long propertyID) {
+	public void setPropertyID(UUID propertyID) {
 		this.propertyID = propertyID;
 	}
 	public String getPropertyName() {
@@ -236,7 +237,7 @@ public class ManageProperty_PropertyDTO {
 
 
 
-	public ManageProperty_PropertyDTO(long propertyID, String propertyName, double propertyRentalPrice,
+	public ManageProperty_PropertyDTO(UUID propertyID, String propertyName, double propertyRentalPrice,
 			 double worksheetTotalDeposit, int worksheetOrderCreationDate,int worksheettimeInverval) {
 		super();
 		this.propertyID = propertyID;

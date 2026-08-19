@@ -1,11 +1,13 @@
 package com.cuongsolution.manageproperty.front.web.DTO;
 
 import java.time.LocalDate;
+import java.util.UUID;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 
 public class ManageProperty_AddTenantToWorksheetDTO {
-	private long worksheetID;
+	private UUID worksheetID;
 	private String tenantName;
 	private String tenantPhoneNumber;
 	private String tenantCI;
@@ -20,10 +22,10 @@ public class ManageProperty_AddTenantToWorksheetDTO {
 	public ManageProperty_AddTenantToWorksheetDTO() {
 		super();
 	}
-	public long getWorksheetID() {
+	public UUID getWorksheetID() {
 		return worksheetID;
 	}
-	public void setWorksheetID(long worksheetID) {
+	public void setWorksheetID(UUID worksheetID) {
 		this.worksheetID = worksheetID;
 	}
 	public String getTenantName() {
@@ -44,7 +46,7 @@ public class ManageProperty_AddTenantToWorksheetDTO {
 	public void setTenantCI(String tenantCI) {
 		this.tenantCI = tenantCI;
 	}
-	public ManageProperty_AddTenantToWorksheetDTO(long worksheetID,
+	public ManageProperty_AddTenantToWorksheetDTO(UUID worksheetID,
 			String tenantName, String tenantPhoneNumber,
 			String tenantCI, LocalDate tenantBirthDate) {
 		super();

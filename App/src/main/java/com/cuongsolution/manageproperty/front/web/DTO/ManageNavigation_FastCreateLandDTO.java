@@ -1,7 +1,9 @@
 package com.cuongsolution.manageproperty.front.web.DTO;
 
+import java.util.UUID;
+
 public class ManageNavigation_FastCreateLandDTO {
-	private long landID;
+	private UUID landID;
 	private String landName="";
 	private int orderCreationDate=1;//must be in 0<x<31 
 	private int floorCount=0;
@@ -90,7 +92,7 @@ public class ManageNavigation_FastCreateLandDTO {
 
 
 
-	public ManageNavigation_FastCreateLandDTO(long landID, String landName ,double propertyRentalPrice, int orderCreationDate
+	public ManageNavigation_FastCreateLandDTO(UUID landID, String landName ,double propertyRentalPrice, int orderCreationDate
 			,String landAddress,String landAddressPostcode
 			) {
 		super();
@@ -133,10 +135,10 @@ public class ManageNavigation_FastCreateLandDTO {
 
 
 
-	public long getLandID() {
+	public UUID getLandID() {
 		return landID;
 	}
-	public void setLandID(long landID) {
+	public void setLandID(UUID landID) {
 		this.landID = landID;
 	}
 	public String getLandName() {
@@ -201,7 +203,7 @@ public class ManageNavigation_FastCreateLandDTO {
 	public void setPropertyRentalPrice(double propertyRentalPrice) {
 		this.propertyRentalPrice = propertyRentalPrice;
 	}
-	public ManageNavigation_FastCreateLandDTO(long landID, String landName,
+	public ManageNavigation_FastCreateLandDTO(UUID landID, String landName,
 			int orderCreationDate, double propertyRentalPrice, String address,
 			String region,String postcode) {
 		super();

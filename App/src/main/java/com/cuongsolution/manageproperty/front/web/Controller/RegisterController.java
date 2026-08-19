@@ -65,7 +65,17 @@ public class RegisterController {
             return "register";
         }
 
-        userService.createNewUser(userDto);
+        boolean createNewUserResult=userService.createNewUser(userDto);
+        while(createNewUserResult==false)
+        {
+        	// Pause execution for 2000 milliseconds (2 seconds)
+            try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
         return "redirect:/register?success";
     }
 }

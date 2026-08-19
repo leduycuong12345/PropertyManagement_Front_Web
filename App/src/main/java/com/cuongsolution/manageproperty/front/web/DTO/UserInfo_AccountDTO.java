@@ -2,13 +2,14 @@ package com.cuongsolution.manageproperty.front.web.DTO;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 
 public class UserInfo_AccountDTO {
-	private long account_ID;
+	private UUID account_ID;
 	private String username;
 	private String password;
-	private long userId;
+	private UUID userId;
 	private String userFirstName;
 	private String userLastName;
 	private String userCI;
@@ -25,10 +26,10 @@ public class UserInfo_AccountDTO {
 	public void setUserIsEnabled(Boolean userIsEnabled) {
 		this.userIsEnabled = userIsEnabled;
 	}
-	public long getAccountID() {
+	public UUID getAccountID() {
 		return account_ID;
 	}
-	public void setAccountID(long accountID) {
+	public void setAccountID(UUID accountID) {
 		this.account_ID = accountID;
 	}
 	public String getUsername() {
@@ -52,16 +53,16 @@ public class UserInfo_AccountDTO {
 		super();
 	}
 	
-	public long getAccount_ID() {
+	public UUID getAccount_ID() {
 		return account_ID;
 	}
-	public void setAccount_ID(long account_ID) {
+	public void setAccount_ID(UUID account_ID) {
 		this.account_ID = account_ID;
 	}
-	public long getUserId() {
+	public UUID getUserId() {
 		return userId;
 	}
-	public void setUserId(long userId) {
+	public void setUserId(UUID userId) {
 		this.userId = userId;
 	}
 	public String getUserFirstName() {
@@ -106,7 +107,7 @@ public class UserInfo_AccountDTO {
 	public void setUserIP(String userIP) {
 		this.userIP = userIP;
 	}
-	public UserInfo_AccountDTO(long account_ID, String username, String password, long userId, String userFirstName,
+	public UserInfo_AccountDTO(UUID account_ID, String username, String password, UUID userId, String userFirstName,
 			String userLastName, String userCI, String userPhoneNumber, String userVerifiedEmail,
 			Date userRegisterdDate, String userIP,
 			 List<String> roles) {

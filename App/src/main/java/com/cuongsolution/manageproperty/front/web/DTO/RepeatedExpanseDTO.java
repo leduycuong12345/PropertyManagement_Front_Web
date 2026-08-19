@@ -1,15 +1,17 @@
 package com.cuongsolution.manageproperty.front.web.DTO;
 
+import java.util.UUID;
+
 public class RepeatedExpanseDTO {
-	private long repeatedExpanseID;
+	private UUID repeatedExpanseID;
 	private String repeatedExpanseName;
 	private float repeatedExpanseQuantity;
 	private double repeatedExpanseCurrentCost;
 	private double repeatedExpanseTotalValue;
 	private double repeatedExpanseType; //type=1 based on unitCount, type=2 based on totalTenant
-	private long recurringExpanseID;
-	private long detailsRecurringExpanseID;
-	private long unitCountID;
+	private UUID recurringExpanseID;
+	private UUID detailsRecurringExpanseID;
+	private UUID unitCountID;
 	private String unitCountName;
 	
 	public double getRepeatedExpanseType() {
@@ -18,10 +20,10 @@ public class RepeatedExpanseDTO {
 	public void setRepeatedExpanseType(double repeatedExpanseType) {
 		this.repeatedExpanseType = repeatedExpanseType;
 	}
-	public long getUnitCountID() {
+	public UUID getUnitCountID() {
 		return unitCountID;
 	}
-	public void setUnitCountID(long unitCountID) {
+	public void setUnitCountID(UUID unitCountID) {
 		this.unitCountID = unitCountID;
 	}
 	public String getUnitCountName() {
@@ -30,10 +32,10 @@ public class RepeatedExpanseDTO {
 	public void setUnitCountName(String unitCountName) {
 		this.unitCountName = unitCountName;
 	}
-	public long getDetailsRecurringExpanseID() {
+	public UUID getDetailsRecurringExpanseID() {
 		return detailsRecurringExpanseID;
 	}
-	public void setDetailsRecurringExpanseID(long detailsRecurringExpanseID) {
+	public void setDetailsRecurringExpanseID(UUID detailsRecurringExpanseID) {
 		this.detailsRecurringExpanseID = detailsRecurringExpanseID;
 	}
 	public double getRepeatedExpanseTotalValue() {
@@ -42,10 +44,10 @@ public class RepeatedExpanseDTO {
 	public void setRepeatedExpanseTotalValue(double repeatedExpanseTotalValue) {
 		this.repeatedExpanseTotalValue = repeatedExpanseTotalValue;
 	}
-	public long getRepeatedExpanseID() {
+	public UUID getRepeatedExpanseID() {
 		return repeatedExpanseID;
 	}
-	public void setRepeatedExpanseID(long repeatedExpanseID) {
+	public void setRepeatedExpanseID(UUID repeatedExpanseID) {
 		this.repeatedExpanseID = repeatedExpanseID;
 	}
 	public String getRepeatedExpanseName() {
@@ -67,13 +69,13 @@ public class RepeatedExpanseDTO {
 	public void setRepeatedExpanseCurrentCost(double repeatedExpanseCurrentCost) {
 		this.repeatedExpanseCurrentCost = repeatedExpanseCurrentCost;
 	}
-	public long getRecurringExpanseID() {
+	public UUID getRecurringExpanseID() {
 		return recurringExpanseID;
 	}
-	public void setRecurringExpanseID(long recurringExpanseID) {
+	public void setRecurringExpanseID(UUID recurringExpanseID) {
 		this.recurringExpanseID = recurringExpanseID;
 	}
-	public RepeatedExpanseDTO(long recurringExpanseID,String repeatedExpanseName, double repeatedExpanseCurrentCost) {
+	public RepeatedExpanseDTO(UUID recurringExpanseID,String repeatedExpanseName, double repeatedExpanseCurrentCost) {
 		super();
 		this.repeatedExpanseName = repeatedExpanseName;
 		this.repeatedExpanseCurrentCost = repeatedExpanseCurrentCost;
@@ -83,7 +85,7 @@ public class RepeatedExpanseDTO {
 	public RepeatedExpanseDTO() {
 		super();
 	}
-	public RepeatedExpanseDTO(long detailsRecurringExpanseID,String repeatedExpanseName,double repeatedExpanseCurrentCost, float repeatedExpanseQuantity,
+	public RepeatedExpanseDTO(UUID detailsRecurringExpanseID,String repeatedExpanseName,double repeatedExpanseCurrentCost, float repeatedExpanseQuantity,
 			 double repeatedExpanseTotalValue ) {
 		super();
 		this.repeatedExpanseName = repeatedExpanseName;

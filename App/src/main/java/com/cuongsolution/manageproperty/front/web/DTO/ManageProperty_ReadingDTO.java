@@ -1,12 +1,14 @@
 package com.cuongsolution.manageproperty.front.web.DTO;
 
+import java.util.UUID;
+
 public class ManageProperty_ReadingDTO {
-	private long reading_ID;
+	private UUID reading_ID;
 	private double readingValue;
-	public long getReading_ID() {
+	public UUID getReading_ID() {
 		return reading_ID;
 	}
-	public void setReading_ID(long reading_ID) {
+	public void setReading_ID(UUID reading_ID) {
 		this.reading_ID = reading_ID;
 	}
 	
@@ -17,7 +19,7 @@ public class ManageProperty_ReadingDTO {
 		this.readingValue = readingValue;
 	}
 	
-	public ManageProperty_ReadingDTO(long reading_ID, double readingValue) {
+	public ManageProperty_ReadingDTO(UUID reading_ID, double readingValue) {
 		super();
 		this.reading_ID = reading_ID;
 		this.readingValue = readingValue;

@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,7 +54,7 @@ public class ManageOrderController {
 		}
 		else
 		{
-			Long selectedLandID=(Long) session.getAttribute("selectedLandID");
+			UUID selectedLandID=(UUID) session.getAttribute("selectedLandID");
 			if(selectedLandID !=null)//neu da chon land
 			{
 				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName());
@@ -89,7 +90,7 @@ public class ManageOrderController {
 		}
 		
     }
-	private void orderPagination(HttpSession session, Model model,long landID) {
+	private void orderPagination(HttpSession session, Model model,UUID landID) {
 		//pagination
 		Integer selectedMonthPagination=(Integer) session.getAttribute("selectedMonthPagination");
 		Integer selectedYearPagination=(Integer) session.getAttribute("selectedYearPagination");
@@ -118,7 +119,7 @@ public class ManageOrderController {
 		}
 		//end pagination
 	}
-	private void loadOrderListBySelectedDate(Model model, long landID, Integer selectedMonthPagination,
+	private void loadOrderListBySelectedDate(Model model, UUID landID, Integer selectedMonthPagination,
 			Integer selectedYearPagination) {
 		YearMonth selectedYearMonth = YearMonth.of(selectedYearPagination, selectedMonthPagination);
 
@@ -166,12 +167,12 @@ public class ManageOrderController {
 	}
 	
 	@PostMapping(value="/quan-ly-hoa-don/xoa-hoa-don")
-	public String deleteOrder_ManageOrder( @RequestParam("orderID") Long orderID) throws Exception {
+	public String deleteOrder_ManageOrder( @RequestParam("orderID") UUID orderID) throws Exception {
 		manageOrder_OrderInfoService.deleteOrder_ManageOrder(orderID);
 		return "redirect:/quan-ly-hoa-don";
     }
 	@PostMapping(value="/quan-ly-hoa-don/xoa-hoan-toan-hoa-don")
-	public String hardDeleteOrder_ManageOrder( @RequestParam("orderID") Long orderID) throws Exception {
+	public String hardDeleteOrder_ManageOrder( @RequestParam("orderID") UUID orderID) throws Exception {
 		manageOrder_OrderInfoService.hardDeleteOrder_ManageOrder(orderID);
 		return "redirect:/quan-ly-hoa-don";
     }

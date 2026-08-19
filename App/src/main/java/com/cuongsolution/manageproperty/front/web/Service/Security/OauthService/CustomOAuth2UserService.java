@@ -1,7 +1,5 @@
 package com.cuongsolution.manageproperty.front.web.Service.Security.OauthService;
 
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.cuongsolution.manageproperty.front.web.DTO.OAuth2_GmailRegister_UserDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.Oauth_UserDTO;
-import com.cuongsolution.manageproperty.front.web.Model.API.User;
 import com.cuongsolution.manageproperty.front.web.Service.User.Oauth_UserService;
 
 @Service
@@ -60,7 +57,7 @@ public class CustomOAuth2UserService
         }
         else //dont have account yet then registering
         {
-        	this.oauth_UserService.createUserByGmail_OAuth2(
+        	boolean createNewUserResult=this.oauth_UserService.createUserByGmail_OAuth2(
         			new OAuth2_GmailRegister_UserDTO(
         					name,
         					email,
@@ -69,6 +66,16 @@ public class CustomOAuth2UserService
         					googleId
         					)
         			);
+            while(createNewUserResult==false)
+            {
+            	// Pause execution for 2000 milliseconds (2 seconds)
+                try {
+    				Thread.sleep(1000);
+    			} catch (InterruptedException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+            }
         }
         return oauthUser;
     }

@@ -2,6 +2,7 @@ package com.cuongsolution.manageproperty.front.web.Controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,7 +41,7 @@ public class ManageExpanseController {
 		}
 		else
 		{
-			Long selectedLandID=(Long) session.getAttribute("selectedLandID");
+			UUID selectedLandID=(UUID) session.getAttribute("selectedLandID");
 			if(selectedLandID !=null)//neu da chon land
 			{
 				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName());
@@ -84,7 +85,7 @@ public class ManageExpanseController {
 		
     }
 	@PostMapping("/quan-ly-dich-vu/xoa-dich-vu")
-	public String deleteRecurringExpanse(@RequestParam(value = "recurringExpanseID") Long recurringExpanseID) {
+	public String deleteRecurringExpanse(@RequestParam(value = "recurringExpanseID") UUID recurringExpanseID) {
 	  	this.recurringExpanseService.manageExpanse_deleteByID(recurringExpanseID);
 		return "redirect:/quan-ly-dich-vu";
 	}

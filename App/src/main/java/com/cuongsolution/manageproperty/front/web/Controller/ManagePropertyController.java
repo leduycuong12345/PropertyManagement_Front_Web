@@ -2,6 +2,7 @@ package com.cuongsolution.manageproperty.front.web.Controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +63,7 @@ public class ManagePropertyController {
 		}
 		else
 		{
-			Long selectedLandID=(Long) session.getAttribute("selectedLandID");
+			UUID selectedLandID=(UUID) session.getAttribute("selectedLandID");
 			if(selectedLandID !=null)//neu da chon land
 			{
 				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName());
@@ -119,7 +120,7 @@ public class ManagePropertyController {
 		return "redirect:/quan-ly";
 	}
 	@PostMapping(value="/quan-ly/thay-doi-tai-san")
-	public String postCreateProperty( HttpSession session, @RequestParam("propertyID") Long propertyID
+	public String postCreateProperty( HttpSession session, @RequestParam("propertyID") UUID propertyID
 			,@RequestParam("propertyName") String propertyName
 			,@RequestParam("propertyRentalPrice") double propertyRentalPrice
 			,@RequestParam("worksheetTotalDeposit") double worksheetTotalDeposit
@@ -146,7 +147,7 @@ public class ManagePropertyController {
 		return "redirect:/quan-ly";
     }
 	@PostMapping(value="/tai-san/them")
-	public String createPropertyAtManagePage(@RequestParam("landID") Long landID,
+	public String createPropertyAtManagePage(@RequestParam("landID") UUID landID,
 			@RequestParam("propertyName") String propertyName,
 			@RequestParam("propertyRentalPrice") double propertyRentalPrice) throws Exception {
 		//test add_db with inheritance relationship
@@ -157,7 +158,7 @@ public class ManagePropertyController {
 		return "redirect:/quan-ly";
     }
 	@PostMapping("/property/delete")
-	public String deleteProperty(@RequestParam(value = "propertyID") Long propertyID) {
+	public String deleteProperty(@RequestParam(value = "propertyID") UUID propertyID) {
 	  	this.propertyService.deleteById(propertyID);
 		return "redirect:/quan-ly";
 	}
@@ -205,13 +206,13 @@ public class ManagePropertyController {
 		return "redirect:/quan-ly";
     }
     @PostMapping("/quan-ly/huy-coc")
-    public String deleteWorksheet(@RequestParam("worksheetID") Long worksheetID) {
+    public String deleteWorksheet(@RequestParam("worksheetID") UUID worksheetID) {
     	this.worksheetService.dropPrePaid_manageProperty(worksheetID);
     	//System.out.println(result);
     	return "redirect:/quan-ly";
     }
     @PostMapping("/quan-ly/checkin")
-    public String checkinProperty(@RequestParam("worksheetID") Long worksheetID) {
+    public String checkinProperty(@RequestParam("worksheetID") UUID worksheetID) {
     	this.worksheetService.checkinProperty_manageProperty(worksheetID);
     	//System.out.println(result);
     	return "redirect:/quan-ly";

@@ -1,15 +1,17 @@
 package com.cuongsolution.manageproperty.front.web.DTO;
 
+import java.util.UUID;
+
 public class ManageOrder_ExpanseHeaderDTO {
-	private long expanseID;
+	private UUID expanseID;
 	private String expanseName;
 	private double expansePrice;
 	
 	
-	public long getExpanseID() {
+	public UUID getExpanseID() {
 		return expanseID;
 	}
-	public void setExpanseID(long expanseID) {
+	public void setExpanseID(UUID expanseID) {
 		this.expanseID = expanseID;
 	}
 	public double getExpansePrice() {
@@ -28,7 +30,7 @@ public class ManageOrder_ExpanseHeaderDTO {
 	public ManageOrder_ExpanseHeaderDTO() {
 		super();
 	}
-	public ManageOrder_ExpanseHeaderDTO(long expanseID, String expanseName, double expansePrice) {
+	public ManageOrder_ExpanseHeaderDTO(UUID expanseID, String expanseName, double expansePrice) {
 		super();
 		this.expanseID = expanseID;
 		this.expanseName = expanseName;

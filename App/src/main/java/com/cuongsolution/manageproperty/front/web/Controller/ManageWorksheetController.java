@@ -2,6 +2,7 @@ package com.cuongsolution.manageproperty.front.web.Controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,7 +42,7 @@ public class ManageWorksheetController {
 		}
 		else
 		{
-			Long selectedLandID=(Long) session.getAttribute("selectedLandID");
+			UUID selectedLandID=(UUID) session.getAttribute("selectedLandID");
 			if(selectedLandID !=null)//neu da chon land
 			{
 				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName());
@@ -74,7 +75,7 @@ public class ManageWorksheetController {
 		return "manage_worksheet";
     }
     @PostMapping("/quan-ly/xoa-hop-dong")
-    public String deleteWorksheet(@RequestParam("worksheetID") Long worksheetID) {
+    public String deleteWorksheet(@RequestParam("worksheetID") UUID worksheetID) {
 		//System.out.println(property);
     	this.worksheetService.deleteWorksheet(worksheetID);
     	//System.out.println(result);

@@ -1,6 +1,7 @@
 package com.cuongsolution.manageproperty.front.web.Service.RecurringExpanse;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +23,7 @@ public class RecurringExpanseServiceImpl implements RecurringExpanseService {
 	@Autowired
 	private RequestAPI_Service apiCaller;
 	@Override
-	public List<ManageOrder_ExpanseHeaderDTO> manageOrder_findRecurringExpanseBelongToLand(long landID) {
+	public List<ManageOrder_ExpanseHeaderDTO> manageOrder_findRecurringExpanseBelongToLand(UUID landID) {
 		String fullPostURL = kafkaBaseURL+"/manageorder/findrecurringexpansebelongtoland";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();
@@ -32,7 +33,7 @@ public class RecurringExpanseServiceImpl implements RecurringExpanseService {
 	}
 
 	@Override
-	public List<ManageExpanse_RecurringExpanseDTO> manageExpanse_findRecurringExpanseBelongToLand(long landID) {
+	public List<ManageExpanse_RecurringExpanseDTO> manageExpanse_findRecurringExpanseBelongToLand(UUID landID) {
 		String fullPostURL = kafkaBaseURL+"/manageexpanse/findrecurringexpansebelongtoland";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();
@@ -42,7 +43,7 @@ public class RecurringExpanseServiceImpl implements RecurringExpanseService {
 	}
 
 	@Override
-	public void manageExpanse_deleteByID(long recurringExpanseID) {
+	public void manageExpanse_deleteByID(UUID recurringExpanseID) {
 		String fullPostURL = kafkaBaseURL+"/manageexpanse/deletebyid";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();

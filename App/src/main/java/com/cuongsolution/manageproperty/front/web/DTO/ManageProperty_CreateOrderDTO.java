@@ -4,12 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 
 public class ManageProperty_CreateOrderDTO {
-	private long worksheetID;
+	private UUID worksheetID;
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private LocalDate orderCreateDate;
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
@@ -23,10 +24,10 @@ public class ManageProperty_CreateOrderDTO {
 	private boolean expanseType;// Cong-them hoac /tru-vao
 	private double expanseCost;
 	private String expanseDetails;
-	public long getWorksheetID() {
+	public UUID getWorksheetID() {
 		return worksheetID;
 	}
-	public void setWorksheetID(long worksheetID) {
+	public void setWorksheetID(UUID worksheetID) {
 		this.worksheetID = worksheetID;
 	}
 	

@@ -2,12 +2,13 @@ package com.cuongsolution.manageproperty.front.web.DTO;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 
 public class ManageProperty_BookDTO {
-	private long propertyID;
+	private UUID propertyID;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate worksheetCreateDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -27,10 +28,10 @@ public class ManageProperty_BookDTO {
 	public void setTimeInterval(int timeInterval) {
 		this.timeInterval = timeInterval;
 	}
-	public long getPropertyID() {
+	public UUID getPropertyID() {
 		return propertyID;
 	}
-	public void setPropertyID(long propertyID) {
+	public void setPropertyID(UUID propertyID) {
 		this.propertyID = propertyID;
 	}
 	public LocalDate getWorksheetCreateDate() {
@@ -89,7 +90,7 @@ public class ManageProperty_BookDTO {
 		super();
 	}
 	
-	public ManageProperty_BookDTO(long propertyID, LocalDate worksheetCreateDate, LocalDate worksheetEndDate,
+	public ManageProperty_BookDTO(UUID propertyID, LocalDate worksheetCreateDate, LocalDate worksheetEndDate,
 			String firstTenantName, String firstTenantPhoneNumber, String firstTenantCI, LocalDate tenantBirthDate) {
 		super();
 		this.propertyID = propertyID;

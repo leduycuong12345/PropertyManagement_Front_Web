@@ -1,20 +1,21 @@
 package com.cuongsolution.manageproperty.front.web.DTO;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class ManageOrder_ReceiptDTO {
-	private Long orderID;
+	private UUID orderID;
 	private double receiptAmount;
 	private String receiptNote;
 	private int receiptType;
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private LocalDate receiptDate;
-	public Long getOrderID() {
+	public UUID getOrderID() {
 		return orderID;
 	}
-	public void setOrderID(Long orderID) {
+	public void setOrderID(UUID orderID) {
 		this.orderID = orderID;
 	}
 	

@@ -2,21 +2,21 @@ package com.cuongsolution.manageproperty.front.web.DTO;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
+import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class ManageProperty_DepositDTO {
-	private long worksheetID;
+	private UUID worksheetID;
 	private double depositAmount;
 	@DateTimeFormat(pattern = "yyyy-MM")
 	private String orderBelongMonth;
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private LocalDate parsedOrderBelongMonth ;
-	public long getWorksheetID() {
+	public UUID getWorksheetID() {
 		return worksheetID;
 	}
-	public void setWorksheetID(long worksheetID) {
+	public void setWorksheetID(UUID worksheetID) {
 		this.worksheetID = worksheetID;
 	}
 	public double getDepositAmount() {

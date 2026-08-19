@@ -1,17 +1,20 @@
 package com.cuongsolution.manageproperty.front.web.DTO;
+
+import java.util.UUID;
+
 public class RepeatedExpanseTypeMeterWatchDTO {
-	private long repeatedExpanseID;
+	private UUID repeatedExpanseID;
 	private String repeatedExpanseName;
 	private float previousReading;
 	private float currentReading;
 	private double repeatedExpanseCurrentCost;
 	private double repeatedExpanseTotal;
-	private long recurringExpanseID;
-	private long detailsRecurringExpanseID;
-	public long getRepeatedExpanseID() {
+	private UUID recurringExpanseID;
+	private UUID detailsRecurringExpanseID;
+	public UUID getRepeatedExpanseID() {
 		return repeatedExpanseID;
 	}
-	public void setRepeatedExpanseID(long repeatedExpanseID) {
+	public void setRepeatedExpanseID(UUID repeatedExpanseID) {
 		this.repeatedExpanseID = repeatedExpanseID;
 	}
 	public String getRepeatedExpanseName() {
@@ -44,19 +47,19 @@ public class RepeatedExpanseTypeMeterWatchDTO {
 	public void setRepeatedExpanseTotal(double repeatedExpanseTotal) {
 		this.repeatedExpanseTotal = repeatedExpanseTotal;
 	}
-	public long getRecurringExpanseID() {
+	public UUID getRecurringExpanseID() {
 		return recurringExpanseID;
 	}
-	public void setRecurringExpanseID(long recurringExpanseID) {
+	public void setRecurringExpanseID(UUID recurringExpanseID) {
 		this.recurringExpanseID = recurringExpanseID;
 	}
-	public long getDetailsRecurringExpanseID() {
+	public UUID getDetailsRecurringExpanseID() {
 		return detailsRecurringExpanseID;
 	}
-	public void setDetailsRecurringExpanseID(long detailsRecurringExpanseID) {
+	public void setDetailsRecurringExpanseID(UUID detailsRecurringExpanseID) {
 		this.detailsRecurringExpanseID = detailsRecurringExpanseID;
 	}
-	public RepeatedExpanseTypeMeterWatchDTO(long repeatedExpanseID, String repeatedExpanseName, float previousReading,
+	public RepeatedExpanseTypeMeterWatchDTO(UUID repeatedExpanseID, String repeatedExpanseName, float previousReading,
 			float currentReading, double repeatedExpanseCurrentCost) {
 		super();
 		this.repeatedExpanseID = repeatedExpanseID;

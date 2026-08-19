@@ -1,6 +1,9 @@
 package com.cuongsolution.manageproperty.front.web.DTO;
+
+import java.util.UUID;
+
 public class ManageOrder_ExpanseDTO {
-	private long detailsExpanseID;
+	private UUID detailsExpanseID;
 	private double expansePrice;
 	private double totalCost;
 	private float previousReadingValue;
@@ -19,10 +22,10 @@ public class ManageOrder_ExpanseDTO {
 	public void setCurrentReadingValue(float currentReadingValue) {
 		this.currentReadingValue = currentReadingValue;
 	}
-	public long getDetailsExpanseID() {
+	public UUID getDetailsExpanseID() {
 		return detailsExpanseID;
 	}
-	public void setDetailsExpanseID(long detailsExpanseID) {
+	public void setDetailsExpanseID(UUID detailsExpanseID) {
 		this.detailsExpanseID = detailsExpanseID;
 	}
 	public double getExpansePrice() {
@@ -46,7 +49,7 @@ public class ManageOrder_ExpanseDTO {
 	public ManageOrder_ExpanseDTO() {
 		super();
 	}
-	public ManageOrder_ExpanseDTO(long detailsExpanseID, double expansePrice, double totalCost,
+	public ManageOrder_ExpanseDTO(UUID detailsExpanseID, double expansePrice, double totalCost,
 			float previousReadingValue, float currentReadingValue,float quantity) {
 		super();
 		this.detailsExpanseID = detailsExpanseID;

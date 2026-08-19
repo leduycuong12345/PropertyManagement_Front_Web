@@ -5,12 +5,13 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import com.cuongsolution.manageproperty.front.web.Model.API.Authority;
 import com.cuongsolution.manageproperty.front.web.Model.API.Privilege;
 
 public class Oauth_UserDTO {
-	private long userId;
+	private UUID userId;
 	private String userFirstName;
 	private String userLastName;
 	private String userCI;
@@ -48,7 +49,7 @@ public class Oauth_UserDTO {
 	public Oauth_UserDTO() {
 		super();
 	}
-	public Oauth_UserDTO(long userId, String userFirstName, String userLastName, String userCI, String userPhoneNumber,
+	public Oauth_UserDTO(UUID userId, String userFirstName, String userLastName, String userCI, String userPhoneNumber,
 			String userVerifiedEmail, Date userRegisterdDate, String userIP) {
 		super();
 		this.userId = userId;
@@ -60,10 +61,10 @@ public class Oauth_UserDTO {
 		this.userRegisterdDate = userRegisterdDate;
 		this.userIP = userIP;
 	}
-	public long getUserId() {
+	public UUID getUserId() {
 		return userId;
 	}
-	public void setUserId(long userId) {
+	public void setUserId(UUID userId) {
 		this.userId = userId;
 	}
 	public String getUserFirstName() {

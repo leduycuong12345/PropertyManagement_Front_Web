@@ -2,24 +2,25 @@ package com.cuongsolution.manageproperty.front.web.DTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ManageExpanse_EditRecurringExpanseDTO {
-	private long recurringExpanseID;
+	private UUID recurringExpanseID;
 	private String recurringExpanseName;
 	private float recurringExpansePrice;
 	private int recurringExpanseType;
-	private long recurringExpanseUnitID;
-	private List<Long> selectedPropertyServiceIDList=
-			new ArrayList<Long>();
+	private UUID recurringExpanseUnitID;
+	private List<UUID> selectedPropertyServiceIDList=
+			new ArrayList<UUID>();
 	public ManageExpanse_EditRecurringExpanseDTO() {
 		super();
 	}
 
-	public long getRecurringExpanseID() {
+	public UUID getRecurringExpanseID() {
 		return recurringExpanseID;
 	}
 
-	public void setRecurringExpanseID(long recurringExpanseID) {
+	public void setRecurringExpanseID(UUID recurringExpanseID) {
 		this.recurringExpanseID = recurringExpanseID;
 	}
 	
@@ -50,27 +51,27 @@ public class ManageExpanse_EditRecurringExpanseDTO {
 
 	
 
-	public long getRecurringExpanseUnitID() {
+	public UUID getRecurringExpanseUnitID() {
 		return recurringExpanseUnitID;
 	}
 
-	public void setRecurringExpanseUnitID(long recurringExpanseUnitID) {
+	public void setRecurringExpanseUnitID(UUID recurringExpanseUnitID) {
 		this.recurringExpanseUnitID = recurringExpanseUnitID;
 	}
 
 	
 
-	public List<Long> getSelectedPropertyServiceIDList() {
+	public List<UUID> getSelectedPropertyServiceIDList() {
 		return selectedPropertyServiceIDList;
 	}
 
-	public void setSelectedPropertyServiceIDList(List<Long> selectedPropertyServiceIDList) {
+	public void setSelectedPropertyServiceIDList(List<UUID> selectedPropertyServiceIDList) {
 		this.selectedPropertyServiceIDList = selectedPropertyServiceIDList;
 	}
 
-	public ManageExpanse_EditRecurringExpanseDTO(long recurringExpanseID, String recurringExpanseName,
-			float recurringExpansePrice, int recurringExpanseType, long recurringExpanseUnitID,
-			List<Long> selectedPropertyServiceIDList) {
+	public ManageExpanse_EditRecurringExpanseDTO(UUID recurringExpanseID, String recurringExpanseName,
+			float recurringExpansePrice, int recurringExpanseType, UUID recurringExpanseUnitID,
+			List<UUID> selectedPropertyServiceIDList) {
 		super();
 		this.recurringExpanseID = recurringExpanseID;
 		this.recurringExpanseName = recurringExpanseName;

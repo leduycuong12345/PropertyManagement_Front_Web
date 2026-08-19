@@ -2,21 +2,22 @@ package com.cuongsolution.manageproperty.front.web.DTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ManageTenant_PropertyDTO {
-	private Long propertyID;
+	private UUID propertyID;
 	private String propertyName;
 	private List<ManageTenant_TenantDTO> tenantList=
 			new ArrayList<ManageTenant_TenantDTO>();
-	public Long getPropertyID() {
+	public UUID getPropertyID() {
 		return propertyID;
 	}
-	public ManageTenant_PropertyDTO(Long propertyID, String propertyName) {
+	public ManageTenant_PropertyDTO(UUID propertyID, String propertyName) {
 		super();
 		this.propertyID = propertyID;
 		this.propertyName = propertyName;
 	}
-	public void setPropertyID(Long propertyID) {
+	public void setPropertyID(UUID propertyID) {
 		this.propertyID = propertyID;
 	}
 	public String getPropertyName() {

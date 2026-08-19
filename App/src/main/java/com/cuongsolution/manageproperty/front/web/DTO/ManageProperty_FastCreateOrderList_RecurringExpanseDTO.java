@@ -1,15 +1,17 @@
 package com.cuongsolution.manageproperty.front.web.DTO;
 
+import java.util.UUID;
+
 public class ManageProperty_FastCreateOrderList_RecurringExpanseDTO {
-	private long propertyServiceID;
+	private UUID propertyServiceID;
 	private int expanseType;
 	private float previousReadingValue;
 	private float currentReadingValue;
 	
-	public long getPropertyServiceID() {
+	public UUID getPropertyServiceID() {
 		return propertyServiceID;
 	}
-	public void setPropertyServiceID(long propertyServiceID) {
+	public void setPropertyServiceID(UUID propertyServiceID) {
 		this.propertyServiceID = propertyServiceID;
 	}
 	public int getExpanseType() {

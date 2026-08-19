@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -56,7 +57,7 @@ public class ManageDebtController {
 			int firstPage=0;
 			//Pageable firstPageWithThirtyElements = PageRequest.of(firstPage, totalRow);
 			
-			Long selectedLandID=(Long) session.getAttribute("selectedLandID");
+			UUID selectedLandID=(UUID) session.getAttribute("selectedLandID");
 			if(selectedLandID !=null)//neu da chon land
 			{
 				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName());
@@ -131,7 +132,7 @@ public class ManageDebtController {
 			//Pageable currentPageWithThirtyElements = PageRequest.of(selectedPageResult, totalRow);
 			
 			
-			Long selectedLandID=(Long) session.getAttribute("selectedLandID");
+			UUID selectedLandID=(UUID) session.getAttribute("selectedLandID");
 			if(selectedLandID !=null)//neu da chon land
 			{
 				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName());
@@ -208,7 +209,7 @@ public class ManageDebtController {
 		
     }
 	@GetMapping(value="/quan-ly-cong-no/hop-dong")
-	public String manageDebt_BelongToWorksheet( @RequestParam("worksheetId") Long worksheetID,Model model  ,Principal principal){
+	public String manageDebt_BelongToWorksheet( @RequestParam("worksheetId") UUID worksheetID,Model model  ,Principal principal){
 		//kiem tra xem worksheet nay co thuoc pham vi nguoi dung hay khong 
 		Boolean belongToUser=this.manageDebt_PrivilegeService.isWorksheetBelongToUser(worksheetID, principal.getName());
 		if(belongToUser)
@@ -239,7 +240,7 @@ public class ManageDebtController {
 		}
     }
 	@PostMapping(value="/quan-ly-cong-no/hop-dong")
-	public String manageDebt_BelongToWorksheet_pageable( @RequestParam("worksheetId") Long worksheetID,@RequestParam("selectedPage") Integer selectedPage,
+	public String manageDebt_BelongToWorksheet_pageable( @RequestParam("worksheetId") UUID worksheetID,@RequestParam("selectedPage") Integer selectedPage,
 			@RequestParam("totalPage") Integer totalPage,Model model  ,Principal principal){
 		
 		if(selectedPage<0)
@@ -285,12 +286,12 @@ public class ManageDebtController {
 		return "redirect:/quan-ly-cong-no";
     }
     @PostMapping(value="/quan-ly-cong-no/xoa-hoa-don")
-	public String deleteOrder_ManageDebt( @RequestParam("orderID") Long orderID) throws Exception {
+	public String deleteOrder_ManageDebt( @RequestParam("orderID") UUID orderID) throws Exception {
     	this.manageDebt_OrderInfoService.deleteOrder_ManageDebt(orderID);
 		return "redirect:/quan-ly-cong-no";
     }
 	@PostMapping(value="/quan-ly-cong-no/xoa-hoan-toan-hoa-don")
-	public String hardDeleteOrder_ManageDebt( @RequestParam("orderID") Long orderID) throws Exception {
+	public String hardDeleteOrder_ManageDebt( @RequestParam("orderID") UUID orderID) throws Exception {
 		this.manageDebt_OrderInfoService.hardDeleteOrder_ManageDebt(orderID);
 		return "redirect:/quan-ly-cong-no";
     }

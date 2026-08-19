@@ -1,20 +1,21 @@
 package com.cuongsolution.manageproperty.front.web.DTO;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class ManageTenant_EditTenant_TenantDTO {
-	private Long tenantID;
+	private UUID tenantID;
 	private String tenantName;
 	private String tenantPhoneNumber;
 	private String tenantCI;
 	@DateTimeFormat(pattern ="yyyy-MM-dd",iso = DateTimeFormat.ISO.DATE_TIME)//https://www.baeldung.com/spring-date-parameters
 	private LocalDate tenantBirthDate;
-	private Long contractID;
+	private UUID contractID;
 	
-	public ManageTenant_EditTenant_TenantDTO(Long tenantID, String tenantName, String tenantPhoneNumber, String tenantCI,
-			LocalDate tenantBirthDate, Long contractID) {
+	public ManageTenant_EditTenant_TenantDTO(UUID tenantID, String tenantName, String tenantPhoneNumber, String tenantCI,
+			LocalDate tenantBirthDate, UUID contractID) {
 		super();
 		this.tenantID = tenantID;
 		this.tenantName = tenantName;
@@ -23,16 +24,16 @@ public class ManageTenant_EditTenant_TenantDTO {
 		this.tenantBirthDate = tenantBirthDate;
 		this.contractID = contractID;
 	}
-	public Long getTenantID() {
+	public UUID getTenantID() {
 		return tenantID;
 	}
-	public Long getContractID() {
+	public UUID getContractID() {
 		return contractID;
 	}
-	public void setContractID(Long contractID) {
+	public void setContractID(UUID contractID) {
 		this.contractID = contractID;
 	}
-	public void setTenantID(Long tenantID) {
+	public void setTenantID(UUID tenantID) {
 		this.tenantID = tenantID;
 	}
 	public String getTenantName() {

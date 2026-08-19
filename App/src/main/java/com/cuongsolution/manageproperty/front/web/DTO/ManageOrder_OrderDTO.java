@@ -3,12 +3,13 @@ package com.cuongsolution.manageproperty.front.web.DTO;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 
 public class ManageOrder_OrderDTO {
-	private long orderID;
+	private UUID orderID;
 	private String propertyName;
 	private String deligatedTenantName;
 	private String deligatedTenantPhoneNumber;
@@ -91,7 +92,7 @@ public class ManageOrder_OrderDTO {
 		this.totalAmount = totalAmount;
 	}
 
-	public long getOrderID() {
+	public UUID getOrderID() {
 		return orderID;
 	}
 	
@@ -103,7 +104,7 @@ public class ManageOrder_OrderDTO {
 		this.propertyRentPrice = propertyRentPrice;
 	}
 
-	public void setOrderID(long orderID) {
+	public void setOrderID(UUID orderID) {
 		this.orderID = orderID;
 	}
 	public String getPropertyName() {
@@ -159,7 +160,7 @@ public class ManageOrder_OrderDTO {
 		this.expanseList = expanseList;
 	}
 
-	public ManageOrder_OrderDTO(long orderID, String propertyName, String deligatedTenantName,
+	public ManageOrder_OrderDTO(UUID orderID, String propertyName, String deligatedTenantName,
 			String deligatedTenantPhoneNumber, double propertyRentPrice,
 			LocalDate orderStartChargeDate, double totalAmount, double remainingAmount, double debtAmount,
 			Integer totalMonth, Integer totalDay, List<ManageOrder_ExpanseDTO> expanseList, boolean expanseType,

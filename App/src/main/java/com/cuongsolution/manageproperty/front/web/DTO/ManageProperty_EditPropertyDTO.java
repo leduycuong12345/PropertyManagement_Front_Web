@@ -1,9 +1,9 @@
 package com.cuongsolution.manageproperty.front.web.DTO;
 
-
+import java.util.UUID;
 
 public class ManageProperty_EditPropertyDTO {
-	private long propertyID;
+	private UUID propertyID;
 	private String propertyName;
 	private double propertyRentalPrice;
 	private int worksheetTimeInverval;
@@ -47,7 +47,7 @@ public class ManageProperty_EditPropertyDTO {
 
 
 
-	public ManageProperty_EditPropertyDTO(long propertyID, String propertyName) {
+	public ManageProperty_EditPropertyDTO(UUID propertyID, String propertyName) {
 		super();
 		this.propertyID = propertyID;
 		this.propertyName = propertyName;
@@ -55,7 +55,7 @@ public class ManageProperty_EditPropertyDTO {
 
 
 
-	public ManageProperty_EditPropertyDTO(long propertyID, String propertyName, double propertyRentalPrice) {
+	public ManageProperty_EditPropertyDTO(UUID propertyID, String propertyName, double propertyRentalPrice) {
 		super();
 		this.propertyID = propertyID;
 		this.propertyName = propertyName;
@@ -84,10 +84,10 @@ public class ManageProperty_EditPropertyDTO {
 	}
 
 
-	public long getPropertyID() {
+	public UUID getPropertyID() {
 		return propertyID;
 	}
-	public void setPropertyID(long propertyID) {
+	public void setPropertyID(UUID propertyID) {
 		this.propertyID = propertyID;
 	}
 	public String getPropertyName() {
@@ -99,7 +99,7 @@ public class ManageProperty_EditPropertyDTO {
 
 
 
-	public ManageProperty_EditPropertyDTO(long propertyID, String propertyName,  double propertyRentalPrice,
+	public ManageProperty_EditPropertyDTO(UUID propertyID, String propertyName,  double propertyRentalPrice,
 			 double worksheetTotalDeposit, int worksheetOrderCreationDate,int worksheettimeInverval) {
 		super();
 		this.propertyID = propertyID;

@@ -2,16 +2,17 @@ package com.cuongsolution.manageproperty.front.web.DTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 
 public class ManageProperty_EditFastRecurringExpanseListDTO {
-	private long propertyID;
+	private UUID propertyID;
 	private List<String> editExpanseList=new ArrayList<String>();
-	public long getPropertyID() {
+	public UUID getPropertyID() {
 		return propertyID;
 	}
-	public void setPropertyID(long propertyID) {
+	public void setPropertyID(UUID propertyID) {
 		this.propertyID = propertyID;
 	}
 	public ManageProperty_EditFastRecurringExpanseListDTO() {
@@ -23,7 +24,7 @@ public class ManageProperty_EditFastRecurringExpanseListDTO {
 	public void setEditExpanseList(List<String> editExpanseList) {
 		this.editExpanseList = editExpanseList;
 	}
-	public ManageProperty_EditFastRecurringExpanseListDTO(long propertyID, List<String> editExpanseList) {
+	public ManageProperty_EditFastRecurringExpanseListDTO(UUID propertyID, List<String> editExpanseList) {
 		super();
 		this.propertyID = propertyID;
 		this.editExpanseList = editExpanseList;

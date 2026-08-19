@@ -2,15 +2,16 @@ package com.cuongsolution.manageproperty.front.web.DTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ManageExpanse_CreateRecurringExpanseDTO {
-	private long landID;
+	private UUID landID;
 	private String recurringExpanseName;
 	private float recurringExpansePrice;
 	private int recurringExpanseType;
-	private long recurringExpanseUnitID;
-	private List<Long> selectedPropertyIDList=
-			new ArrayList<Long>();
+	private UUID recurringExpanseUnitID;
+	private List<UUID> selectedPropertyIDList=
+			new ArrayList<UUID>();
 	public ManageExpanse_CreateRecurringExpanseDTO() {
 		super();
 	}
@@ -43,34 +44,34 @@ public class ManageExpanse_CreateRecurringExpanseDTO {
 
 	
 
-	public long getRecurringExpanseUnitID() {
+	public UUID getRecurringExpanseUnitID() {
 		return recurringExpanseUnitID;
 	}
 
-	public void setRecurringExpanseUnitID(long recurringExpanseUnitID) {
+	public void setRecurringExpanseUnitID(UUID recurringExpanseUnitID) {
 		this.recurringExpanseUnitID = recurringExpanseUnitID;
 	}
 	
 
-	public long getLandID() {
+	public UUID getLandID() {
 		return landID;
 	}
 
 
 
-	public void setLandID(long landID) {
+	public void setLandID(UUID landID) {
 		this.landID = landID;
 	}
 
 
 
-	public List<Long> getSelectedPropertyIDList() {
+	public List<UUID> getSelectedPropertyIDList() {
 		return selectedPropertyIDList;
 	}
 
 
 
-	public void setSelectedPropertyIDList(List<Long> selectedPropertyIDList) {
+	public void setSelectedPropertyIDList(List<UUID> selectedPropertyIDList) {
 		this.selectedPropertyIDList = selectedPropertyIDList;
 	}
 

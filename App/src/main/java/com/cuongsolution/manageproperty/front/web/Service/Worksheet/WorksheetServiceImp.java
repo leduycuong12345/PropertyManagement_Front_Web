@@ -1,6 +1,7 @@
 package com.cuongsolution.manageproperty.front.web.Service.Worksheet;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,7 +56,7 @@ public class WorksheetServiceImp implements WorksheetService {
 	}
 
 	@Override
-	public void deleteWorksheet(long worksheetID) {
+	public void deleteWorksheet(UUID worksheetID) {
 		String fullPostURL = kafkaBaseURL+"/manageworksheet/deleteworksheet";
 		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
 		requestJson.add("worksheetID",""+ worksheetID);
@@ -65,7 +66,7 @@ public class WorksheetServiceImp implements WorksheetService {
 	}
 
 	@Override
-	public List<ManageWorksheet_WorksheetDTO> findAllBelongToLandID(long landID) {
+	public List<ManageWorksheet_WorksheetDTO> findAllBelongToLandID(UUID landID) {
 		String fullPostURL = kafkaBaseURL+"/manageworksheet/findworksheetbelongtoland";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();
@@ -75,7 +76,7 @@ public class WorksheetServiceImp implements WorksheetService {
 	}
 
 	@Override
-	public void dropPrePaid_manageProperty(long worksheetID) {
+	public void dropPrePaid_manageProperty(UUID worksheetID) {
 		String fullPostURL = kafkaBaseURL+"/manageworksheet/dropprepaid";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();
@@ -85,7 +86,7 @@ public class WorksheetServiceImp implements WorksheetService {
 	}
 
 	@Override
-	public void checkinProperty_manageProperty(long worksheetID) {
+	public void checkinProperty_manageProperty(UUID worksheetID) {
 		String fullPostURL = kafkaBaseURL+"/manageworksheet/checkinproperty";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();

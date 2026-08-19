@@ -1,6 +1,7 @@
 package com.cuongsolution.manageproperty.front.web.Service.Property;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +22,7 @@ public class ManageProperty_PropertyServiceImp implements ManageProperty_Propert
 	@Autowired
 	private RequestAPI_Service apiCaller;
 	@Override
-	public void createProperty(String propertyName, double propertyRentalPrice, Long landID) {
+	public void createProperty(String propertyName, double propertyRentalPrice, UUID landID) {
 		String fullPostURL = kafkaBaseURL+"/manageproperty/createproperty";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();
@@ -33,7 +34,7 @@ public class ManageProperty_PropertyServiceImp implements ManageProperty_Propert
 	}
 
 	@Override
-	public void deleteById(long propertyID) {
+	public void deleteById(UUID propertyID) {
 		String fullPostURL = kafkaBaseURL+"/manageproperty/deletebyid";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();
@@ -43,7 +44,7 @@ public class ManageProperty_PropertyServiceImp implements ManageProperty_Propert
 	}
 
 	@Override
-	public List<ManageProperty_PropertyDTO> getPropertyBelongToLand_ManageProperty(long landID) {
+	public List<ManageProperty_PropertyDTO> getPropertyBelongToLand_ManageProperty(UUID landID) {
 		String fullPostURL = kafkaBaseURL+"/manageproperty/getpropertybelongtoland";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();
@@ -86,7 +87,7 @@ public class ManageProperty_PropertyServiceImp implements ManageProperty_Propert
 	}
 
 	@Override
-	public List<ManageExpanse_PropertyDTO> manageExpanse_createExpanse_getPropertyListBelongToLand(long landID) {
+	public List<ManageExpanse_PropertyDTO> manageExpanse_createExpanse_getPropertyListBelongToLand(UUID landID) {
 		String fullPostURL = kafkaBaseURL+"/manageexpanse/getpropertybelongtoland";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();
