@@ -245,15 +245,6 @@ public class ManagePropertyController {
 		//System.out.println("i was here: "+newOrder.getOrderBelongMonth());
 		return "redirect:/quan-ly";
     }
-	/*@PostMapping("/quan-ly/sua-tai-san")
-    public ResponseEntity<String>  editProperty_ManageProperty(@Validated @RequestBody ManageProperty_EditPropertyDTO property) throws Exception {
-		logger.info("ManagePropertyController editProperty_ManageProperty propertyID:{},propertyName:{},"
-				+ "propertyRentalName:{},timeInterval:{},deposit:{},orderCreationDate:{}",
-				property.getPropertyID(),property.getPropertyName(),property.getPropertyRentalPrice(),
-				property.getWorksheetTimeInverval(),property.getWorksheetTotalDeposit(),property.getWorksheetOrderCreationDate());
-		this.propertyService.editProperty_ManageProperty(property);
-		return ResponseEntity.ok("Đã lưu đối tượng thành công!");
-    }*/
     @PostMapping("/quan-ly/tao-nhanh-danh-sach-hoa-don")
     public String createFastOrderList_ManageProperty(  @Validated @RequestBody ManageProperty_FastCreateOrderListDTO ManageProperty_FastCreateOrderListDTO)  {
 		//System.out.println("haha: "+orderList.getWorksheetList_withCurrentReading());

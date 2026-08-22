@@ -313,6 +313,15 @@ function formatCommasNumber_editableTextarea_EditProperty()
            $(this).val(formattedNumberValue);
      });
 }
+function formatNumber_editableTextarea_firstTimeRender()
+{
+	$('.editable_property_textarea').each(function() {
+        var text = $(this).text().trim();
+        // Replace commas (thousand separators) with spaces
+        var converted = text.replace(/,/g, ' ');
+        $(this).text(converted);
+    });
+}
 function filter_propertyList_manageProperty()
 {
 	$("#noWorksheetFilter").change(function() {
@@ -715,7 +724,7 @@ $(document).ready(function(){
 	//number_only_textarea for edit_property function
 	numberInputrOnly_editableTextarea_editProperty();
 	//create comma each "000" at textarea at edit_property
-	formatCommasNumber_editableTextarea_EditProperty();
+	formatNumber_editableTextarea_firstTimeRender();
 	//filter function
 	filter_propertyList_manageProperty();
 	//edit property by jequery via API.

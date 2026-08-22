@@ -23,6 +23,9 @@ li.dropdown-item{
 .editable_property_textarea{
 	border:none;outline: none;resize:none;
 }
+.editable_property_textarea_withString{
+	border:none;outline: none;resize:none;
+}
 .editable_propertyName_textarea{
 	border:none;outline: none;resize:none;
 }
