@@ -181,7 +181,8 @@ public class ManageDebtController {
 			return "manage_debt_by_land";
 		}
 	}
-	@PostMapping(value="/quan-ly-cong-no")
+	/*
+	 * @PostMapping(value="/quan-ly-cong-no")
 	public String manageDebtPageByLand_searchFunctionWithPageable( @RequestParam("selectedPage") Integer selectedPage, @RequestParam("totalPage") Integer totalPage,@RequestParam("searchKeyword") String  searchKeyword
 			,HttpSession session,Model model  ,Principal principal){
 		
@@ -282,6 +283,124 @@ public class ManageDebtController {
 		}
 		
     }
+	 */
+	@PostMapping(value="/quan-ly-cong-no")
+	public String manageDebtPageByLand_searchFunctionWithPageable( @RequestParam("selectedPage") Integer selectedPage, @RequestParam("totalPage") Integer totalPage,@RequestParam("searchKeyword") String  searchKeyword
+			,HttpSession session,Model model  ,Authentication authentication){
+		
+			
+			if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
+		        String oauthUsername=authentication.getName();
+		        return extracted_manageDebtPageByLand_searchFunctionWithPageable(selectedPage, totalPage, searchKeyword,
+						session, model, oauthUsername);
+			} else {
+		        // local/form login
+		        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		        String username=userDetails.getUsername();
+		        return extracted_manageDebtPageByLand_searchFunctionWithPageable(selectedPage, totalPage, searchKeyword,
+						session, model, username);
+		    }
+		
+		
+    }
+	private String extracted_manageDebtPageByLand_searchFunctionWithPageable(Integer selectedPage, Integer totalPage,
+			String searchKeyword, HttpSession session, Model model, String username) {
+		if(selectedPage<0)
+		{
+			selectedPage=0;
+		}
+		if(selectedPage>=totalPage-1 )
+		{
+			selectedPage=totalPage-1;
+		}
+		if(this.landService.getDetailsLandList_ManageNavigation_Production(username).isEmpty())//kiem tra xem ng dung da khoi tao Land chua? chua thi khoi tao
+		{
+			model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
+			return "new_user";
+		}
+		else
+		{
+			int totalRow=30;//we can make this edittable by admin later on
+			//check if currentPage is empty or not.If not pageable_function is working
+			int selectedPageResult = (selectedPage != null && !selectedPage.equals("")) ? selectedPage : 0;
+			//Pageable currentPageWithThirtyElements = PageRequest.of(selectedPageResult, totalRow);
+			
+			
+			UUID selectedLandID=(UUID) session.getAttribute("selectedLandID");
+			if(selectedLandID !=null)//neu da chon land
+			{
+				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);
+				model.addAttribute("landList",landList);//for land list/delete/update func
+				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
+				
+				for(ManageNavigation_FastCreateLandDTO land:landList)
+				{
+					if(land.getLandID()==selectedLandID)
+					{
+						model.addAttribute("selectedLandID",land.getLandID());//to create-property belong to land
+						//model.addAttribute("selectedLandName",land.getLandName() );//to display selected-land-name at layout-sidebar
+						model.addAttribute("selectedLand",land );//to display selected-land-name at layout-sidebar
+						
+						//check if searchKeyword is empty or not . If not empty search_function is working
+						if(searchKeyword != null && !searchKeyword.isEmpty())
+						{
+
+							Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_PageableAndSorting(land.getLandID()
+									,selectedPageResult,totalRow,searchKeyword);
+							model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(selectedPageResult,debtList.getTotalPages()));//for pagination function
+							model.addAttribute("debtList",debtList.toList() );
+
+							logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
+							logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
+						}
+						else
+						{
+
+							Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_Pageable(land.getLandID()
+									,selectedPageResult,totalRow);
+							model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(selectedPageResult,debtList.getTotalPages()));//for pagination function
+							model.addAttribute("debtList",debtList.toList() );
+
+							logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
+							logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
+						}
+					}
+				}
+				
+			}
+			else//neu chua chon land
+			{
+				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);//for land list/delete/update func
+				model.addAttribute("landList",landList);//for land list/delete/update func
+				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
+				model.addAttribute("selectedLandID",landList.get(0).getLandID());//to create-property belong to land
+				model.addAttribute("selectedLand",landList.get(0));//to display selected-land-name at layout-sidebar
+				
+				//check if searchKeyword is empty or not . If not empty search_function is working
+				if(searchKeyword != null && !searchKeyword.isEmpty())
+				{
+					Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_PageableAndSorting(landList.get(0).getLandID()
+							,selectedPageResult,totalRow,searchKeyword);
+					model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(selectedPageResult,debtList.getTotalPages()));//for pagination function
+					model.addAttribute("debtList",debtList.toList() );
+
+					logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
+					logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
+				}
+				else
+				{
+					Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_Pageable(landList.get(0).getLandID()
+							,selectedPageResult,totalRow);
+					model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(selectedPageResult,debtList.getTotalPages()));//for pagination function
+					model.addAttribute("debtList",debtList.toList() );
+
+					logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
+					logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
+				}
+			}
+			return "manage_debt_by_land";
+		}
+	}
 	@GetMapping(value="/quan-ly-cong-no/hop-dong")
 	public String manageDebt_BelongToWorksheet( @RequestParam("worksheetId") UUID worksheetID,Model model  ,Principal principal){
 		//kiem tra xem worksheet nay co thuoc pham vi nguoi dung hay khong 
