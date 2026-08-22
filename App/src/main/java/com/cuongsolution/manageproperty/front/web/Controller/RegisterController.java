@@ -66,7 +66,7 @@ public class RegisterController {
         }
 
         boolean createNewUserResult=userService.createNewUser(userDto);
-        while(createNewUserResult==false)
+        /*while(createNewUserResult==false)
         {
         	// Pause execution for 2000 milliseconds (2 seconds)
             try {
@@ -75,7 +75,7 @@ public class RegisterController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-        }
+        }*/
         return "redirect:/register?success";
     }
 }

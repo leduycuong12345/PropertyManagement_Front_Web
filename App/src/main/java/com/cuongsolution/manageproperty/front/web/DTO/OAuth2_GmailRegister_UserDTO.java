@@ -41,7 +41,7 @@ public class OAuth2_GmailRegister_UserDTO {
 		super();
 		this.lastName = lastName;
 		this.email = email;
-		this.username = username;
+		this.username=username;
 		this.providerName = providerName;
 		this.providerId = providerId;
 	}

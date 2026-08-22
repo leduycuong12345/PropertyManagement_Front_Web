@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +27,24 @@ public class ManageChartsController {
 	@Autowired
 	private ManageCharts_ChartService manageCharts_ChartService;
 	@GetMapping(value="/quan-ly-thong-ke")
-    public String getPropertyChart(Model model ,Principal principal,HttpSession session)  {
-		if(this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName()).isEmpty())//kiem tra xem ng dung da khoi tao Land chua? chua thi khoi tao
+    //public String getPropertyChart(Model model ,Principal principal,HttpSession session)  {
+	public String getPropertyChart(Model model ,Authentication authentication,HttpSession session)  {
+		if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
+	        String oauthUsername=authentication.getName();
+	        
+	        return extractedGetPropertyChart(model, oauthUsername, session);
+	    } else {
+	        // local/form login
+	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+	        String username=userDetails.getUsername();
+	        
+	        return extractedGetPropertyChart(model, username, session);
+	    }
+		
+		
+    }
+	private String extractedGetPropertyChart(Model model, String username, HttpSession session) {
+		if(this.landService.getDetailsLandList_ManageNavigation_Production(username).isEmpty())//kiem tra xem ng dung da khoi tao Land chua? chua thi khoi tao
 		{
 			model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
 			return "new_user";
@@ -34,7 +54,7 @@ public class ManageChartsController {
 			UUID selectedLandID=(UUID) session.getAttribute("selectedLandID");
 			if(selectedLandID !=null)//neu da chon land
 			{
-				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName());
+				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);
 				model.addAttribute("landList",landList);//for land list/delete/update func
 				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
 				
@@ -55,7 +75,7 @@ public class ManageChartsController {
 			}
 			else//neu chua chon land
 			{
-				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName());//for land list/delete/update func
+				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);//for land list/delete/update func
 				model.addAttribute("landList",landList);//for land list/delete/update func
 				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
 				model.addAttribute("selectedLandID",landList.get(0).getLandID());//to create-property belong to land
@@ -67,5 +87,5 @@ public class ManageChartsController {
 			}
 			return "manage_charts";
 		}
-    }
+	}
 }

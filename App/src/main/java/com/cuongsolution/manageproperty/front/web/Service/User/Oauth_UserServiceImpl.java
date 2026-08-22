@@ -39,11 +39,12 @@ public class Oauth_UserServiceImpl implements Oauth_UserService{
 		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
 		 
 		
-		logger.info("Oauth_UserServiceImpl createUserByGmail_OAuth2 with username"+user.getUsername() +" email:"+user.getEmail()
+		logger.info("Oauth_UserServiceImpl createUserByGmail_OAuth2 with username:{},email:{}",
+				user.getUsername(),user.getEmail()
 		);
-		requestJson.add("username", user.getUsername());
 		requestJson.add("lastName", user.getLastName());
 		requestJson.add("email", user.getEmail());
+		requestJson.add("username", user.getUsername());
 		requestJson.add("providerName", user.getProviderName());
 		requestJson.add("providerId", user.getProviderId());
 		
