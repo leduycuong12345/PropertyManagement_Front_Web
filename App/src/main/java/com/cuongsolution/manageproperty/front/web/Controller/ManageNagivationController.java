@@ -4,6 +4,9 @@ import java.security.Principal;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,7 +27,7 @@ public class ManageNagivationController {
 		//return "redirect:/land/list";
 		return "redirect:/quan-ly";
     }
-	@PostMapping(value="/land/edit")
+	/*@PostMapping(value="/land/edit")
 	public String postEditLand( @RequestParam("landID") UUID landID
 			,@RequestParam("landName") String landName
 			,@RequestParam("propertyRentalPrice") double propertyRentalPrice
@@ -36,7 +39,35 @@ public class ManageNagivationController {
 		this.landService.editLand_ManageNavigation_Production(editLand,principal.getName());
 		//return "redirect:/land/list";
 		return "redirect:/quan-ly";
+    }*/
+	@PostMapping(value="/land/edit")
+	public String postEditLand( @RequestParam("landID") UUID landID
+			,@RequestParam("landName") String landName
+			,@RequestParam("propertyRentalPrice") double propertyRentalPrice
+			,@RequestParam("orderCreationDate") int orderCreationDate
+			,@RequestParam("landAddress") String landAddress
+			,@RequestParam("landAddressPostcode") String landAddressPostcode
+			,Model model,Authentication authentication)  {
+		
+		if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
+	        String oauthUsername=authentication.getName();
+	        return extractedPostEditLand(landID, landName, propertyRentalPrice, orderCreationDate, landAddress,
+					landAddressPostcode, oauthUsername);
+	    } else {
+	        // local/form login
+	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+	        String username=userDetails.getUsername();
+	        return extractedPostEditLand(landID, landName, propertyRentalPrice, orderCreationDate, landAddress,
+					landAddressPostcode, username);
+	    }
     }
+	private String extractedPostEditLand(UUID landID, String landName, double propertyRentalPrice,
+			int orderCreationDate, String landAddress, String landAddressPostcode, String username) {
+		ManageNavigation_FastCreateLandDTO editLand=new ManageNavigation_FastCreateLandDTO(landID,landName,propertyRentalPrice,orderCreationDate,landAddress,landAddressPostcode);
+		this.landService.editLand_ManageNavigation_Production(editLand,username);
+		//return "redirect:/land/list";
+		return "redirect:/quan-ly";
+	}
 	@PostMapping(value="/land/delete")
 	public String deleteLand( Model model,@RequestParam(value = "landID") Long landID,Principal principal,HttpSession session)  {
 		this.landService.deleteLand_ManageNavigation_Production(landID,principal.getName());
