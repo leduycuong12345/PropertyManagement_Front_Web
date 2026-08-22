@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,7 +48,7 @@ public class ManageOrderController {
 	private ManageOrder_ReceiptService manageOrder_PaymentService;
 	@Autowired
 	private RecurringExpanseService recurringExpanseService;
-	@GetMapping(value="/quan-ly-hoa-don")
+	/*@GetMapping(value="/quan-ly-hoa-don")
 	public String manageOrderPage( HttpSession session,Model model  ,Principal principal){
 		if(this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName()).isEmpty())//kiem tra xem ng dung da khoi tao Land chua? chua thi khoi tao
 		{
@@ -89,7 +92,63 @@ public class ManageOrderController {
 			return "manage_order";
 		}
 		
+    }*/
+	@GetMapping(value="/quan-ly-hoa-don")
+	public String manageOrderPage( HttpSession session,Model model  ,Authentication authentication){
+		if (authentication instanceof OAuth2AuthenticationToken oauthToken) {//oauth login
+	        String oauthUsername=authentication.getName();
+			return extracted_manageOrderPage(session, model, oauthUsername);
+		} else {
+	        // local/form login
+	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+	        String username=userDetails.getUsername();
+			return extracted_manageOrderPage(session, model, username);
+	    }
+		
     }
+	private String extracted_manageOrderPage(HttpSession session, Model model, String username) {
+		if(this.landService.getDetailsLandList_ManageNavigation_Production(username).isEmpty())//kiem tra xem ng dung da khoi tao Land chua? chua thi khoi tao
+		{
+			model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
+			return "new_user";
+		}
+		else
+		{
+			UUID selectedLandID=(UUID) session.getAttribute("selectedLandID");
+			if(selectedLandID !=null)//neu da chon land
+			{
+				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);
+				model.addAttribute("landList",landList);//for land list/delete/update func
+				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
+				
+				for(ManageNavigation_FastCreateLandDTO land:landList)
+				{
+					if(land.getLandID()==selectedLandID)
+					{
+						model.addAttribute("selectedLandID",land.getLandID());//to create-property belong to land
+						//model.addAttribute("selectedLandName",land.getLandName() );//to display selected-land-name at layout-sidebar
+						model.addAttribute("selectedLand",land );//to display selected-land-name at layout-sidebar
+						
+						
+						orderPagination(session, model,selectedLandID);
+					}
+				}
+				
+			}
+			else//neu chua chon land
+			{
+				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);//for land list/delete/update func
+				model.addAttribute("landList",landList);//for land list/delete/update func
+				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
+				model.addAttribute("selectedLandID",landList.get(0).getLandID());//to create-property belong to land
+				model.addAttribute("selectedLand",landList.get(0));//to display selected-land-name at layout-sidebar
+				
+				orderPagination(session, model,landList.get(0).getLandID());
+				
+			}
+			return "manage_order";
+		}
+	}
 	private void orderPagination(HttpSession session, Model model,UUID landID) {
 		//pagination
 		Integer selectedMonthPagination=(Integer) session.getAttribute("selectedMonthPagination");
