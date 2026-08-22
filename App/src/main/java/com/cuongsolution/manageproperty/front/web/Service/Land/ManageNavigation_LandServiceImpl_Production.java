@@ -1,6 +1,7 @@
 package com.cuongsolution.manageproperty.front.web.Service.Land;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,7 +61,7 @@ public class ManageNavigation_LandServiceImpl_Production implements ManageNaviga
 	}
 
 	@Override
-	public void deleteLand_ManageNavigation_Production(long landID, String username) {
+	public void deleteLand_ManageNavigation_Production(UUID landID, String username) {
 		// POST request
 				String fullPostURL = kafkaBaseURL+"/managenaviagation/deleteland";
 				LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();

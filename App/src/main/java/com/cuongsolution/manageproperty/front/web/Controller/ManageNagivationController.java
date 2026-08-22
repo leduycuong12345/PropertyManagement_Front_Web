@@ -50,6 +50,7 @@ public class ManageNagivationController {
 			,Model model,Authentication authentication)  {
 		
 		if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
+			//oauth login
 	        String oauthUsername=authentication.getName();
 	        return extractedPostEditLand(landID, landName, propertyRentalPrice, orderCreationDate, landAddress,
 					landAddressPostcode, oauthUsername);
@@ -68,11 +69,30 @@ public class ManageNagivationController {
 		//return "redirect:/land/list";
 		return "redirect:/quan-ly";
 	}
-	@PostMapping(value="/land/delete")
+	/*@PostMapping(value="/land/delete")
 	public String deleteLand( Model model,@RequestParam(value = "landID") Long landID,Principal principal,HttpSession session)  {
 		this.landService.deleteLand_ManageNavigation_Production(landID,principal.getName());
 		//return "redirect:/land/list";
 		session.removeAttribute("selectedLandID");//if land is selected but user_deleted ll cause error because "selectedLandID" after removed cant retrieve from db anymore
 		return "redirect:/quan-ly";
+    }*/
+	@PostMapping(value="/land/delete")
+	public String deleteLand( Model model,@RequestParam(value = "landID") UUID landID,Authentication authentication,HttpSession session)  {
+		if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
+			//oauth login
+	        String oauthUsername=authentication.getName();
+	        return extractedDeleteLand(landID, oauthUsername, session);
+	    } else {
+	        // local/form login
+	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+	        String username=userDetails.getUsername();
+	        return extractedDeleteLand(landID, username, session);
+	    }
     }
+	private String extractedDeleteLand(UUID landID, String username, HttpSession session) {
+		this.landService.deleteLand_ManageNavigation_Production(landID,username);
+		//return "redirect:/land/list";
+		session.removeAttribute("selectedLandID");//if land is selected but user_deleted ll cause error because "selectedLandID" after removed cant retrieve from db anymore
+		return "redirect:/quan-ly";
+	}
 }
