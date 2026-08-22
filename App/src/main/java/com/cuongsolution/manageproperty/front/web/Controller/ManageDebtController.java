@@ -112,7 +112,7 @@ public class ManageDebtController {
 	@GetMapping(value="/quan-ly-cong-no")
 	public String manageDebtPageByLand( HttpSession session,Model model  ,Authentication authentication){
 		
-		if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
+		if (authentication instanceof OAuth2AuthenticationToken oauthToken) {//oauth login
 	        String oauthUsername=authentication.getName();
 	        return extracted_manageDebtPageByLand(session, model, oauthUsername);
 		} else {
@@ -289,7 +289,7 @@ public class ManageDebtController {
 			,HttpSession session,Model model  ,Authentication authentication){
 		
 			
-			if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
+			if (authentication instanceof OAuth2AuthenticationToken oauthToken) {//oauth login
 		        String oauthUsername=authentication.getName();
 		        return extracted_manageDebtPageByLand_searchFunctionWithPageable(selectedPage, totalPage, searchKeyword,
 						session, model, oauthUsername);
@@ -401,7 +401,7 @@ public class ManageDebtController {
 			return "manage_debt_by_land";
 		}
 	}
-	@GetMapping(value="/quan-ly-cong-no/hop-dong")
+	/*@GetMapping(value="/quan-ly-cong-no/hop-dong")
 	public String manageDebt_BelongToWorksheet( @RequestParam("worksheetId") UUID worksheetID,Model model  ,Principal principal){
 		//kiem tra xem worksheet nay co thuoc pham vi nguoi dung hay khong 
 		Boolean belongToUser=this.manageDebt_PrivilegeService.isWorksheetBelongToUser(worksheetID, principal.getName());
@@ -431,7 +431,50 @@ public class ManageDebtController {
 		{
 			return "redirect:/quan-ly-cong-no";
 		}
+    }*/
+	@GetMapping(value="/quan-ly-cong-no/hop-dong")
+	public String manageDebt_BelongToWorksheet( @RequestParam("worksheetId") UUID worksheetID,Model model  ,Authentication authentication){
+		
+		if (authentication instanceof OAuth2AuthenticationToken oauthToken) {//oauth login
+	        String oauthUsername=authentication.getName();
+	        return extracted_manageDebt_BelongToWorksheet(worksheetID, model, oauthUsername);
+		} else {
+	        // local/form login
+	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+	        String username=userDetails.getUsername();
+	        return extracted_manageDebt_BelongToWorksheet(worksheetID, model, username);
+	    }
     }
+	private String extracted_manageDebt_BelongToWorksheet(UUID worksheetID, Model model, String username) {
+		//kiem tra xem worksheet nay co thuoc pham vi nguoi dung hay khong 
+		Boolean belongToUser=this.manageDebt_PrivilegeService.isWorksheetBelongToUser(worksheetID, username);
+		if(belongToUser)
+			
+		{
+			List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);//for land list/delete/update func
+			model.addAttribute("landList",landList);//for land list/delete/update func
+			model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
+			model.addAttribute("selectedLandID",landList.get(0).getLandID());//to create-property belong to land
+			model.addAttribute("selectedLand",landList.get(0));//to display selected-land-name at layout-sidebar
+			
+			int totalRow=30;//we can make this edittable by admin later on
+			int firstPage=0;
+			Pageable firstPageWithThirtyElements = PageRequest.of(firstPage, totalRow);
+			
+			Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToWorksheet_ManageDebt(worksheetID,firstPageWithThirtyElements);
+			model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByWorksheet(firstPage,debtList.getTotalPages(),worksheetID));//for pagination function
+			model.addAttribute("debtList",debtList.getContent());
+
+			logger.info("pagination debt of worksheet id:"+worksheetID +" with debt list:"+debtList.toList());
+			logger.info("pagination debt of worksheet id:"+worksheetID +" with debt list:"+debtList.getContent());
+			return "manage_debt_by_worksheet";
+			
+		}
+		else
+		{
+			return "redirect:/quan-ly-cong-no";
+		}
+	}
 	@PostMapping(value="/quan-ly-cong-no/hop-dong")
 	public String manageDebt_BelongToWorksheet_pageable( @RequestParam("worksheetId") UUID worksheetID,@RequestParam("selectedPage") Integer selectedPage,
 			@RequestParam("totalPage") Integer totalPage,Model model  ,Principal principal){
