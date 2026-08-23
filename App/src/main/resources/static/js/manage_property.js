@@ -322,6 +322,29 @@ function formatNumber_editableTextarea_firstTimeRender()
         $(this).text(converted);
     });
 }
+function formatNumber_editableTextarea_formatWithSpaces(str) {
+    if (!str) return str;
+    var parts = str.split('.');
+    // Add space every 3 digits from the right, on the integer part only
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return parts.join('.');
+}
+function formatNumber_editableTextarea_FocusOn_BlurOut()
+{
+	 // On focus: convert "1 500 500.5" -> "1500500.5"
+    $('textarea.editable_property_textarea').on('focus', function() {
+        var text = $(this).val().trim();
+        var raw = text.replace(/\s/g, ''); // remove all spaces
+        $(this).val(raw);
+    });
+
+    // On blur: convert back "1500500.5" -> "1 500 500.5"
+    $('textarea.editable_property_textarea').on('blur', function() {
+        var text = $(this).val().trim();
+        var formatted = formatNumber_editableTextarea_formatWithSpaces(text);
+        $(this).val(formatted);
+    });
+}
 function filter_propertyList_manageProperty()
 {
 	$("#noWorksheetFilter").change(function() {
@@ -725,6 +748,7 @@ $(document).ready(function(){
 	numberInputrOnly_editableTextarea_editProperty();
 	//create comma each "000" at textarea at edit_property
 	formatNumber_editableTextarea_firstTimeRender();
+	formatNumber_editableTextarea_FocusOn_BlurOut();
 	//filter function
 	filter_propertyList_manageProperty();
 	//edit property by jequery via API.
