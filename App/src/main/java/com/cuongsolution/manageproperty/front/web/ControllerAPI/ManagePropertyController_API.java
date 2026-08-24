@@ -72,7 +72,7 @@ public class ManagePropertyController_API {
     @PostMapping("/quan-ly/sua-tai-san")
     public ResponseEntity<String>  editProperty_ManageProperty(@Validated @RequestBody ManageProperty_EditPropertyDTO property) throws Exception {
 		logger.info("ManagePropertyController_API editProperty_ManageProperty propertyID:{},propertyName:{},"
-				+ "propertyRentalName:{},timeInterval:{},deposit:{},orderCreationDate:{}",
+				+ "propertyRentalPrice:{},timeInterval:{},deposit:{},orderCreationDate:{}",
 				property.getPropertyID(),property.getPropertyName(),property.getPropertyRentalPrice(),
 				property.getWorksheetTimeInverval(),property.getWorksheetTotalDeposit(),property.getWorksheetOrderCreationDate());
 		this.propertyService.editProperty_ManageProperty(property);

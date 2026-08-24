@@ -66,7 +66,8 @@
 				                    <textarea class="editable_propertyName_textarea h-100 w-auto d-inline-block" onchange="allowToSave(this)" maxlength="254"  th:name="propertyName" th:text="${property.getPropertyName()}"></textarea>
 				                </td>
 				                <td>
-				                    <textarea  onchange="allowToSave(this)" class="editable_property_textarea h-100 w-auto d-inline-block" th:name="propertyRentalPrice" th:text="${#numbers.formatDecimal(property.getPropertyRentalPrice(), 0, 'COMMA', 0, 'POINT')}" ></textarea>
+				                	<input type="hidden" class="updatePropertyRentalPPrice" th:value="${property.getPropertyRentalPrice()}" />
+				                    <textarea  onchange="allowToSave(this)" class="editable_property_textarea h-100 w-auto d-inline-block" th:name="propertyRentalPrice" th:text="${#numbers.formatDecimal(property.getPropertyRentalPrice(), 0, 'COMMA', 1, 'POINT')}" ></textarea>
 				                </td>
 				                <td>
 				                	<div th:switch="${property.getRentStatus()}" >
@@ -74,7 +75,7 @@
 				                			<textarea name="worksheetTotalDeposit" style="color:red;" class="editable_property_textarea_withString h-100 w-auto d-inline-block" data-value="-1" readonly>Chưa lập hợp đồng</textarea>
 				                		</div>
 				                		<div th:case="*">
-				                			<textarea  onchange="allowToSave(this)" class="editable_property_textarea h-100 w-auto d-inline-block" th:name="worksheetTotalDeposit" th:text="${#numbers.formatDecimal(property.getWorksheetTotalDeposit(), 0, 'COMMA', 0, 'POINT')}" ></textarea>
+				                			<textarea  onchange="allowToSave(this)" class="editable_property_textarea h-100 w-auto d-inline-block" th:name="worksheetTotalDeposit" th:text="${#numbers.formatDecimal(property.getWorksheetTotalDeposit(), 0, 'COMMA', 1, 'POINT')}" ></textarea>
 				                		</div>
 				                	</div>
 				                    

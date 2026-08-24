@@ -263,7 +263,7 @@ function postChangedPropertyToAPI(item, index) {
   var propertyID=$(item).closest("tr").children('input').val() ?? "";
   var worksheetTimeInverval=$(item).closest("tr").children('td:eq(4)').children('div').children('div').children('select').children('option:selected').val() ?? -1;
   var propertyName=$(item).closest("tr").children('td:eq(0)').children('textarea').val() ?? "";
-  var propertyRentalPrice=parseFloat($(item).closest("tr").children('td:eq(1)').children('textarea').val().replace(/,/g,'')) ?? 0;
+  var propertyRentalPrice=parseFloat($(item).closest("tr").children('td:eq(1)').children('input.updatePropertyRentalPPrice').val().replace(/,/g,'')) ?? 0;
   var worksheetTotalDeposit=parseFloat($(item).closest("tr").children('td:eq(2)').children('div').children('div').children('textarea').attr("data-value").replace(/,/g,'')) ?? 0;
   var worksheetOrderCreationDate=$(item).closest("tr").children('td:eq(3)').children('div').children('div').children('select').children('option:selected').val() ?? -1;
 					
@@ -343,6 +343,9 @@ function formatNumber_editableTextarea_FocusOn_BlurOut()
         var text = $(this).val().trim();
         var formatted = formatNumber_editableTextarea_formatWithSpaces(text);
         $(this).val(formatted);
+        
+        //update value of hidden input after edit at textarea .
+        $(this).closest("tr").children('td:eq(1)').children('input.updatePropertyRentalPPrice').val(text);
     });
 }
 function filter_propertyList_manageProperty()
