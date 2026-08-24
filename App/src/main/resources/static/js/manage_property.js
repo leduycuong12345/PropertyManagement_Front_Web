@@ -263,8 +263,8 @@ function postChangedPropertyToAPI(item, index) {
   var propertyID=$(item).closest("tr").children('input').val() ?? "";
   var worksheetTimeInverval=$(item).closest("tr").children('td:eq(4)').children('div').children('div').children('select').children('option:selected').val() ?? -1;
   var propertyName=$(item).closest("tr").children('td:eq(0)').children('textarea').val() ?? "";
-  var propertyRentalPrice=parseFloat($(item).closest("tr").children('td:eq(1)').children('input.updatePropertyRentalPPrice').val().replace(/,/g,'')) ?? 0;
-  var worksheetTotalDeposit=parseFloat($(item).closest("tr").children('td:eq(2)').children('div').children('div').children('textarea').attr("data-value").replace(/,/g,'')) ?? 0;
+  var propertyRentalPrice=parseFloat($(item).closest("tr").children('td:eq(1)').children('input.updatePropertyRentalPrice').val().replace(/,/g,'')) ?? 0;
+  var worksheetTotalDeposit=parseFloat($(item).closest("tr").children('td:eq(2)').children('div').children('div').children('input.updateWorksheetTotalDeposit').val().replace(/,/g,'')) ?? 0;
   var worksheetOrderCreationDate=$(item).closest("tr").children('td:eq(3)').children('div').children('div').children('select').children('option:selected').val() ?? -1;
 					
   
@@ -329,23 +329,42 @@ function formatNumber_editableTextarea_formatWithSpaces(str) {
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
     return parts.join('.');
 }
-function formatNumber_editableTextarea_FocusOn_BlurOut()
+function formatNumber_editableTextarea_updatePropertyRentalPrice_FocusOn_BlurOut()
 {
 	 // On focus: convert "1 500 500.5" -> "1500500.5"
-    $('textarea.editable_property_textarea').on('focus', function() {
+    $('textarea.updatePropertyRentalPrice').on('focus', function() {
         var text = $(this).val().trim();
         var raw = text.replace(/\s/g, ''); // remove all spaces
         $(this).val(raw);
     });
 
     // On blur: convert back "1500500.5" -> "1 500 500.5"
-    $('textarea.editable_property_textarea').on('blur', function() {
+    $('textarea.updatePropertyRentalPrice').on('blur', function() {
         var text = $(this).val().trim();
         var formatted = formatNumber_editableTextarea_formatWithSpaces(text);
         $(this).val(formatted);
         
         //update value of hidden input after edit at textarea .
-        $(this).closest("tr").children('td:eq(1)').children('input.updatePropertyRentalPPrice').val(text);
+        $(this).closest("tr").children('td:eq(1)').children('input.updatePropertyRentalPrice').val(text);
+    });
+}
+function formatNumber_editableTextarea_updateWorksheetTotalDeposit_FocusOn_BlurOut()
+{
+	 // On focus: convert "1 500 500.5" -> "1500500.5"
+    $('textarea.updateWorksheetTotalDeposit').on('focus', function() {
+        var text = $(this).val().trim();
+        var raw = text.replace(/\s/g, ''); // remove all spaces
+        $(this).val(raw);
+    });
+
+    // On blur: convert back "1500500.5" -> "1 500 500.5"
+    $('textarea.updateWorksheetTotalDeposit').on('blur', function() {
+        var text = $(this).val().trim();
+        var formatted = formatNumber_editableTextarea_formatWithSpaces(text);
+        $(this).val(formatted);
+        
+        //update value of hidden input after edit at textarea .
+        $(this).closest("tr").children('td:eq(2)').children('div').children('div').children('input.updateWorksheetTotalDeposit').val(text);
     });
 }
 function filter_propertyList_manageProperty()
@@ -751,7 +770,8 @@ $(document).ready(function(){
 	numberInputrOnly_editableTextarea_editProperty();
 	//create comma each "000" at textarea at edit_property
 	formatNumber_editableTextarea_firstTimeRender();
-	formatNumber_editableTextarea_FocusOn_BlurOut();
+	formatNumber_editableTextarea_updatePropertyRentalPrice_FocusOn_BlurOut();
+	formatNumber_editableTextarea_updateWorksheetTotalDeposit_FocusOn_BlurOut();
 	//filter function
 	filter_propertyList_manageProperty();
 	//edit property by jequery via API.
