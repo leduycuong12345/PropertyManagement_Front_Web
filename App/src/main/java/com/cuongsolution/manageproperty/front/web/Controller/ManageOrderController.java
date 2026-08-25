@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -48,6 +50,7 @@ public class ManageOrderController {
 	private ManageOrder_ReceiptService manageOrder_PaymentService;
 	@Autowired
 	private RecurringExpanseService recurringExpanseService;
+	private Logger logger = LoggerFactory.getLogger(ManageOrderController.class);
 	/*@GetMapping(value="/quan-ly-hoa-don")
 	public String manageOrderPage( HttpSession session,Model model  ,Principal principal){
 		if(this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName()).isEmpty())//kiem tra xem ng dung da khoi tao Land chua? chua thi khoi tao
@@ -209,11 +212,12 @@ public class ManageOrderController {
 		model.addAttribute("expanseHeaderList", expanseHeaderList);//for order-list function
 		model.addAttribute("newPayment", new ManageOrder_ReceiptDTO()); //for create-payment function
 	}
-	@GetMapping(value="/quan-ly-hoa-don/pagination")
-	public String selectLandtoManage(@RequestParam("selectedMonthPagination") int selectedMonthPagination,
-			@RequestParam("selectedYearPagination") int selectedYearPagination,HttpSession session)  {		
+	@GetMapping("/quan-ly-hoa-don/pagination")
+	public String paginationManageOrder(@RequestParam Integer selectedMonthPagination,
+			@RequestParam Integer selectedYearPagination,HttpSession session)  {		
 		if(parameterService.checkCurrentDate(selectedMonthPagination, selectedYearPagination))
 		{
+			logger.info("ManageOrderController paginationManageOrder selectedMonthPagination:{} ,selectedYearPagination{}",selectedMonthPagination,selectedYearPagination);
 			//System.out.println("select month:"+selectedMonthPagination+", year:"+selectedYearPagination);
 			session.setAttribute("selectedMonthPagination", selectedMonthPagination);
 			session.setAttribute("selectedYearPagination", selectedYearPagination);
@@ -224,7 +228,6 @@ public class ManageOrderController {
 			return "redirect:/quan-ly-hoa-don";
 		}
 	}
-	
 	@PostMapping(value="/quan-ly-hoa-don/xoa-hoa-don")
 	public String deleteOrder_ManageOrder( @RequestParam("orderID") UUID orderID) throws Exception {
 		manageOrder_OrderInfoService.deleteOrder_ManageOrder(orderID);
