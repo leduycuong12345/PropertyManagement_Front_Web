@@ -22,12 +22,12 @@
 		                        <th:block th:each="month : ${#numbers.sequence(1, pagination.totalMonthInYear)}">
 		                        	<li th:if="${pagination.currentMonth == month}" class="page-item  active"  name="selectedMonth" aria-current="page">
 			                            <a class="page-link" th:href="@{/quan-ly-hoa-don/pagination(selectedMonthPagination=${month},selectedYearPagination=${pagination.currentYear})}">
-			                            	<span aria-hidden="true" th:text="${month}"></span>
+			                            	<span aria-hidden="true" th:text=" 'Tháng '+ ${month}"></span>
 			                            </a>
 			                        </li>
 			                        <li th:unless="${pagination.currentMonth == month}" class="page-item" >
 			                            <a class="page-link" th:href="@{/quan-ly-hoa-don/pagination(selectedMonthPagination=${month},selectedYearPagination=${pagination.currentYear})}">
-			                            	<span aria-hidden="true" th:text="${month}"></span>
+			                            	<span aria-hidden="true" th:text=" 'Tháng '+ ${month}"></span>
 			                            </a>
 			                        </li>
 		                        </th:block>
