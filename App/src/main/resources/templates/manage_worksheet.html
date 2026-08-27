@@ -53,10 +53,10 @@
 				                    <p style="max-width: 90px;"  class="h-100 w-auto d-inline-block" th:text="${worksheet.getTimeInterval()}" />
 				                </td>
 				                <td>
-				                    <p style="max-width: 90px;"  class="h-100 w-auto d-inline-block" th:text="${worksheet.getWorksheetCreateDate()}" />
+				                    <p style="max-width: 90px;"  class="h-100 w-auto d-inline-block" th:text="${#dates.format(worksheet.getWorksheetCreateDate(), 'dd/MM/yyyy')}" />
 				                </td>
 				                <td>
-				                    <p style="max-width: 90px;"  class="h-100 w-auto d-inline-block" th:text="${worksheet.getWorksheetExpireDate()}" />
+				                    <p style="max-width: 90px;"  class="h-100 w-auto d-inline-block"  th:text="${#dates.format(worksheet.getWorksheetExpireDate(), 'dd/MM/yyyy')}" />
 				                </td>
 				       </tr>
               </tbody>
