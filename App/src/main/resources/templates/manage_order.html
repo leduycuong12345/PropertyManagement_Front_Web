@@ -15,24 +15,24 @@
 		                    <ul class="pagination justify-content-center">
 								<input type="hidden" name="selectedYear"  th:value="${pagination.currentYear}" />
 		                        <li class="page-item">
-		                            <a class="page-link" th:href="@{/quan-ly-hoa-don/pagination(selectedMonthPagination=12,selectedYearPagination=${pagination.currentYear - 1})}" aria-label="Previous">
+		                            <a class="page-link custom-pagination"  th:href="@{/quan-ly-hoa-don/pagination(selectedMonthPagination=12,selectedYearPagination=${pagination.currentYear - 1})}" aria-label="Previous">
 		                                <span aria-hidden="true">&laquo;</span>
 		                            </a>
 		                        </li>
 		                        <th:block th:each="month : ${#numbers.sequence(1, pagination.totalMonthInYear)}">
 		                        	<li th:if="${pagination.currentMonth == month}" class="page-item  active"  name="selectedMonth" aria-current="page">
-			                            <a class="page-link" th:href="@{/quan-ly-hoa-don/pagination(selectedMonthPagination=${month},selectedYearPagination=${pagination.currentYear})}">
+			                            <a class="page-link custom-pagination" th:href="@{/quan-ly-hoa-don/pagination(selectedMonthPagination=${month},selectedYearPagination=${pagination.currentYear})}">
 			                            	<span aria-hidden="true" th:text=" 'Tháng '+ ${month}"></span>
 			                            </a>
 			                        </li>
 			                        <li th:unless="${pagination.currentMonth == month}" class="page-item" >
-			                            <a class="page-link" th:href="@{/quan-ly-hoa-don/pagination(selectedMonthPagination=${month},selectedYearPagination=${pagination.currentYear})}">
+			                            <a class="page-link custom-pagination" th:href="@{/quan-ly-hoa-don/pagination(selectedMonthPagination=${month},selectedYearPagination=${pagination.currentYear})}">
 			                            	<span aria-hidden="true" th:text=" 'Tháng '+ ${month}"></span>
 			                            </a>
 			                        </li>
 		                        </th:block>
 		                        <li class="page-item">
-		                            <a class="page-link" th:href="@{/quan-ly-hoa-don/pagination(selectedMonthPagination=1,selectedYearPagination=__${pagination.currentYear + 1}__)}" aria-label="Next">
+		                            <a class="page-link custom-pagination" th:href="@{/quan-ly-hoa-don/pagination(selectedMonthPagination=1,selectedYearPagination=__${pagination.currentYear + 1}__)}" aria-label="Next">
 		                                <span aria-hidden="true">&raquo;</span>
 		                            </a>
 		                        </li>
