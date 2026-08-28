@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_EditLandDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_FastCreateLandDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageOrder_ExpanseHeaderDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageOrder_ManageExpanse_DatePaginationDTO;
@@ -120,11 +121,11 @@ public class ManageOrderController {
 			UUID selectedLandID=(UUID) session.getAttribute("selectedLandID");
 			if(selectedLandID !=null)//neu da chon land
 			{
-				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);
+				List<ManageNavigation_EditLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);
 				model.addAttribute("landList",landList);//for land list/delete/update func
 				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
 				
-				for(ManageNavigation_FastCreateLandDTO land:landList)
+				for(ManageNavigation_EditLandDTO land:landList)
 				{
 					if(land.getLandID()==selectedLandID)
 					{
@@ -140,7 +141,7 @@ public class ManageOrderController {
 			}
 			else//neu chua chon land
 			{
-				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);//for land list/delete/update func
+				List<ManageNavigation_EditLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);//for land list/delete/update func
 				model.addAttribute("landList",landList);//for land list/delete/update func
 				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
 				model.addAttribute("selectedLandID",landList.get(0).getLandID());//to create-property belong to land

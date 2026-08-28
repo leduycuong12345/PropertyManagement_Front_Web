@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class ManageNavigation_FastCreateLandDTO {
 	private UUID landID;
-	private String landName="";
+	private String newLandName="";
 	private int orderCreationDate=1;//must be in 0<x<31 
 	private int floorCount=0;
 	private int propertyCountEachFloor=0;
@@ -92,12 +92,12 @@ public class ManageNavigation_FastCreateLandDTO {
 
 
 
-	public ManageNavigation_FastCreateLandDTO(UUID landID, String landName ,double propertyRentalPrice, int orderCreationDate
+	public ManageNavigation_FastCreateLandDTO(UUID landID, String newLandName ,double propertyRentalPrice, int orderCreationDate
 			,String landAddress,String landAddressPostcode
 			) {
 		super();
 		this.landID = landID;
-		this.landName = landName;
+		this.newLandName = newLandName;
 		this.orderCreationDate = orderCreationDate;
 		this.propertyRentalPrice = propertyRentalPrice;
 		this.landAddress=landAddress;
@@ -141,12 +141,21 @@ public class ManageNavigation_FastCreateLandDTO {
 	public void setLandID(UUID landID) {
 		this.landID = landID;
 	}
-	public String getLandName() {
-		return landName;
+	
+	public String getNewLandName() {
+		return newLandName;
 	}
-	public void setLandName(String landName) {
-		this.landName = landName;
+
+
+
+
+	public void setNewLandName(String newLandName) {
+		this.newLandName = newLandName;
 	}
+
+
+
+
 	public int getOrderCreationDate() {
 		return orderCreationDate;
 	}
@@ -203,12 +212,12 @@ public class ManageNavigation_FastCreateLandDTO {
 	public void setPropertyRentalPrice(double propertyRentalPrice) {
 		this.propertyRentalPrice = propertyRentalPrice;
 	}
-	public ManageNavigation_FastCreateLandDTO(UUID landID, String landName,
+	public ManageNavigation_FastCreateLandDTO(UUID landID, String newLandName,
 			int orderCreationDate, double propertyRentalPrice, String address,
 			String region,String postcode) {
 		super();
 		this.landID = landID;
-		this.landName = landName;
+		this.newLandName = newLandName;
 		this.orderCreationDate = orderCreationDate;
 		this.propertyRentalPrice = propertyRentalPrice;
 		this.landAddress=address;

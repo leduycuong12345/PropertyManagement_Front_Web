@@ -126,8 +126,8 @@
 								<i style="font-size: 14px;font-weight: normal;color: #444444;"> Các thông tin tài sản cơ bản</i>
 								</h5>
 								<div class="form-floating mb-3 mt-3">
-									<input type="text" class="form-control"  th:field="*{landName}" th:id="landName" required >
-									<label th:for="landName">Tên tài sản</label>
+									<input type="text" class="form-control"  th:field="*{newLandName}" th:id="newLandName" required >
+									<label th:for="newLandName">Tên tài sản</label>
 								</div>
 								<div class="form-floating mb-3 mt-3">
 									<input type="number" class="form-control"  th:field="*{propertyRentalPrice}" th:id="propertyRentalPrice" required min="0" pattern="[0-9]+([\.,][0-9]+)?" step="0.001">
@@ -408,11 +408,11 @@
 																			<label th:for="'floatingLandName-'+${land.getLandID()}">Tên nhà trọ</label>
 																		</div>
 																		<div class="form-floating mb-3">
-																			<input type="number" class="form-control"  th:id="'propertyRentalPrice'+${land.getLandID()}" th:name="propertyRentalPrice" th:value="${land.getPropertyRentalPrice()}" pattern="[0-9]+([\.,][0-9]+)?" step="0.001" required min="0"/>
+																			<input type="number" class="form-control"  th:id="'propertyRentalPrice-'+${land.getLandID()}" th:name="propertyRentalPrice" th:value="${land.getPropertyRentalPrice()}" pattern="[0-9]+([\.,][0-9]+)?" step="0.001" required min="0"/>
 																			<label th:for="'propertyRentalPrice-'+${land.getLandID()}">Giá thuê từng phòng</label>
 																		</div>
 																		<div class="form-floating mb-3">
-																			<input type="number" class="form-control" placeholder="Enter name" th:id="'orderCreationDate'+${land.getLandID()}" th:name="orderCreationDate" th:value="${land.getOrderCreationDate()}"/>
+																			<input type="number" class="form-control" placeholder="Enter name" th:id="'orderCreationDate-'+${land.getLandID()}" th:name="orderCreationDate" th:value="${land.getOrderCreationDate()}"/>
 																			<label th:for="'orderCreationDate-'+${land.getLandID()}">Ngày lập phiếu tính tiền mỗi tháng</label>
 																		</div>
 																		<div class="form-floating mb-3 mt-3">
@@ -449,9 +449,9 @@
 	      //activate tooltip 	
 	    </script>
 	    <!-- end Modal list/edit/delete land -->
-	    <!-- google map geolocation script to create land -->
+	    <!-- google map geolocation script to create land 
 	    <script>
-	        function getCoordinates_CreateLand() {
+	    	 function getCoordinates_CreateLand() {
 	            // Get the address from the input field
 	            if (navigator.geolocation) {
 				    navigator.geolocation.getCurrentPosition(
@@ -478,49 +478,58 @@
 				}
 	        }
 	        
-		function loadGoogleMap_CreateLand() { 
-	           var landLat=$("#landLat").val();
-	           var landLng=$("#landLng").val();
-	           var mapProp= {
-	             center:new google.maps.LatLng(landLat, landLng),
-	            zoom:16
-	           };
-	           const iconBase =
-	                      "https://developers.google.com/maps/documentation/javascript/examples/full/images/";
-	           const icons = {
-	                      info: {
-	                           icon: iconBase + "info-i_maps.png"
-	                          }
-	             };
-	            const clientLocation = {
-	                type: "info"
-		     };
-	            var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-	            // Create markers.
-	           const marker = new google.maps.Marker({
-	                      position: map.getCenter(),
-	                         icon: icons[clientLocation.type].icon,
-	                           map: map,
-	                           draggable: true
-	                         });
-	            google.maps.event.addListener(map, 'drag', function () {
-	                          marker.setPosition(map.getCenter());
-	                          
-	                          const markerPosition = marker.getPosition();
-	                          const markerLatitude = markerPosition.lat();
-	                          const markerLongitude = markerPosition.lng();
-	                          $('#landLat').val(markerLatitude);
-							  $('#landLng').val(markerLongitude);  
-							  //$('#result').text('Latitude: ' + markerLatitude + ', Longitude: ' + markerLongitude);
-							  
-	                        });
-	       }
-		   function loadDefaultGoogleMap_CreateLand() {
+	        async function loadGoogleMap_CreateLand() {
+				
+	            const landLat = parseFloat($("#landLat").val());
+	            const landLng = parseFloat($("#landLng").val());
+
+	            // Load Google Maps libraries
+	            const { Map } = await google.maps.importLibrary("maps");
+	            const { AdvancedMarkerElement } =
+	                await google.maps.importLibrary("marker");
+
+	            const position = {
+	                lat: landLat,
+	                lng: landLng
+	            };
+
+	            const map = new Map(document.getElementById("googleMap"), {
+	                center: position,
+	                zoom: 16,
+	                mapId: "DEMO_MAP_ID"
+	            });
+
+	            // Advanced Marker
+	            const marker = new AdvancedMarkerElement({
+	                map: map,
+	                position: position,
+	                title: "Your location",
+	                gmpDraggable: true
+	            });
+
+	            // Update coordinates when marker is dragged
+	            marker.addListener("dragend", function () {
+
+	                const markerPosition = marker.position;
+
+	                const latitude = markerPosition.lat;
+	                const longitude = markerPosition.lng;
+
+	                $("#landLat").val(latitude);
+	                $("#landLng").val(longitude);
+
+	                $("#result").text(
+	                    "Latitude: " + latitude +
+	                    ", Longitude: " + longitude
+	                );
+	            });
+	        }
+		    function loadDefaultGoogleMap_CreateLand() {
 			    //first run load google map if user not accept share their location
 			    //get default dev 's home location
 			   loadGoogleMap_CreateLand();				
 		   }
-		   function askUserToShareTheirLocation_For_CreateLand()
+		    function askUserToShareTheirLocation_For_CreateLand()
 		   {
 			    getCoordinates_CreateLand();
 		   }
@@ -534,8 +543,8 @@
 			    
 	    </script> 
 	
-	    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgJZulTLA5C5Rc9hGVWcp-QzuJrOxB5xU&callback=loadGoogleMap_CreateLand" defer></script>
-	    <!-- END google map geolocation script to create land --> 
+	    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0_xCLXKC28vKKpUsy1lehdwLLEXHojn8&callback=loadGoogleMap_CreateLand&libraries=marker" defer></script>
+	     END google map geolocation script to create land --> 
 	     
 	</div>
 	

@@ -25,6 +25,7 @@ import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_EditLandDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_FastCreateLandDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_AddTenantToWorksheetDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_BookDTO;
@@ -143,11 +144,11 @@ public class ManagePropertyController {
 			UUID selectedLandID=(UUID) session.getAttribute("selectedLandID");
 			if(selectedLandID !=null)//neu da chon land
 			{
-				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);
+				List<ManageNavigation_EditLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);
 				model.addAttribute("landList",landList);//for land list/delete/update func
 				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
 				
-				for(ManageNavigation_FastCreateLandDTO land:landList)
+				for(ManageNavigation_EditLandDTO land:landList)
 				{
 					if(land.getLandID()==selectedLandID)
 					{
@@ -167,7 +168,7 @@ public class ManagePropertyController {
 			else//neu chua chon land
 			{
 				
-				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);//for land list/delete/update func
+				List<ManageNavigation_EditLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);//for land list/delete/update func
 				List<ManageProperty_PropertyDTO> propertyListBelongToLand=this.propertyService.getPropertyBelongToLand_ManageProperty(landList.get(0).getLandID());
 				model.addAttribute("landList",landList);//for land list/delete/update func
 				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func

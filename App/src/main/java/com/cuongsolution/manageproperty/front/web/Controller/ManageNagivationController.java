@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_EditLandDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_FastCreateLandDTO;
 import com.cuongsolution.manageproperty.front.web.Service.Land.ManageNavigation_LandService_Production;
 
@@ -64,7 +65,7 @@ public class ManageNagivationController {
     }
 	private String extractedPostEditLand(UUID landID, String landName, double propertyRentalPrice,
 			int orderCreationDate, String landAddress, String landAddressPostcode, String username) {
-		ManageNavigation_FastCreateLandDTO editLand=new ManageNavigation_FastCreateLandDTO(landID,landName,propertyRentalPrice,orderCreationDate,landAddress,landAddressPostcode);
+		ManageNavigation_EditLandDTO editLand=new ManageNavigation_EditLandDTO(landID,landName,propertyRentalPrice,orderCreationDate,landAddress,landAddressPostcode);
 		this.landService.editLand_ManageNavigation_Production(editLand,username);
 		//return "redirect:/land/list";
 		return "redirect:/quan-ly";

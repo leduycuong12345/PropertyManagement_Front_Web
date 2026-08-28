@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageDebt_OrderDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageDebt_PaginationDTO_ByLand;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageDebt_PaginationDTO_ByWorksheet;
+import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_EditLandDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_FastCreateLandDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageOrder_ReceiptDTO;
 import com.cuongsolution.manageproperty.front.web.Service.Land.ManageNavigation_LandService_Production;
@@ -137,11 +138,11 @@ public class ManageDebtController {
 			UUID selectedLandID=(UUID) session.getAttribute("selectedLandID");
 			if(selectedLandID !=null)//neu da chon land
 			{
-				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);
+				List<ManageNavigation_EditLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);
 				model.addAttribute("landList",landList);//for land list/delete/update func
 				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
 				
-				for(ManageNavigation_FastCreateLandDTO land:landList)
+				for(ManageNavigation_EditLandDTO land:landList)
 				{
 					if(land.getLandID()==selectedLandID)
 					{
@@ -162,7 +163,7 @@ public class ManageDebtController {
 			}
 			else//neu chua chon land
 			{
-				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);//for land list/delete/update func
+				List<ManageNavigation_EditLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);//for land list/delete/update func
 				model.addAttribute("landList",landList);//for land list/delete/update func
 				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
 				model.addAttribute("selectedLandID",landList.get(0).getLandID());//to create-property belong to land
@@ -329,11 +330,11 @@ public class ManageDebtController {
 			UUID selectedLandID=(UUID) session.getAttribute("selectedLandID");
 			if(selectedLandID !=null)//neu da chon land
 			{
-				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);
+				List<ManageNavigation_EditLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);
 				model.addAttribute("landList",landList);//for land list/delete/update func
 				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
 				
-				for(ManageNavigation_FastCreateLandDTO land:landList)
+				for(ManageNavigation_EditLandDTO land:landList)
 				{
 					if(land.getLandID()==selectedLandID)
 					{
@@ -370,7 +371,7 @@ public class ManageDebtController {
 			}
 			else//neu chua chon land
 			{
-				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);//for land list/delete/update func
+				List<ManageNavigation_EditLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);//for land list/delete/update func
 				model.addAttribute("landList",landList);//for land list/delete/update func
 				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
 				model.addAttribute("selectedLandID",landList.get(0).getLandID());//to create-property belong to land
@@ -451,7 +452,7 @@ public class ManageDebtController {
 		if(belongToUser)
 			
 		{
-			List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);//for land list/delete/update func
+			List<ManageNavigation_EditLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);//for land list/delete/update func
 			model.addAttribute("landList",landList);//for land list/delete/update func
 			model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
 			model.addAttribute("selectedLandID",landList.get(0).getLandID());//to create-property belong to land
@@ -545,7 +546,7 @@ public class ManageDebtController {
 		if(belongToUser)
 			
 		{
-			List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);//for land list/delete/update func
+			List<ManageNavigation_EditLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);//for land list/delete/update func
 			model.addAttribute("landList",landList);//for land list/delete/update func
 			model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
 			model.addAttribute("selectedLandID",landList.get(0).getLandID());//to create-property belong to land

@@ -56,7 +56,7 @@ public class WebSecurityConfig  {
 		*/
 		//cors to send GET request to google geocode api
 		http.cors((cors) -> cors
-				.configurationSource(myGoogleGeoAPIConfigurationSource())
+				.configurationSource(myCORS_ConfigurationSource())
 			);
 		//csrf
         http
@@ -80,10 +80,10 @@ public class WebSecurityConfig  {
     }
 	
 	//cors to send GET request to google geocode API
-	CorsConfigurationSource myGoogleGeoAPIConfigurationSource() {
+	CorsConfigurationSource myCORS_ConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		//configuration.setAllowedOrigins(Arrays.asList("https://localhost:8080")); // Add your frontend origin
-		configuration.setAllowedOrigins(Arrays.asList("https://hyderson.vn","https://localhost:8080","")); // Add your frontend origin
+		configuration.setAllowedOrigins(Arrays.asList("https://hyderson.vn","https://localhost:8080")); // Add your frontend origin
 		//configuration.setAllowedOrigins(Arrays.asList("*")); // Add your frontend origin
 		configuration.setAllowedMethods(Arrays.asList("GET","POST","HEAD", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("Content-Type","Authorization"));

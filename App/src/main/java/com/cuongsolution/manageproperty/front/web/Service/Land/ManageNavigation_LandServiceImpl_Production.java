@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 
+import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_EditLandDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_FastCreateLandDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.UserInfo_AccountDTO;
 import com.cuongsolution.manageproperty.front.web.Service.Utils.API_Connection.RequestAPI_Service;
@@ -21,13 +22,13 @@ public class ManageNavigation_LandServiceImpl_Production implements ManageNaviga
 	@Autowired
 	private RequestAPI_Service apiCaller;
 	@Override
-	public List<ManageNavigation_FastCreateLandDTO> getDetailsLandList_ManageNavigation_Production(String username) {
+	public List<ManageNavigation_EditLandDTO> getDetailsLandList_ManageNavigation_Production(String username) {
 		// POST request
 		String fullPostURL = kafkaBaseURL+"/managenavigation/land/getlandlistbyusername";
 		LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();
 		requestJson.add("username", ""+username);
-		Mono<List<ManageNavigation_FastCreateLandDTO>> postMonoResponse = apiCaller.postListResult(fullPostURL, requestJson, ManageNavigation_FastCreateLandDTO.class);
+		Mono<List<ManageNavigation_EditLandDTO>> postMonoResponse = apiCaller.postListResult(fullPostURL, requestJson, ManageNavigation_EditLandDTO.class);
 		return postMonoResponse.block();
 			
 	}
@@ -37,7 +38,7 @@ public class ManageNavigation_LandServiceImpl_Production implements ManageNaviga
 		// POST request
 		String fullPostURL = kafkaBaseURL+"/managenavigation/createland";
 		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
-		requestJson.add("landName",landDTO.getLandName() );
+		requestJson.add("landName",landDTO.getNewLandName());
 		requestJson.add("orderCreationDate", ""+landDTO.getOrderCreationDate());
 		requestJson.add("floorCount", ""+landDTO.getFloorCount());
 		requestJson.add("propertyCountEachFloor",""+ landDTO.getPropertyCountEachFloor());
@@ -74,7 +75,7 @@ public class ManageNavigation_LandServiceImpl_Production implements ManageNaviga
 	}
 
 	@Override
-	public void editLand_ManageNavigation_Production(ManageNavigation_FastCreateLandDTO landDTO, String username) {
+	public void editLand_ManageNavigation_Production(ManageNavigation_EditLandDTO landDTO, String username) {
 		// POST request
 		String fullPostURL = kafkaBaseURL+"/managenavigation/editland";
 		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
