@@ -9,7 +9,15 @@ public class TenantRefreshToken {
 
     private String tenant_Token;
 
-    private Instant tenant_Expiry_Date;
+    public TenantAccount getTenantAccount() {
+		return tenantAccount;
+	}
+
+	public void setTenantAccount(TenantAccount tenantAccount) {
+		this.tenantAccount = tenantAccount;
+	}
+
+	private Instant tenant_Expiry_Date;
 
 	public long getRefreshToken_ID() {
 		return tenant_Refresh_Token_ID;

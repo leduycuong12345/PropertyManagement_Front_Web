@@ -1,7 +1,6 @@
 package com.cuongsolution.manageproperty.front.web.DTO;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;

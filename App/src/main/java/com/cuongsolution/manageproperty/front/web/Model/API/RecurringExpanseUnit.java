@@ -27,5 +27,13 @@ public class RecurringExpanseUnit {
 	public RecurringExpanseUnit() {
 		super();
 	}
+
+	public List<RecurringExpanse> getRecurringExpanseList() {
+		return recurringExpanseList;
+	}
+
+	public void setRecurringExpanseList(List<RecurringExpanse> recurringExpanseList) {
+		this.recurringExpanseList = recurringExpanseList;
+	}
 	
 }

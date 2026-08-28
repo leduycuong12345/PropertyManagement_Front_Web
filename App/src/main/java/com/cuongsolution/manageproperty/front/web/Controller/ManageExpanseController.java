@@ -1,6 +1,5 @@
 package com.cuongsolution.manageproperty.front.web.Controller;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 

@@ -1,14 +1,7 @@
 package com.cuongsolution.manageproperty.front.web.DTO;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.UUID;
-
-import com.cuongsolution.manageproperty.front.web.Model.API.Authority;
-import com.cuongsolution.manageproperty.front.web.Model.API.Privilege;
 
 public class Oauth_UserDTO {
 	private UUID userId;
