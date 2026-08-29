@@ -128,6 +128,8 @@
               <p id="validateRePassword" class="text-danger" ></p>
             </div>
             <div class="form-group mb-3">
+              <p th:errors = "*{password}" class="text-danger"
+                 th:if="${#fields.hasErrors('password')}"></p>
               <label class="form-label">reEnter Password</label>
               <input
                       class="form-control"

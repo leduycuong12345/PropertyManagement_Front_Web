@@ -14,7 +14,7 @@
 						<div style="align-items: center; justify-content: space-between; display: flex; position: relative;">
 							<form  th:action="@{/quan-ly-cong-no}" method="post">
 								Tìm kiếm <input type="text" id="searchDebt" name="searchKeyword" >
-						        <button type="submit">Tìm kiếm</button>
+						        <button type="submit" class="btn btn-light" >Tìm kiếm</button>
 						    </form>
 						</div>
 						<div style="align-items: center; justify-content: space-between; display: flex; position: relative;">
@@ -23,7 +23,7 @@
 								<input type="hidden" th:value="${pagination.totalPage}" name="totalPage" />
 								<input type="hidden" name="searchKeyword">
 								<input type="hidden" name="worksheetId" th:value="${pagination.worksheetId}" />
-						        <button type="submit">Trang trước</button>
+						        <button type="submit" class="btn btn-light" >Trang trước</button>
 						    </form>
 						    <p>Trang hiện tại:<p th:text="${pagination.currentPage}+1" ></p></p>
 						    <form  th:action="@{/quan-ly-cong-no/hop-dong}" method="post" id="nextPaginationForm">
@@ -31,7 +31,7 @@
 								<input type="hidden" th:value="${pagination.totalPage}" name="totalPage" />
 						        <input type="hidden" name="searchKeyword">
 								<input type="hidden" name="worksheetId" th:value="${pagination.worksheetId}" />
-						        <button type="submit">Trang kế</button>
+						        <button type="submit"  class="btn btn-light" >Trang kế</button>
 						    </form>
 						</div>
 		                <div style="align-items: center; justify-content: space-between; display: flex; position: relative;">
