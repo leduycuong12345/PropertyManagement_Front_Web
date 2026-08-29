@@ -68,7 +68,7 @@ public class WebSecurityConfig  {
     	
     	http
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/register","/login", "/error", "/webjars/**").permitAll()
+            .requestMatchers("/register","/register/**","/login", "/error", "/webjars/**").permitAll()
             .anyRequest().authenticated()
         )
         .oauth2Login(oauth2 -> oauth2
@@ -76,6 +76,12 @@ public class WebSecurityConfig  {
         	    .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
         	    .defaultSuccessUrl("/quan-ly", true)
         );
+    	http
+		.formLogin((form) -> form .loginPage("/login") // somehow this line
+				.defaultSuccessUrl("/quan-ly",true).permitAll()
+				)
+		.logout((logout)
+		 -> logout.logoutUrl("/logout").permitAll());	
     	return http.build();
     }
 	
