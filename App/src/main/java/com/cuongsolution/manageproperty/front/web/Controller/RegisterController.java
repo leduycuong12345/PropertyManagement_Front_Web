@@ -60,8 +60,26 @@ public class RegisterController {
                     "There is already an account registered with the same username");
             
         }
+        
+        String password=userDto.getPassword();
+        String rePassword=userDto.getRePassword();
+        boolean matchingPassword = false;
+        if(password.equals(rePassword))
+        {
+        	matchingPassword=true;
+        }
+        if(matchingPassword==false){
+            result.rejectValue("password", null,
+                    "Password is not the same.");
+            
+        }
         if(result.hasErrors()){
-            model.addAttribute("user", userDto);
+        	//if error happens , force user to re-enter password/re-password
+            userDto.setPassword("");
+            userDto.setRePassword("");
+            logger.info("register error force user to re-enter password/repassword");
+        	model.addAttribute("user", userDto);
+            
             return "register";
         }
 
