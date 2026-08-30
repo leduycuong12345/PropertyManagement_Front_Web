@@ -29,3 +29,7 @@ li.dropdown-item{
 .editable_propertyName_textarea{
 	border:none;outline: none;resize:none;
 }
+.form-check{
+	justify-content: center; /* Centers horizontally */
+    align-items: center;     /* Centers vertically */
+}

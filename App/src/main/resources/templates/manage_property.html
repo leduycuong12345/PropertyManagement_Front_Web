@@ -21,23 +21,23 @@
 		        <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addProperty">
 	       			Tạo tài sản mới
 		        </button>
-		        <div class="mb-3 form-check">
+		        <div class="form-check">
 				    <input type="checkbox" class="form-check-input" id="noWorksheetFilter">
 				    <label class="form-check-label" for="noWorksheetFilter">Tài sản chưa cho thuê</label>
 				</div>
-				<div class="mb-3 form-check">
+				<div class="form-check">
 				    <input type="checkbox" class="form-check-input" id="bookedFilter">
 				    <label class="form-check-label" for="bookedFilter">Tài sản đã cọc giữ chỗ</label>
 				</div>
-				<div class="mb-3 form-check">
+				<div class="form-check">
 				    <input type="checkbox" class="form-check-input" id="noDepositFilter">
 				    <label class="form-check-label" for="noDepositFilter">Tài sản chưa thu tiền cọc</label>
 				</div>
-				<div class="mb-3 form-check">
+				<div class="form-check">
 				    <input type="checkbox" class="form-check-input" id="onDebtFilter">
 				    <label class="form-check-label" for="onDebtFilter">Tài sản đang nợ tiền</label>
 				</div>
-				<div class="mb-3 form-check">
+				<div class="form-check">
 				    <input type="checkbox" class="form-check-input" id="usagePropetyFilter">
 				    <label class="form-check-label" for="usagePropetyFilter">Tài sản đang ở</label>
 				</div>
@@ -200,7 +200,7 @@
 											    Chức năng
 											  </button>
 											  <ul class="dropdown-menu dropdown-menu-end">
-											    <li class="dropdown-item"><a href="#">Chi tiết tài sản</a></li>
+											    <li class="dropdown-item">Chi tiết tài sản (under construction)</li>
 											    <li class="dropdown-item">
 											    	<!-- Button trigger contract-modal -->
 													<div data-bs-toggle="modal" th:data-bs-target="'#orderModal-'+${property.getPropertyID()}">
@@ -254,7 +254,7 @@
 											    Chức năng
 											  </button>
 											  <ul class="dropdown-menu dropdown-menu-end">
-											    <li class="dropdown-item"><a href="#">Chi tiết tài sản</a></li>
+											    <li class="dropdown-item">Chi tiết tài sản (under construction)</li>
 											    <li class="dropdown-item">
 											    	<!-- Button trigger contract-modal -->
 													<div data-bs-toggle="modal" th:data-bs-target="'#contractModal-'+${property.getPropertyID()}">
@@ -298,7 +298,7 @@
 											    Chức năng
 											  </button>
 											  <ul class="dropdown-menu dropdown-menu-end">
-											    <li class="dropdown-item"><a href="#">Chi tiết tài sản</a></li>
+											    <li class="dropdown-item">Chi tiết tài sản (under construction)</li>
 											    <li class="dropdown-item">
 													<div data-bs-toggle="modal" th:data-bs-target="'#checkinModal-'+${property.getPropertyID()}">
 													  Lập phiếu nhận tài sản
