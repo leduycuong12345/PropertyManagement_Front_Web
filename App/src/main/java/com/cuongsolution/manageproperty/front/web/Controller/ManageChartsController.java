@@ -59,7 +59,7 @@ public class ManageChartsController {
 				
 				for(ManageNavigation_EditLandDTO land:landList)
 				{
-					if(land.getLandID()==selectedLandID)
+					if(land.getLandID().equals(selectedLandID))
 					{
 						model.addAttribute("selectedLandID",land.getLandID());//to create-property belong to land
 						model.addAttribute("selectedLand",land );//to display selected-land-name at layout-sidebar

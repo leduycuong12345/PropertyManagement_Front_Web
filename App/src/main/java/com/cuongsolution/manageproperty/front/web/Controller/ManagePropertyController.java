@@ -141,16 +141,21 @@ public class ManagePropertyController {
 			UUID selectedLandID=(UUID) session.getAttribute("selectedLandID");
 			if(selectedLandID !=null)//neu da chon land
 			{
+				
 				List<ManageNavigation_EditLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);
 				model.addAttribute("landList",landList);//for land list/delete/update func
 				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
 				
 				for(ManageNavigation_EditLandDTO land:landList)
 				{
-					if(land.getLandID()==selectedLandID)
+					logger.info("ManagePropertyController managePropertyPage land list LandID:{}, selected_land_id:{},landName:{}",
+							land.getLandID(),	selectedLandID, land.getLandName());
+					if(land.getLandID().equals(selectedLandID))
 					{
 						model.addAttribute("selectedLandID",land.getLandID());//to create-property belong to land
 						model.addAttribute("selectedLand",land );//to display selected-land-name at layout-sidebar
+						logger.info("ManagePropertyController managePropertyPage found select LandID:{},landName:{}",
+								selectedLandID, land.getLandName());
 					}
 				}
 				model.addAttribute("propertyList",this.propertyService.getPropertyBelongToLand_ManageProperty(selectedLandID));
@@ -164,7 +169,7 @@ public class ManagePropertyController {
 			}
 			else//neu chua chon land
 			{
-				
+				logger.info("ManagePropertyController managePropertyPage choose first land in the list");
 				List<ManageNavigation_EditLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(username);//for land list/delete/update func
 				List<ManageProperty_PropertyDTO> propertyListBelongToLand=this.propertyService.getPropertyBelongToLand_ManageProperty(landList.get(0).getLandID());
 				model.addAttribute("landList",landList);//for land list/delete/update func
@@ -190,8 +195,10 @@ public class ManagePropertyController {
 		}
 	}
 	@PostMapping(value="/quan-ly")
-	public String selectLandtoManage(@RequestParam("selectedLandID") Long selectedLandID, HttpSession session)  {
+	public String selectLandtoManage(@RequestParam("selectedLandID") UUID selectedLandID, HttpSession session)  {
 		session.setAttribute("selectedLandID", selectedLandID);
+		logger.info("ManagePropertyController selectLandtoManage select LandID:{}",
+				selectedLandID);
 		return "redirect:/quan-ly";
 	}
 	@PostMapping(value="/quan-ly/thay-doi-tai-san")

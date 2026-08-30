@@ -16,8 +16,8 @@
 					</div>
 					<div style="padding: 20px 0px 20px 5px; flex:1">
 						<span style="font-size:12px">Đang quản lý</span><br/>
-						<input type="hidden" id="landName" th:value="${selectedLand.landName}" />
-				  		<span style="font-size:14px; color: #ff7337; padding:0px; margin:0px; white-space: nowrap;max-width: 125px; overflow: hidden; text-overflow: ellipsis; display: inline-block;"  th:text="${selectedLand.landName}"></span>
+						<input type="hidden" id="landName" th:value="${selectedLand.getLandName()}" />
+				  		<span style="font-size:14px; color: #ff7337; padding:0px; margin:0px; white-space: nowrap;max-width: 125px; overflow: hidden; text-overflow: ellipsis; display: inline-block;"  th:text="${selectedLand.getLandName()}"></span>
 					</div>
 				</div>
 				<div>
