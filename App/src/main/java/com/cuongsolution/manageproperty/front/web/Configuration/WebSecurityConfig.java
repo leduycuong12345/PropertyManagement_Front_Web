@@ -68,7 +68,7 @@ public class WebSecurityConfig  {
     	
     	http
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/register","/register/**","/login", "/error", "/webjars/**").permitAll()
+            .requestMatchers("/register","/register/**","/login", "/error","/api/register/auth/**", "/webjars/**").permitAll()
             .anyRequest().authenticated()
         )
         .oauth2Login(oauth2 -> oauth2
@@ -89,7 +89,7 @@ public class WebSecurityConfig  {
 	CorsConfigurationSource myCORS_ConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		//configuration.setAllowedOrigins(Arrays.asList("https://localhost:8080")); // Add your frontend origin
-		configuration.setAllowedOrigins(Arrays.asList("https://hyderson.vn","https://localhost:8080")); // Add your frontend origin
+		configuration.setAllowedOrigins(Arrays.asList("https://manageproperty.click","https://localhost:8080")); // Add your frontend origin
 		//configuration.setAllowedOrigins(Arrays.asList("*")); // Add your frontend origin
 		configuration.setAllowedMethods(Arrays.asList("GET","POST","HEAD", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("Content-Type","Authorization"));

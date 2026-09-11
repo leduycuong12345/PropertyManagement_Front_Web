@@ -6,4 +6,7 @@ public interface Register_UserService {
 	public abstract boolean existsByEmail(String email);
 	public abstract boolean existsByPhoneNumber(String phoneNumber);
 	public abstract boolean createNewUser(Register_UserDTO user);
+	public abstract boolean createNewUser_withVerificationMail(Register_UserDTO user);
+	public abstract boolean verifyEmailVerificationToken(String token);
+	public abstract boolean resendVerifyEmailVerificationToken(String email);
 }

@@ -83,7 +83,7 @@ public class RegisterController {
             return "register";
         }
 
-        boolean createNewUserResult=userService.createNewUser(userDto);
+        //boolean createNewUserResult=userService.createNewUser(userDto);
         /*while(createNewUserResult==false)
         {
         	// Pause execution for 2000 milliseconds (2 seconds)
@@ -94,6 +94,9 @@ public class RegisterController {
 				e.printStackTrace();
 			}
         }*/
-        return "redirect:/register?success";
+        //return "redirect:/register?success";
+        Boolean createtionResult=userService.createNewUser_withVerificationMail(userDto);
+        model.addAttribute("resendMail",userDto.getEmail());
+        return "register_send_verification_mail";
     }
 }

@@ -70,4 +70,59 @@ public class Register_UserServiceImpl implements Register_UserService{
         return postMonoResponse.block();
 
 	}
+
+	@Override
+	public boolean verifyEmailVerificationToken(String token) {
+		String fullPostURL = kafkaBaseURL+"/auth/register/verify";
+		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
+		 
+		
+		logger.info("Register_UserServiceImpl verifyEmailVerificationToken  with token:{}",token);
+		
+		requestJson.add("token", token);
+		
+		
+        Mono<Boolean> postMonoResponse = apiCaller.post(fullPostURL, requestJson, Boolean.class);        
+        //Boolean
+        return postMonoResponse.block();
+	}
+
+	@Override
+	public boolean resendVerifyEmailVerificationToken(String email) {
+		String fullPostURL = kafkaBaseURL+"/auth/register/resend-verification";
+		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
+		 
+		
+		logger.info("Register_UserServiceImpl resendVerifyEmailVerificationToken  with email:{}",email);
+		
+		requestJson.add("token", email);
+		
+		
+        Mono<Boolean> postMonoResponse = apiCaller.post(fullPostURL, requestJson, Boolean.class);        
+        //Boolean
+        return postMonoResponse.block();
+	}
+
+	@Override
+	public boolean createNewUser_withVerificationMail(Register_UserDTO user) {
+		String fullPostURL = kafkaBaseURL+"/userservice/createnewuser";
+		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
+		 
+		
+		String encryptedPassword=passwordEncoder.encode(user.getPassword());//by default s BCryptPasswordEncoder it may change in future
+		logger.info("register user with id"+user.getUsername() +" pass(still not encode):"+user.getPassword()
+		+" and pass(encoded):"+encryptedPassword);
+		
+		requestJson.add("username", user.getUsername());
+		requestJson.add("password", encryptedPassword);
+		requestJson.add("firstName", user.getFirstName());
+		requestJson.add("lastName", user.getLastName());
+		requestJson.add("email", user.getEmail());
+		requestJson.add("phoneNumber", user.getPhoneNumber());
+		
+		
+        Mono<Boolean> postMonoResponse = apiCaller.post(fullPostURL, requestJson, Boolean.class);        
+        //Boolean
+        return postMonoResponse.block();
+	}
 }

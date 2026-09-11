@@ -1,0 +1,57 @@
+<h2>Sent email,if u dont receive it yet , plz check confirmation email in spam box</h2>
+<button id="resendBtn" onclick="resendEmail()">Resend confirmation email</button>
+<input id="email" type="hidden" th:value="${resendMail}"/>
+<p id="resendMsg"></p>
+
+<script>
+let cooldown = 0;
+let timer = null;
+const btn = document.getElementById('resendBtn');
+const msg = document.getElementById('resendMsg');
+
+function startCooldown(seconds) {
+    cooldown = seconds;
+    btn.disabled = true;
+    clearInterval(timer);
+    timer = setInterval(() => {
+        cooldown--;
+        btn.textContent = `Resend confirmation email (${cooldown}s)`;
+        if (cooldown <= 0) {
+            clearInterval(timer);
+            btn.disabled = false;
+            btn.textContent = 'Resend confirmation email';
+        }
+    }, 1000);
+}
+
+async function resendEmail() {
+    const email = document.getElementById('email').value; // wherever you store it
+    btn.disabled = true;
+    msg.textContent = '';
+
+    try {
+        const res = await fetch('/api/register/auth/resend-verification?email=' + encodeURIComponent(email), {
+            method: 'POST'
+        });
+        const data = await res.json();
+
+        if (res.status === 429) {
+            msg.textContent = data.message;
+            startCooldown(data.retryAfterSeconds);
+        } else if (res.ok) {
+            msg.textContent = 'Verification email resent. Check your inbox.';
+            startCooldown(60);
+        } else {
+            msg.textContent = data.message || 'Something went wrong.';
+            btn.disabled = false;
+        }
+    } catch (err) {
+        msg.textContent = 'Network error, please try again.';
+        btn.disabled = false;
+    }
+}
+
+// Start the cooldown right after initial registration too,
+// since the first email was just sent
+startCooldown(60);
+</script>
