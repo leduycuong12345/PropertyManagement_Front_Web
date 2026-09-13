@@ -72,7 +72,7 @@ public class Register_UserServiceImpl implements Register_UserService{
 	}
 
 	@Override
-	public boolean verifyEmailVerificationToken(String token) {
+	public String verifyEmailVerificationToken(String token) {
 		String fullPostURL = kafkaBaseURL+"/auth/register/verify";
 		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
 		 
@@ -82,13 +82,13 @@ public class Register_UserServiceImpl implements Register_UserService{
 		requestJson.add("token", token);
 		
 		
-        Mono<Boolean> postMonoResponse = apiCaller.post(fullPostURL, requestJson, Boolean.class);        
+        Mono<String> postMonoResponse = apiCaller.post(fullPostURL, requestJson, String.class);        
         //Boolean
         return postMonoResponse.block();
 	}
 
 	@Override
-	public boolean resendVerifyEmailVerificationToken(String email) {
+	public String resendVerifyEmailVerificationToken(String email) {
 		String fullPostURL = kafkaBaseURL+"/auth/register/resend-verification";
 		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
 		 
@@ -98,7 +98,7 @@ public class Register_UserServiceImpl implements Register_UserService{
 		requestJson.add("token", email);
 		
 		
-        Mono<Boolean> postMonoResponse = apiCaller.post(fullPostURL, requestJson, Boolean.class);        
+        Mono<String> postMonoResponse = apiCaller.post(fullPostURL, requestJson, String.class);        
         //Boolean
         return postMonoResponse.block();
 	}
