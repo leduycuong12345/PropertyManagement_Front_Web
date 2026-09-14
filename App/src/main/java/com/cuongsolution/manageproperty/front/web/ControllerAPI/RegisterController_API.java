@@ -19,20 +19,6 @@ public class RegisterController_API {
 	private Logger logger = LoggerFactory.getLogger(RegisterController_API.class);
 	@Autowired
 	private Register_UserService register_UserService;
-    @GetMapping("/api/register/auth/verify")
-    public ResponseEntity<String> verify(@RequestParam String token) {
-    	String result=this.register_UserService.verifyEmailVerificationToken(token);
-    	if(result.equals("Account verified successfully"))
-    	{
-    		logger.info("RegisterController verify successful with token:",token);
-    		return ResponseEntity.ok("Account verified successfully");
-    	}
-    	else
-    	{
-    		logger.info("RegisterController verify failed with token:",token);
-    		return ResponseEntity.badRequest().body("Token expired");
-    	}
-    }
     @PostMapping("/api/register/auth/resend-verification")
     public ResponseEntity<?> resend(@RequestParam String email) {
     	String result=this.register_UserService.resendVerifyEmailVerificationToken(email);

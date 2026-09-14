@@ -10,8 +10,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cuongsolution.manageproperty.front.web.DTO.Register_UserDTO;
+import com.cuongsolution.manageproperty.front.web.DTO.Register_VerificationResultDTO;
 import com.cuongsolution.manageproperty.front.web.Service.Account.Register_AccountService;
 import com.cuongsolution.manageproperty.front.web.Service.User.Register_UserService;
 @Controller
@@ -98,5 +100,32 @@ public class RegisterController {
         Boolean createtionResult=userService.createNewUser_withVerificationMail(userDto);
         model.addAttribute("resendMail",userDto.getEmail());
         return "register_send_verification_mail";
+    }
+    @GetMapping("/api/register/auth/verify")
+    //public ResponseEntity<String> verify(@RequestParam String token) {
+    public String verify(@RequestParam String token,
+            Model model) {
+    	Register_VerificationResultDTO result=this.userService.verifyEmailVerificationToken(token);
+    	if(result.getResult().equals("Account verified successfully"))
+    	{
+    		logger.info("RegisterController verify successful with token:",token);
+    		//return ResponseEntity.ok("Account verified successfully");
+    		return "register_successful_verification_mail";
+    	}
+    	else
+    	{
+    		if(result.getResult().equals("Token expired"))
+    		{
+        		logger.info("RegisterController verify failed with expired_token:",token);
+        		//return ResponseEntity.badRequest().body("Token expired");
+        		model.addAttribute("resendEmail", result.getResendEmail());
+        		return "register_expired_token_verification_mail";
+    		}
+    		else
+    		{
+    			logger.info("RegisterController verify failed with token:",token);
+        		return "register_failed_verification_mail";
+    		}
+    	}
     }
 }

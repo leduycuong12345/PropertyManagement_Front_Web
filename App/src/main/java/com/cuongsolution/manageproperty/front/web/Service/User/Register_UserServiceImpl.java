@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 
 import com.cuongsolution.manageproperty.front.web.DTO.Register_UserDTO;
+import com.cuongsolution.manageproperty.front.web.DTO.Register_VerificationResultDTO;
 import com.cuongsolution.manageproperty.front.web.Service.Utils.API_Connection.RequestAPI_Service;
 
 import reactor.core.publisher.Mono;
@@ -72,7 +73,7 @@ public class Register_UserServiceImpl implements Register_UserService{
 	}
 
 	@Override
-	public String verifyEmailVerificationToken(String token) {
+	public Register_VerificationResultDTO verifyEmailVerificationToken(String token) {
 		String fullPostURL = kafkaBaseURL+"/auth/register/verify";
 		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
 		 
@@ -82,7 +83,7 @@ public class Register_UserServiceImpl implements Register_UserService{
 		requestJson.add("token", token);
 		
 		
-        Mono<String> postMonoResponse = apiCaller.post(fullPostURL, requestJson, String.class);        
+        Mono<Register_VerificationResultDTO> postMonoResponse = apiCaller.post(fullPostURL, requestJson, Register_VerificationResultDTO.class);        
         //Boolean
         return postMonoResponse.block();
 	}
