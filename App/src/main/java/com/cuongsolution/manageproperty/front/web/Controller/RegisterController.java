@@ -108,7 +108,7 @@ public class RegisterController {
     	Register_VerificationResultDTO result=this.userService.verifyEmailVerificationToken(token);
     	if(result.getResult().equals("Account verified successfully"))
     	{
-    		logger.info("RegisterController verify successful with token:",token);
+    		logger.info("RegisterController verify successful with token:{}",token);
     		//return ResponseEntity.ok("Account verified successfully");
     		return "register_successful_verification_mail";
     	}
@@ -116,14 +116,14 @@ public class RegisterController {
     	{
     		if(result.getResult().equals("Token expired"))
     		{
-        		logger.info("RegisterController verify failed with expired_token:",token);
+        		logger.info("RegisterController verify failed with expired_token:{} and resendMail:{}",token,result.getResendEmail());
         		//return ResponseEntity.badRequest().body("Token expired");
         		model.addAttribute("resendEmail", result.getResendEmail());
         		return "register_expired_token_verification_mail";
     		}
     		else
     		{
-    			logger.info("RegisterController verify failed with token:",token);
+    			logger.info("RegisterController verify failed with token:{}",token);
         		return "register_failed_verification_mail";
     		}
     	}
