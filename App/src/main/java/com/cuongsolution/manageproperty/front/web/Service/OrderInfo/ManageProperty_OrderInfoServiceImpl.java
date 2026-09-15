@@ -23,7 +23,7 @@ public class ManageProperty_OrderInfoServiceImpl implements ManageProperty_Order
 	@Override
 	public void createOrder_ManageProperty(ManageProperty_CreateOrderDTO newOrder) {
 		String fullPostURL = kafkaBaseURL+"/manageproperty/createorder";
-		LinkedMultiValueMap<String, String> requestJson = 
+		/*LinkedMultiValueMap<String, String> requestJson = 
 				new LinkedMultiValueMap<String, String>();
 		requestJson.add("orderCreateDate", ""+newOrder.getOrderCreateDate());
 		requestJson.add("orderExpireDate", ""+newOrder.getOrderExpireDate());
@@ -35,8 +35,22 @@ public class ManageProperty_OrderInfoServiceImpl implements ManageProperty_Order
 		requestJson.add("expanseDetails", ""+newOrder.getExpanseDetails());
 		requestJson.add("orderBelongMonth", ""+newOrder.getOrderBelongMonth());
 		requestJson.add("worksheetID", ""+newOrder.getWorksheetID());
+		requestJson.add("worksheetID", newOrder.getRecurringExpanseList_withCurrentReading());
+		
 		Mono<Boolean> postMonoResponse = apiCaller.post(fullPostURL, requestJson, Boolean.class);
 		postMonoResponse.block();
+		*/
+		// Create a WebClient instance
+		WebClient webClient = WebClient.create(kafkaBaseURL);
+		// Perform the POST request
+        Mono<Boolean> responseMono = webClient.post()
+                .uri(fullPostURL)
+                .bodyValue(newOrder) // Send the list of Product objects
+                .retrieve()
+                .bodyToMono(Boolean.class);
+
+        // Subscribe to get the response
+        responseMono.block();
 	}
 
 	@Override
