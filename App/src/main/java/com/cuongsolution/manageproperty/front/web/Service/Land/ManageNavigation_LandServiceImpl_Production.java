@@ -3,11 +3,14 @@ package com.cuongsolution.manageproperty.front.web.Service.Land;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 
+import com.cuongsolution.manageproperty.front.web.Controller.ManageNagivationController;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_EditLandDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_FastCreateLandDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.UserInfo_AccountDTO;
@@ -17,6 +20,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class ManageNavigation_LandServiceImpl_Production implements ManageNavigation_LandService_Production{
+	private Logger logger = LoggerFactory.getLogger(ManageNavigation_LandServiceImpl_Production.class);
 	@Value("${cuongsolution.manageproperty.core.kafka.baseURL}")//this variable being declared at application.properties
 	private String kafkaBaseURL;
 	@Autowired
@@ -35,10 +39,13 @@ public class ManageNavigation_LandServiceImpl_Production implements ManageNaviga
 
 	@Override
 	public void createLand_ManageNavigation_Production(ManageNavigation_FastCreateLandDTO landDTO, String username) {
+		logger.info(" ManageNavigation_LandServiceImpl_Production  createLand_ManageNavigation_Production Received request post to create land with land-name:{}"
+				,landDTO.getNewLandName());
+		
 		// POST request
 		String fullPostURL = kafkaBaseURL+"/managenavigation/createland";
 		LinkedMultiValueMap<String, String> requestJson = new LinkedMultiValueMap<String, String>();
-		requestJson.add("landName",landDTO.getNewLandName());
+		requestJson.add("newLandName",landDTO.getNewLandName());
 		requestJson.add("orderCreationDate", ""+landDTO.getOrderCreationDate());
 		requestJson.add("floorCount", ""+landDTO.getFloorCount());
 		requestJson.add("propertyCountEachFloor",""+ landDTO.getPropertyCountEachFloor());

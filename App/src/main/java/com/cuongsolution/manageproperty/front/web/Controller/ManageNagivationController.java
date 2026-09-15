@@ -3,6 +3,8 @@ package com.cuongsolution.manageproperty.front.web.Controller;
 import java.security.Principal;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,10 +22,15 @@ import com.cuongsolution.manageproperty.front.web.Service.Land.ManageNavigation_
 import jakarta.servlet.http.HttpSession;
 @Controller
 public class ManageNagivationController {
+	private Logger logger = LoggerFactory.getLogger(ManageNagivationController.class);
 	@Autowired
 	private ManageNavigation_LandService_Production landService;
+	
+	
 	@PostMapping(value="/land/create")
 	public String postCreateLandPage( @ModelAttribute("newLand") ManageNavigation_FastCreateLandDTO newLand,Model model,Principal principal)  {
+		
+		logger.info(" ManageNagivationController  postCreateLandPage Received request post to create land with land-name:{}",newLand.getNewLandName());
 		this.landService.createLand_ManageNavigation_Production(newLand,principal.getName());
 		//return "redirect:/land/list";
 		return "redirect:/quan-ly";
