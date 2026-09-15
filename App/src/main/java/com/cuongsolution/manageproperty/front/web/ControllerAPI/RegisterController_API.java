@@ -22,15 +22,15 @@ public class RegisterController_API {
     @PostMapping("/api/register/auth/resend-verification")
     public ResponseEntity<?> resend(@RequestParam String email) {
     	String result=this.register_UserService.resendVerifyEmailVerificationToken(email);
-    	logger.info("RegisterController resend failed with mail:",email);
+    	logger.info("RegisterController resend with mail:{}",email);
     	if(result.equals("Verification email resent"))
     	{
-    		logger.info("RegisterController resend successful with mail:",email);
+    		logger.info("RegisterController resend successful with mail:{}",email);
     		return ResponseEntity.badRequest().body(Map.of("message", "Already verified"));
     	}
     	else
     	{
-    		logger.info("RegisterController resend failed with mail:",email);
+    		logger.info("RegisterController resend failed with mail:{}",email);
     		return ResponseEntity.ok(Map.of("message", "Verification email resent"));
     	}
     }

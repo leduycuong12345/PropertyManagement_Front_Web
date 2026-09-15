@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
 <h2>Expired token,please send another confirmation mail</h2>
 <button id="resendBtn" onclick="resendEmail()">Resend confirmation email</button>
 <input id="email" type="hidden" th:value="${resendEmail}"/> 
@@ -8,6 +17,9 @@ let cooldown = 0;
 let timer = null;
 const btn = document.getElementById('resendBtn');
 const msg = document.getElementById('resendMsg');
+
+var token = $("meta[name='_csrf']").attr("content");
+var header = $("meta[name='_csrf_header']").attr("content");
 
 function startCooldown(seconds) {
     cooldown = seconds;
@@ -28,30 +40,31 @@ async function resendEmail() {
     const email = document.getElementById('email').value; // wherever you store it
     btn.disabled = true;
     msg.textContent = '';
-
-    try {
-        const res = await fetch('/api/register/auth/resend-verification?email=' + encodeURIComponent(email), {
-            method: 'POST'
-        });
-        const data = await res.json();
-
-        if (res.status === 429) {
-            msg.textContent = data.message;
-            startCooldown(data.retryAfterSeconds);
-        } else if (res.ok) {
-            msg.textContent = 'Verification email resent. Check your inbox.';
+	
+    
+    
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: '/api/register/auth/resend-verification?email='+ encodeURIComponent(email),
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function(response) {
+        	msg.textContent = 'Verification email resent. Check your inbox.';
             startCooldown(60);
-        } else {
+        },
+        error: function(error) {
+            console.log("Lỗi : " + error);
             msg.textContent = data.message || 'Something went wrong.';
             btn.disabled = false;
         }
-    } catch (err) {
-        msg.textContent = 'Network error, please try again.';
-        btn.disabled = false;
-    }
+    });
 }
 
 // Start the cooldown right after initial registration too,
 // since the first email was just sent
 startCooldown(60);
 </script>
+</body>
+</html>

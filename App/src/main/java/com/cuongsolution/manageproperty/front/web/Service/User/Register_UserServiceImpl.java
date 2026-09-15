@@ -96,7 +96,7 @@ public class Register_UserServiceImpl implements Register_UserService{
 		
 		logger.info("Register_UserServiceImpl resendVerifyEmailVerificationToken  with email:{}",email);
 		
-		requestJson.add("token", email);
+		requestJson.add("email", email);
 		
 		
         Mono<String> postMonoResponse = apiCaller.post(fullPostURL, requestJson, String.class);        
