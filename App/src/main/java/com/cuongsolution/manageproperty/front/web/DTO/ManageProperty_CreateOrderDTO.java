@@ -1,12 +1,15 @@
 package com.cuongsolution.manageproperty.front.web.DTO;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 public class ManageProperty_CreateOrderDTO {
@@ -15,8 +18,10 @@ public class ManageProperty_CreateOrderDTO {
 	private LocalDate orderCreateDate;
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private LocalDate orderExpireDate;
-	@DateTimeFormat(pattern = "yyyy-MM")
-	private Date orderBelongMonth;
+	//@DateTimeFormat(pattern = "yyyy-MM")
+	//private Date orderBelongMonth;
+	@JsonFormat(pattern = "yyyy-MM")
+	private YearMonth  orderBelongMonth;
 	private int totalMonth;
 	private int totalDay;
 	private double totalCost;
@@ -57,10 +62,10 @@ public class ManageProperty_CreateOrderDTO {
 		this.orderExpireDate = orderExpireDate;
 	}
 	
-	public Date getOrderBelongMonth() {
+	public YearMonth  getOrderBelongMonth() {
 		return orderBelongMonth;
 	}
-	public void setOrderBelongMonth(Date orderBelongMonth) {
+	public void setOrderBelongMonth(YearMonth  orderBelongMonth) {
 		this.orderBelongMonth = orderBelongMonth;
 	}
 	public double getTotalCost() {

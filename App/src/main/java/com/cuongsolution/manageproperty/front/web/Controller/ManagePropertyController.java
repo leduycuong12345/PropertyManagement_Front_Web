@@ -246,9 +246,10 @@ public class ManagePropertyController {
 	}
 	@PostMapping(value="/hoa-don/them")
 	public String createOrder_ManageProperty( @ModelAttribute("newOrder") ManageProperty_CreateOrderDTO newOrder) throws Exception {
+
+		logger.info("ManagePropertyController createOrder_ManageProperty OrderBelongMonth:{}",newOrder.getOrderBelongMonth());
 		manageProperty_OrderInfoService.createOrder_ManageProperty(newOrder);
 		//System.out.println("i was here: "+newOrder.getOrderBelongMonth());
-		logger.info("ManagePropertyController createOrder_ManageProperty OrderBelongMonth:{}",newOrder.getOrderBelongMonth());
 		return "redirect:/quan-ly";
     }
     @PostMapping("/quan-ly/tao-nhanh-danh-sach-hoa-don")
