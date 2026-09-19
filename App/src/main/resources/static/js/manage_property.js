@@ -8,6 +8,14 @@ function updateValueWithID_RecurringExpanse_CreateWorksheet() {
 	  $(this).closest('div[name="expanseContainer"]').children('input[name="selectedExpanseList"]').val(result);
   });
 }
+function safeLoadFloatValue(containerValue)
+{
+	return parseFloat(containerValue.replace(/,/g, ''));
+}
+function safeLoadIntValue(containerValue)
+{
+	return parseInt(containerValue.replace(/,/g, ''));
+}
 function callFunctionFor_CreateWorksheet_Sequences()
 {
 	updateValueWithID_RecurringExpanse_CreateWorksheet();
@@ -28,7 +36,7 @@ function calculateTotalCost_CreateOrder_ManageProperty()
 	  let totalDay=0;
 	  totalDay=parseInt($(this).closest('form').children('div').children('input[name="totalDay"]').val());
 	  let unexpectedExpanseCost=0;
-	  unexpectedExpanseCost=parseFloat($(this).closest('form').children('div').children('input[name="expanseCost"]').val());
+	  unexpectedExpanseCost=safeLoadFloatValue($(this).closest('form').children('div').children('input[name="expanseCost"]').val());
 	  if(isNaN(currentWorksheetPrice))
 	  {
 		currentWorksheetPrice=0;
@@ -68,17 +76,17 @@ function calculateTotalCost_CreateOrder_ManageProperty()
 			}
 			if(expanseType==3)
 	  		{
-		     	let currentReading=$(container).children('div').children('input[name="currentReading"]').val();
+		     	let currentReading=safeLoadFloatValue($(container).children('div').children('input[name="currentReading"]').val());
 				if(isNaN(currentReading))
 				{
 						currentReading=0;
 				}
-				let lastReading=$(container).children('div').children('input[name="lastReading"]').val();
+				let lastReading=safeLoadFloatValue($(container).children('div').children('input[name="lastReading"]').val());
 				if(isNaN(lastReading))
 				{
 					lastReading=0;
 				}
-				let expansePrice=$(container).children('input[name="recurringExpansePrice"]').val();
+				let expansePrice=safeLoadFloatValue($(container).children('input[name="recurringExpansePrice"]').val());
 				if(isNaN(expansePrice))
 				{
 					expansePrice=0;
@@ -93,12 +101,12 @@ function calculateTotalCost_CreateOrder_ManageProperty()
 		    {
 				if(expanseType==2 || expanseType==1)
 				{
-					let currentReading=$(container).children('div').children('input[name="currentReading"]').val();
+					let currentReading=safeLoadFloatValue($(container).children('div').children('input[name="currentReading"]').val());
 					if(isNaN(currentReading))
 					{
 							currentReading=0;
 					}
-					let expansePrice=$(container).children('input[name="recurringExpansePrice"]').val();
+					let expansePrice=safeLoadFloatValue($(container).children('input[name="recurringExpansePrice"]').val());
 					if(isNaN(expansePrice))
 					{
 						expansePrice=0;
@@ -138,8 +146,8 @@ function generate_IDwithReading_RecurringExpanse_CreateOrder() {
 	  if(expanseType==3)
 	  {
 			var reccuringExpanseID=$(this).closest('div[name="expanseContainer"]').children('input[name="propertyServiceID"]').val();//find the id of reccuringExpanse
-			var currentReading=$(this).closest('div[name="expanseContainer"]').children('div').children('input[name="currentReading"]').val();
-			var lastReading=$(this).closest('div[name="expanseContainer"]').children('div').children('input[name="lastReading"]').val();
+			var currentReading=safeLoadFloatValue($(this).closest('div[name="expanseContainer"]').children('div').children('input[name="currentReading"]').val());
+			var lastReading=safeLoadFloatValue($(this).closest('div[name="expanseContainer"]').children('div').children('input[name="lastReading"]').val());
 			var result=reccuringExpanseID+"_"+lastReading+"_"+currentReading;
 			//add value to input type=checkbox th:field="selectedExpanseList" which s init as List<String> selectedExpanseList=new ArrayList<String>();
 			$(this).closest('div[name="expanseContainer"]').children('input[name="recurringExpanseList_withCurrentReading"]').val(result);
@@ -149,7 +157,7 @@ function generate_IDwithReading_RecurringExpanse_CreateOrder() {
 		if(expanseType==2 || expanseType ==1)
 		{
 			var reccuringExpanseID=$(this).closest('div[name="expanseContainer"]').children('input[name="propertyServiceID"]').val();//find the id of reccuringExpanse
-			var readingValue=	$(this).val();
+			var readingValue=	safeLoadFloatValue( $(this).val());
 			var result=reccuringExpanseID+"_"+readingValue;
 			//add value to input type=checkbox th:field="selectedExpanseList" which s init as List<String> selectedExpanseList=new ArrayList<String>();
 			$(this).closest('div[name="expanseContainer"]').children('input[name="recurringExpanseList_withCurrentReading"]').val(result);
@@ -188,7 +196,7 @@ function generateValue_IDwithLastReading_FastEditExpanseList() {
 		{
 			var reccuringExpanseID=$(this).closest('div[name="expanseContainer"]').children('input[name="propertyServiceID"]').val();//find the id of reccuringExpanse
 			var expanseIsSelect=$(this).closest('div[name="expanseContainer"]').children('input[name="selectExpanse"]').prop('checked');
-			var currentReading=$(this).closest('div[name="expanseContainer"]').children('div').children('input[name="currentReading"]').val();
+			var currentReading=safeLoadFloatValue($(this).closest('div[name="expanseContainer"]').children('div').children('input[name="currentReading"]').val());
 			var result=reccuringExpanseID+"_"+expanseIsSelect+"_"+currentReading;
 			//add value to input type=checkbox th:field="selectedExpanseList" which s init as List<String> selectedExpanseList=new ArrayList<String>();
 			$(this).closest('div[name="expanseContainer"]').children('input[name="editExpanseList"]').val(result);
@@ -461,17 +469,17 @@ function sumRecurringExpanse_calculateTotalCost(x,totalCost)
 			}
 			if(expanseType==3)
 	  		{
-		     	let currentReading=$(container).children('div').children('input[name="currentReading"]').val();
+		     	let currentReading=safeLoadFloatValue( $(container).children('div').children('input[name="currentReading"]').val());
 				if(isNaN(currentReading))
 				{
 						currentReading=0;
 				}
-				let lastReading=$(container).children('div').children('input[name="lastReading"]').val();
+				let lastReading=safeLoadFloatValue( $(container).children('div').children('input[name="lastReading"]').val() );
 				if(isNaN(lastReading))
 				{
 					lastReading=0;
 				}
-				let expansePrice=$(container).children('input[name="recurringExpansePrice"]').val();
+				let expansePrice=safeLoadFloatValue( $(container).children('input[name="recurringExpansePrice"]').val());
 				if(isNaN(expansePrice))
 				{
 					expansePrice=0;
@@ -486,12 +494,12 @@ function sumRecurringExpanse_calculateTotalCost(x,totalCost)
 		    {
 				if(expanseType==1)
 				{
-					let currentReading=$(container).children('div').children('input[name="currentReading"]').val();
+					let currentReading=safeLoadFloatValue( $(container).children('div').children('input[name="currentReading"]').val() );
 					if(isNaN(currentReading))
 					{
 							currentReading=0;
 					}
-					let expansePrice=$(container).children('input[name="recurringExpansePrice"]').val();
+					let expansePrice=safeLoadFloatValue( $(container).children('input[name="recurringExpansePrice"]').val() );
 					if(isNaN(expansePrice))
 					{
 						expansePrice=0;
@@ -505,7 +513,7 @@ function sumRecurringExpanse_calculateTotalCost(x,totalCost)
 				if(expanseType==2 )
 				{
 					let currentReading=1;
-					let expansePrice=$(container).children('input[name="recurringExpansePrice"]').val();
+					let expansePrice=safeLoadFloatValue( $(container).children('input[name="recurringExpansePrice"]').val());
 					if(isNaN(expansePrice))
 					{
 						expansePrice=0;
@@ -663,12 +671,12 @@ function createFastOrderList() {
 				var expanse;
 				if(expanseType==3)
 		  		{
-			     	let currentReading=$(container).children('div').children('input[name="currentReading"]').val();
+			     	let currentReading=safeLoadFloatValue( $(container).children('div').children('input[name="currentReading"]').val());
 					if(isNaN(currentReading))
 					{
 							currentReading=-1;
 					}
-					let lastReading=$(container).children('div').children('input[name="lastReading"]').val();
+					let lastReading=safeLoadFloatValue( $(container).children('div').children('input[name="lastReading"]').val());
 					if(isNaN(lastReading))
 					{
 						lastReading=-1;
@@ -685,7 +693,7 @@ function createFastOrderList() {
 			    {
 					if(expanseType==2)
 					{
-						let currentReading=$(container).children('div').children('input[name="currentReading"]').val();
+						let currentReading=safeLoadFloatValue( $(container).children('div').children('input[name="currentReading"]').val());
 						if(isNaN(currentReading))
 						{
 								currentReading=-1;
@@ -698,7 +706,7 @@ function createFastOrderList() {
 					}
 					if( expanseType==1)
 					{
-						let currentReading=$(container).children('div').children('input[name="currentReading"]').val();
+						let currentReading=safeLoadFloatValue( $(container).children('div').children('input[name="currentReading"]').val());
 						if(isNaN(currentReading))
 						{
 								currentReading=-1;
