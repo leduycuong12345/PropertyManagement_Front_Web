@@ -186,9 +186,9 @@
 																</div>
 														</li>
 														<li class="dropdown-item">
-														    	<button name="printButton">
+														    	<div name="printButton" >
 																  	In phiếu thu tiền
-																</button>
+																</div>
 														</li>
 													    <li th:if="${order.getOrderStatus()!=1}"  class="dropdown-item">
 													    	<div data-bs-toggle="modal" th:data-bs-target="'#deleteOrderModal-'+${order.getOrderID()}">
@@ -328,9 +328,9 @@
 	    <!-- js to activate feature-icon -->
 	    <!--statistic totalUnpaidOrderList totalPaidOrderList-->
 	    <div>
-			<p>Tổng thu tháng này: <p id="monthAmount"></p> VND   </p>
-		    <p>Tổng tiền chưa thu: <p id="unpaidMonthAmount"></p> VND  </p>
-		    <p>Tổng tiền đã thu: <p id="paidMonthAmount"></p> VND  </p>
+			<p>Tổng thu tháng này: <p id="monthAmount" class="VnFormatCurrency"></p> VND   </p>
+		    <p>Tổng tiền chưa thu: <p id="unpaidMonthAmount" class="VnFormatCurrency"></p> VND  </p>
+		    <p>Tổng tiền đã thu: <p id="paidMonthAmount" class="VnFormatCurrency"></p> VND  </p>
 		</div>
 	    <!--statistic totalUnpaidOrderList totalPaidOrderList-->
 	    <script>

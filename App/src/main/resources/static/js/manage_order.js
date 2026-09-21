@@ -14,7 +14,7 @@ function formatValuesToWithComma_PrintFunction(value)
 	      return formattedNumber = value.toLocaleString();
 }
 function printOrderFunction(){
-	$('button[name="printButton"]').click(function(){
+	$('[name="printButton"]').click(function(){
       var selectedMonth=$('li[name="selectedMonth"]').children("a").children("span").text();
       var selectedYear=$('input[name="selectedYear"]').val();
       var propertyName=$(this).closest('tr').children('td[name="propertyName"]').children("p:eq(0)").text();
@@ -423,6 +423,24 @@ function formatExpanseCostWithComma()
     });
     
 }
+function formatVnFormatCurrency()
+{
+	// Iterate through each <li> with name "VnFormatCurrency"
+    $('.VnFormatCurrency').each(function() {
+	      var content = $(this).text();
+	      
+	      // Convert the content to a number
+	      var number = safeLoadFloatValue(content);
+	
+	      // Format the number with commas every 3 digits
+	      var formattedNumber = number.toLocaleString();
+	
+	      // Replace the content of the <p> element with the formatted number
+	      $(this).text(formattedNumber);
+     
+    });
+    
+}
 $(document).ready(function(){
 
 	printOrderFunction();
@@ -441,5 +459,6 @@ $(document).ready(function(){
     formatCurrentReadingValueWithComma();
     formatPreviousReadingValueWithComma();
     formatExpanseCostWithComma();
+    formatVnFormatCurrency();
     //end formatting number zone
 });
