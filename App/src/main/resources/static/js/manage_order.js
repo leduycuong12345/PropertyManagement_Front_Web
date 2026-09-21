@@ -4,23 +4,32 @@ function parseToNewTabAndPrintOrder(orderHTML) {
 	      "<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.js'></script></head><body onload='window.print();'>" + orderHTML + "</body></html>");
 	document.close();
 }
+function safeLoadFloatValue(containerValue)
+{
+	return parseFloat(containerValue.replace(/,/g, ''));
+}
+function formatValuesToWithComma_PrintFunction(value)
+{
+	// Format the number with commas every 3 digits
+	      return formattedNumber = value.toLocaleString();
+}
 function printOrderFunction(){
 	$('button[name="printButton"]').click(function(){
       var selectedMonth=$('li[name="selectedMonth"]').children("a").children("span").text();
       var selectedYear=$('input[name="selectedYear"]').val();
       var propertyName=$(this).closest('tr').children('td[name="propertyName"]').children("p:eq(0)").text();
-      var propertyRentPrice=$(this).closest('tr').children('input[name="propertyRentPrice"]').val();//don gia tien phong
-      var totalRentCost=$(this).closest('tr').children('td[name="totalRentCost"]').children('p:eq(0)').text();// tong tien phong
-	  var totalAmount=$(this).closest('tr').children('td[name="totalAmount"]').children('p:eq(0)').text();//tong gia tri order
-	  var remainingAmount=$(this).closest('tr').children('input[name="remainingAmount"]').val();//tong tien can phai thanh toan cua phieu thu tien nay
-	  var totalDay=$(this).closest('tr').children('td[name="totalDay"]').children('p:eq(0)').text();
-      var totalMonth=$(this).closest('tr').children('td[name="totalMonth"]').children('p:eq(0)').text();
+      var propertyRentPrice=safeLoadFloatValue($(this).closest('tr').children('input[name="propertyRentPrice"]').val());//don gia tien phong
+      var totalRentCost=$(this).closest('tr').children('td[name="totalRentCost"]').children('p:eq(0)').text();// tong tien phong da duoc convert k can  parseFloat nua
+	  var totalAmount=$(this).closest('tr').children('td[name="totalAmount"]').children('p:eq(0)').text();//tong gia tri order da duoc convert k can parseFloat nua
+	  var remainingAmount=safeLoadFloatValue($(this).closest('tr').children('input[name="remainingAmount"]').val());//tong tien can phai thanh toan cua phieu thu tien nay
+	  var totalDay=safeLoadFloatValue($(this).closest('tr').children('td[name="totalDay"]').children('p:eq(0)').text());
+      var totalMonth=safeLoadFloatValue($(this).closest('tr').children('td[name="totalMonth"]').children('p:eq(0)').text());
 	  var deligatedTenantName=$(this).closest('tr').children('input[name="deligatedTenantName"]').val();
 	  var deligatedTenantPhoneNumber=$(this).closest('tr').children('input[name="deligatedTenantPhoneNumber"]').val();
 	  var expanseNote=$(this).closest('tr').children('input[name="expanseNote"]').val();
 	  var expanseType=$(this).closest('tr').children('td').children('input[name="expanseType"]').val();
-	  var expanseCost=$(this).closest('tr').children('td').children('p[name="expanseCost"]').text();
-	  var amount=$(this).closest('tr').children('input[name="debtAmount"]').val();        
+	  var expanseCost=safeLoadFloatValue($(this).closest('tr').children('td').children('input[name="expanseCost"]').val());
+	  var amount=safeLoadFloatValue($(this).closest('tr').children('input[name="debtAmount"]').val());        
       //get expansePreviousReadingValue
       var recurringExpansePreviousReadingValueList=[];
       recurringExpansePreviousReadingValueList=$(this).closest('tr').children("td[name='previousReadingValue']");
@@ -40,11 +49,11 @@ function printOrderFunction(){
 	  // Now you can work with the selected elements expanseHeader
 	$("input[name='expanseHeader']").each(function(index, element) {
 	       var recurringExpanseName= $(element).val(); 
-	       var previousReadingValue=$(recurringExpansePreviousReadingValueList[index]).children("p:eq(0)").text();
-	       var currentReadingValue=$(recurringExpanseCurrentReadingValueList[index]).children("p:eq(0)").text();
-	       var totalExpanseCost=$(recurringExpanseTotalCostList[index]).children("p:eq(0)").text();
-	       var expansePrice=$(recurringExpansePriceList[index]).val();
-	       var expanseQuantity=$(recurringExpanseQuantityList[index]).val();
+	       var previousReadingValue=safeLoadFloatValue($(recurringExpansePreviousReadingValueList[index]).children('input[name="previousReadingValue"]').val());
+	       var currentReadingValue=safeLoadFloatValue($(recurringExpanseCurrentReadingValueList[index]).children('input[name="currentReadingValue"]').val());
+	       var totalExpanseCost=safeLoadFloatValue($(recurringExpanseTotalCostList[index]).children('input[name="totalExpanseCost"]').val());
+	       var expansePrice=safeLoadFloatValue($(recurringExpansePriceList[index]).val());
+	       var expanseQuantity=safeLoadFloatValue($(recurringExpanseQuantityList[index]).val());
 	       if(currentReadingValue!=0 && currentReadingValue>previousReadingValue)//this recurringExpanse s currently active.
 	       {
 			   var recurringExpanse={
@@ -85,12 +94,12 @@ function printOrderFunction(){
 	    recurringExpanseList.forEach(function(recurringExpanse) {
 	        orderHtml += `
 	            <tr>
-	                <td>${recurringExpanse.recurringExpanseName}</td>
-	                <td>${recurringExpanse.expansePrice}</td>
-	                <td>${recurringExpanse.previousReadingValue}</td>
-	                <td>${recurringExpanse.currentReadingValue}</td>
-	                <td>${recurringExpanse.expanseQuantity}</td>
-	                <td>${recurringExpanse.totalExpanseCost}</td>
+	                <td>${formatValuesToWithComma_PrintFunction( recurringExpanse.recurringExpanseName )}</td>
+	                <td>${formatValuesToWithComma_PrintFunction( recurringExpanse.expansePrice )}</td>
+	                <td>${formatValuesToWithComma_PrintFunction( recurringExpanse.previousReadingValue )}</td>
+	                <td>${formatValuesToWithComma_PrintFunction( recurringExpanse.currentReadingValue )}</td>
+	                <td>${formatValuesToWithComma_PrintFunction( recurringExpanse.expanseQuantity )}</td>
+	                <td>${formatValuesToWithComma_PrintFunction( recurringExpanse.totalExpanseCost )}</td>
 	            </tr>
 	        `;
 	    });
@@ -104,7 +113,7 @@ function printOrderFunction(){
 	    		   <tr>
 	                   <td>Chi phí phát sinh</td>
 	                   <td colspan="4"> Chi tiết : ${expanseNote} </td>
-	                   <td>-${expanseCost}</td>
+	                   <td>-${formatValuesToWithComma_PrintFunction( expanseCost )}</td>
 	                   `;
 		 }
 		 else
@@ -113,7 +122,7 @@ function printOrderFunction(){
 	    		   <tr>
 	                   <td>Chi phí phát sinh</td>
 	                   <td colspan="4"> Chi tiết : ${expanseNote} </td>
-	                   <td>+${expanseCost}</td>
+	                   <td>+${formatValuesToWithComma_PrintFunction( expanseCost )}</td>
 	                   `;
 		 }
 	  	 
@@ -121,7 +130,7 @@ function printOrderFunction(){
 	               </tr>
 	               <tr>
 	                   <td>Giá phòng</td>
-	                   <td>${propertyRentPrice}</td>
+	                   <td>${formatValuesToWithComma_PrintFunction( propertyRentPrice )}</td>
 	                   <td colspan="3">Số tháng: ${totalMonth} + Số ngày: ${totalDay}  </td>
 	                   <td>${totalRentCost}</td>
 	               </tr>
@@ -170,9 +179,9 @@ function calculateTotalPrice() {
     calculatePrice.each(function(index, element) {
         // Do something with each input element
         //console.log($(element).val()); // Print the value of the input element
-    	var totalDay=$(element).closest('tr').children('td[name="totalDay"]').children('p').text();
-    	var totalMonth=$(element).closest('tr').children('td[name="totalMonth"]').children('p').text();
-    	var propertyRentMonthPrice=$(element).closest('tr').children('input[name="propertyRentPrice"]').val();
+    	var totalDay= safeLoadFloatValue( $(element).closest('tr').children('td[name="totalDay"]').children('p').text());
+    	var totalMonth= safeLoadFloatValue( $(element).closest('tr').children('td[name="totalMonth"]').children('p').text());
+    	var propertyRentMonthPrice= safeLoadFloatValue($(element).closest('tr').children('input[name="propertyRentPrice"]').val());
     	
     	var propertyRentDayPrice=propertyRentMonthPrice/30;
     	var totalCost=(totalDay*propertyRentDayPrice)+(propertyRentMonthPrice*totalMonth);
@@ -291,7 +300,7 @@ function formatRemainingAmountWithComma()
       var content = $(this).find('p').text();
       
       // Convert the content to a number
-      var number = parseInt(content);
+      var number = safeLoadFloatValue(content);
 
       // Format the number with commas every 3 digits
       var formattedNumber = number.toLocaleString();
@@ -308,7 +317,43 @@ function formatTotalRentCostWithComma()
       var content = $(this).find('p').text();
       
       // Convert the content to a number
-      var number = parseInt(content);
+      var number = safeLoadFloatValue(content);
+
+      // Format the number with commas every 3 digits
+      var formattedNumber = number.toLocaleString();
+
+      // Replace the content of the <p> element with the formatted number
+      $(this).find('p').text(formattedNumber);
+    });
+    
+}
+function formatTotalExpanseCostWithComma()
+{
+	// Iterate through each <li> with name "totalExpanseCost"
+    $('td[name="totalExpanseCost"]').each(function() {
+      // Get the content of the <p> element
+      var content = $(this).find('p').text();
+      
+      // Convert the content to a number
+      var number = safeLoadFloatValue(content);
+
+      // Format the number with commas every 3 digits
+      var formattedNumber = number.toLocaleString();
+
+      // Replace the content of the <p> element with the formatted number
+      $(this).find('p').text(formattedNumber);
+    });
+    
+}
+function formatCurrentReadingValueWithComma()
+{
+	// Iterate through each <li> with name "currentReadingValue"
+    $('td[name="currentReadingValue"]').each(function() {
+      // Get the content of the <p> element
+      var content = $(this).find('p').text();
+      
+      // Convert the content to a number
+      var number = safeLoadFloatValue(content);
 
       // Format the number with commas every 3 digits
       var formattedNumber = number.toLocaleString();
@@ -327,7 +372,7 @@ function formatTotalAmountWithComma()
 	      var content = $(this).text();
 	      
 	      // Convert the content to a number
-	      var number = parseInt(content);
+	      var number = safeLoadFloatValue(content);
 	
 	      // Format the number with commas every 3 digits
 	      var formattedNumber = number.toLocaleString();
@@ -335,6 +380,45 @@ function formatTotalAmountWithComma()
 	      // Replace the content of the <p> element with the formatted number
 	      $(this).text(formattedNumber);
       });
+     
+    });
+    
+}
+function formatPreviousReadingValueWithComma()
+{
+	// Iterate through each <li> with name "previousReadingValue"
+    $('td[name="previousReadingValue"]').each(function() {
+		  $(this).find('p').each(function() {
+	      		 // Get the content of the <p> element
+	      var content = $(this).text();
+	      
+	      // Convert the content to a number
+	      var number = safeLoadFloatValue(content);
+	
+	      // Format the number with commas every 3 digits
+	      var formattedNumber = number.toLocaleString();
+	
+	      // Replace the content of the <p> element with the formatted number
+	      $(this).text(formattedNumber);
+      });
+     
+    });
+    
+}
+function formatExpanseCostWithComma()
+{
+	// Iterate through each <li> with name "expanseCost"
+    $('p[name="expanseCost"]').each(function() {
+	      var content = $(this).text();
+	      
+	      // Convert the content to a number
+	      var number = safeLoadFloatValue(content);
+	
+	      // Format the number with commas every 3 digits
+	      var formattedNumber = number.toLocaleString();
+	
+	      // Replace the content of the <p> element with the formatted number
+	      $(this).text(formattedNumber);
      
     });
     
@@ -353,5 +437,9 @@ $(document).ready(function(){
     formatRemainingAmountWithComma();
     formatTotalRentCostWithComma();
     formatTotalAmountWithComma();
+    formatTotalExpanseCostWithComma();
+    formatCurrentReadingValueWithComma();
+    formatPreviousReadingValueWithComma();
+    formatExpanseCostWithComma();
     //end formatting number zone
 });

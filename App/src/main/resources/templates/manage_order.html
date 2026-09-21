@@ -155,12 +155,15 @@
  								                </td>
 								                <th:block th:each="expanse : ${order.getExpanseList()}">
 								                	<td name="previousReadingValue" class="content-table-data">
+								                		<input type="hidden" name="previousReadingValue" th:value="${expanse.getPreviousReadingValue()}" />
 								                		<p th:text="${expanse.getPreviousReadingValue()}"></p>
 								                	</td>
 								                	<td name="currentReadingValue" class="content-table-data">
+								                		<input type="hidden" name="currentReadingValue" th:value="${expanse.getCurrentReadingValue()}" />
 								                		<p th:text="${expanse.getCurrentReadingValue()}"></p>
 								                	</td>
 								                	<td name="totalExpanseCost" class="content-table-data">
+								                		<input type="hidden" name="totalExpanseCost" th:value="${expanse.getTotalCost()}" />
 								                		<p th:text="${expanse.getTotalCost()}"></p>
 								                	</td>
 								                	<input type="hidden" name="expanseQuantity" th:value="${expanse.getQuantity()}" />
@@ -168,6 +171,7 @@
 								                </th:block>
 								                <td class="content-table-data">
 								                	<input type="hidden" name="expanseType" th:value="${order.isExpanseType()}" />
+								                	<input type="hidden" name="expanseCost" th:value="${order.getExpanseCost()}" />
 								                	<p name="expanseCost" th:text="${order.getExpanseCost()}"></p>
 								                </td>
 								                <td>
