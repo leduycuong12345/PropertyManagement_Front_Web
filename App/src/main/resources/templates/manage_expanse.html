@@ -37,10 +37,10 @@
 							                	<p th:text="${recurringExpanse.getRecurringExpanseName()}"></p>
 							                </td>
 							                <td>
-							                    <p th:text="${recurringExpanse.getRecurringExpansePrice()}+'/'+${recurringExpanse.getRecurringExpanseUnitName()}"></p>
+							                    <p name="expanseCost" th:text="${recurringExpanse.getRecurringExpansePrice()}+'/'+${recurringExpanse.getRecurringExpanseUnitName()}"></p>
 							                </td>
 							                <td>
-							                	<p th:text="${recurringExpanse.getTotalAppliedProperty()}"></p>
+							                	<p name="appliedPropertyTotal" th:text="${recurringExpanse.getTotalAppliedProperty()}"></p>
 							                </td>
 							                <td>
 							                	<div class="remove-expanse-circle-button" data-bs-toggle="modal" th:data-bs-target="'#deleteRecurringExpanseModal-'+${recurringExpanse.getRecurringExpanseID()}">
