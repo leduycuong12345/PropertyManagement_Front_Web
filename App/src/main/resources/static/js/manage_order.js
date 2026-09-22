@@ -441,6 +441,49 @@ function formatVnFormatCurrency()
     });
     
 }
+function formatNumberTextarea_FocusOn_BlurOut()
+{
+	 // On focus: convert "1.500.500" -> "1500500"
+    $('textarea.formatNumberTextarea').on('focus', function() {
+        var text = $(this).val().trim(); 
+        var raw = text.replace(/\./g, ""); // remove all dot 
+        $(this).val(raw);
+    });
+
+    // On blur: convert back "1500500,5" -> "1.500.500,5"
+    $('textarea.formatNumberTextarea').on('blur', function() {
+        var text = $(this).val().trim();
+        var formatted = text.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        $(this).val(formatted);
+        
+        //update value of hidden input after edit at textarea 
+        $(this).closest("tr").children('td:eq(1)').children('input[name="formatNumberTextarea"]).val(text);
+    });
+}
+function numberInputrOnly_receiptAmount_editableTextarea_Receipt()
+{
+	$(".editable_receiptAmount_textarea").keypress(function (e) {
+	    var allowedCharacters = []; // Mã ký tự của dấu d0t và các số từ 0 đến 9 
+	    //"." (dot) = 46"," (comma) = 44
+	    var keyCode = e.which;
+	    
+	    if (!(allowedCharacters.includes(keyCode) || (keyCode >= 48 && keyCode <= 57))) {
+	        e.preventDefault();
+	    }
+	});
+}
+function formatNumber_receiptAmount_editableTextarea_Receipt_firstTimeRender()
+{
+	$('.editable_receiptAmount_textarea').each(function() {
+        var content = $(this).val();
+        // Convert the content to a number
+	    var number = safeLoadFloatValue(content);
+	    // Format the number with commas every 3 digits
+	    var formattedNumber = number.toLocaleString();
+	    // Replace the content of the <p> element with the formatted number
+	    $(this).val(formattedNumber);
+    });
+}
 $(document).ready(function(){
 
 	printOrderFunction();
@@ -460,5 +503,11 @@ $(document).ready(function(){
     formatPreviousReadingValueWithComma();
     formatExpanseCostWithComma();
     formatVnFormatCurrency();
+    formatNumberTextarea_FocusOn_BlurOut();
     //end formatting number zone
+    
+    //formatting textarea create-receipt
+    numberInputrOnly_receiptAmount_editableTextarea_Receipt();
+    formatNumber_receiptAmount_editableTextarea_Receipt_firstTimeRender();
+    //formatting textarea create-receipt ending
 });
