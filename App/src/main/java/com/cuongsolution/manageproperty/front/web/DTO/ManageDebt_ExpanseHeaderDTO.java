@@ -1,0 +1,39 @@
+package com.cuongsolution.manageproperty.front.web.DTO;
+
+import java.util.UUID;
+
+public class ManageDebt_ExpanseHeaderDTO {
+	private UUID expanseID;
+	private String expanseName;
+	private double expansePrice;
+	
+	
+	public UUID getExpanseID() {
+		return expanseID;
+	}
+	public void setExpanseID(UUID expanseID) {
+		this.expanseID = expanseID;
+	}
+	public double getExpansePrice() {
+		return expansePrice;
+	}
+	public void setExpansePrice(double expansePrice) {
+		this.expansePrice = expansePrice;
+	}
+	
+	public String getExpanseName() {
+		return expanseName;
+	}
+	public void setExpanseName(String expanseName) {
+		this.expanseName = expanseName;
+	}
+	public ManageDebt_ExpanseHeaderDTO() {
+		super();
+	}
+	public ManageDebt_ExpanseHeaderDTO(UUID expanseID, String expanseName, double expansePrice) {
+		super();
+		this.expanseID = expanseID;
+		this.expanseName = expanseName;
+		this.expansePrice = expansePrice;
+	}
+}

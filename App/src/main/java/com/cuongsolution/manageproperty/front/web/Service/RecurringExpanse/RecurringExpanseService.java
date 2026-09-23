@@ -4,6 +4,7 @@ package com.cuongsolution.manageproperty.front.web.Service.RecurringExpanse;
 import java.util.List;
 import java.util.UUID;
 
+import com.cuongsolution.manageproperty.front.web.DTO.ManageDebt_ExpanseHeaderDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageExpanse_CreateRecurringExpanseDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageExpanse_EditRecurringExpanseDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageExpanse_RecurringExpanseDTO;
@@ -17,4 +18,7 @@ public interface RecurringExpanseService {
 	public abstract void manageExpanse_deleteByID(UUID recurringExpanseID);
 	public abstract void manageExpanse_editExpanseDTO(ManageExpanse_EditRecurringExpanseDTO editRecurringExpanseDTO);
 	public abstract void manageExpanse_createRecurringExpanse(ManageExpanse_CreateRecurringExpanseDTO newExpanseDTO);
+	public abstract List<ManageDebt_ExpanseHeaderDTO> manageDebt_findRecurringExpanseBelongToLand(UUID selectedLandID);
+
+
 }

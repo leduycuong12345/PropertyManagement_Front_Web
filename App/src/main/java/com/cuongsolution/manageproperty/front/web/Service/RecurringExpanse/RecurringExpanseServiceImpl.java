@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.cuongsolution.manageproperty.front.web.DTO.ManageDebt_ExpanseHeaderDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageExpanse_CreateRecurringExpanseDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageExpanse_EditRecurringExpanseDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageExpanse_RecurringExpanseDTO;
@@ -87,5 +88,16 @@ public class RecurringExpanseServiceImpl implements RecurringExpanseService {
             System.out.println("Response from server: " + response);
         });
 	}
+
+	@Override
+	public List<ManageDebt_ExpanseHeaderDTO> manageDebt_findRecurringExpanseBelongToLand(UUID selectedLandID) {
+		String fullPostURL = kafkaBaseURL+"/managedebt/findrecurringexpansebelongtoland";
+		LinkedMultiValueMap<String, String> requestJson = 
+				new LinkedMultiValueMap<String, String>();
+		requestJson.add("landID", ""+selectedLandID);
+		Mono<List<ManageDebt_ExpanseHeaderDTO>> postMonoResponse = apiCaller.postListResult(fullPostURL, requestJson, ManageDebt_ExpanseHeaderDTO.class);
+		return postMonoResponse.block();
+	}
+
 
 }

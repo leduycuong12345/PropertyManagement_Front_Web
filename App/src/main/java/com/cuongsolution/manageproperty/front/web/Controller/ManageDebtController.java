@@ -19,16 +19,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cuongsolution.manageproperty.front.web.DTO.ManageDebt_ExpanseHeaderDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageDebt_OrderDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageDebt_PaginationDTO_ByLand;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageDebt_PaginationDTO_ByWorksheet;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_EditLandDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_FastCreateLandDTO;
+import com.cuongsolution.manageproperty.front.web.DTO.ManageOrder_ExpanseHeaderDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageOrder_ReceiptDTO;
 import com.cuongsolution.manageproperty.front.web.Service.Land.ManageNavigation_LandService_Production;
 import com.cuongsolution.manageproperty.front.web.Service.OrderInfo.ManageDebt_OrderInfoService;
 import com.cuongsolution.manageproperty.front.web.Service.Privileges.ManageDebt_PrivilegeService;
 import com.cuongsolution.manageproperty.front.web.Service.Receipt.ManageDebt_ReceiptService;
+import com.cuongsolution.manageproperty.front.web.Service.RecurringExpanse.RecurringExpanseService;
+
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -42,68 +46,8 @@ public class ManageDebtController {
 	private ManageDebt_ReceiptService manageDebt_ReceiptService;
 	@Autowired
 	private ManageDebt_PrivilegeService manageDebt_PrivilegeService;
-	/*@GetMapping(value="/quan-ly-cong-no")
-	public String manageDebtPageByLand( HttpSession session,Model model  ,Principal principal){
-		if(this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName()).isEmpty())//kiem tra xem ng dung da khoi tao Land chua? chua thi khoi tao
-		{
-			model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
-			return "new_user";
-		}
-		else
-		{
-			int totalRow=30;//we can make this edittable by admin later on
-			int firstPage=0;
-			//Pageable firstPageWithThirtyElements = PageRequest.of(firstPage, totalRow);
-			
-			UUID selectedLandID=(UUID) session.getAttribute("selectedLandID");
-			if(selectedLandID !=null)//neu da chon land
-			{
-				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName());
-				model.addAttribute("landList",landList);//for land list/delete/update func
-				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
-				
-				for(ManageNavigation_FastCreateLandDTO land:landList)
-				{
-					if(land.getLandID()==selectedLandID)
-					{
-						model.addAttribute("selectedLandID",land.getLandID());//to create-property belong to land
-						//model.addAttribute("selectedLandName",land.getLandName() );//to display selected-land-name at layout-sidebar
-						model.addAttribute("selectedLand",land );//to display selected-land-name at layout-sidebar
-						
-						Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_Pageable(landList.get(0).getLandID()
-								,firstPage,totalRow).getPageableObjectType();
-						model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(firstPage,debtList.getTotalPages()));//for pagination function
-						model.addAttribute("debtList",debtList);
-						logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList);
-						logger.info("2.agination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
-						
-					}
-				}
-				
-			}
-			else//neu chua chon land
-			{
-				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName());//for land list/delete/update func
-				model.addAttribute("landList",landList);//for land list/delete/update func
-				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
-				model.addAttribute("selectedLandID",landList.get(0).getLandID());//to create-property belong to land
-				model.addAttribute("selectedLand",landList.get(0));//to display selected-land-name at layout-sidebar
-				
-				Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_Pageable(landList.get(0).getLandID()
-						,firstPage,totalRow).getPageableObjectType();
-				model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(firstPage,debtList.getTotalPages()));//for pagination function
-				model.addAttribute("debtList",debtList );
-
-				logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList);
-				logger.info("2.agination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
-				
-				
-			}
-			return "manage_debt_by_land";
-		}
-		
-    }*/
-
+	@Autowired
+	private RecurringExpanseService recurringExpanseService;
 	@GetMapping(value="/quan-ly-cong-no")
 	public String manageDebtPageByLand( HttpSession session,Model model  ,Authentication authentication){
 		
@@ -151,6 +95,8 @@ public class ManageDebtController {
 						logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList);
 						logger.info("2.agination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
 						
+						List<ManageDebt_ExpanseHeaderDTO> expanseHeaderList=this.recurringExpanseService.manageDebt_findRecurringExpanseBelongToLand(selectedLandID);
+						model.addAttribute("expanseHeaderList", expanseHeaderList);//for order-list function
 					}
 				}
 				
@@ -171,114 +117,13 @@ public class ManageDebtController {
 				logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList);
 				logger.info("2.agination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
 				
+				List<ManageDebt_ExpanseHeaderDTO> expanseHeaderList=this.recurringExpanseService.manageDebt_findRecurringExpanseBelongToLand(landList.get(0).getLandID());
+				model.addAttribute("expanseHeaderList", expanseHeaderList);//for order-list function
 				
 			}
 			return "manage_debt_by_land";
 		}
 	}
-	/*
-	 * @PostMapping(value="/quan-ly-cong-no")
-	public String manageDebtPageByLand_searchFunctionWithPageable( @RequestParam("selectedPage") Integer selectedPage, @RequestParam("totalPage") Integer totalPage,@RequestParam("searchKeyword") String  searchKeyword
-			,HttpSession session,Model model  ,Principal principal){
-		
-		if(selectedPage<0)
-		{
-			selectedPage=0;
-		}
-		if(selectedPage>=totalPage-1 )
-		{
-			selectedPage=totalPage-1;
-		}
-		if(this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName()).isEmpty())//kiem tra xem ng dung da khoi tao Land chua? chua thi khoi tao
-		{
-			model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
-			return "new_user";
-		}
-		else
-		{
-			int totalRow=30;//we can make this edittable by admin later on
-			//check if currentPage is empty or not.If not pageable_function is working
-			int selectedPageResult = (selectedPage != null && !selectedPage.equals("")) ? selectedPage : 0;
-			//Pageable currentPageWithThirtyElements = PageRequest.of(selectedPageResult, totalRow);
-			
-			
-			UUID selectedLandID=(UUID) session.getAttribute("selectedLandID");
-			if(selectedLandID !=null)//neu da chon land
-			{
-				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName());
-				model.addAttribute("landList",landList);//for land list/delete/update func
-				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
-				
-				for(ManageNavigation_FastCreateLandDTO land:landList)
-				{
-					if(land.getLandID()==selectedLandID)
-					{
-						model.addAttribute("selectedLandID",land.getLandID());//to create-property belong to land
-						//model.addAttribute("selectedLandName",land.getLandName() );//to display selected-land-name at layout-sidebar
-						model.addAttribute("selectedLand",land );//to display selected-land-name at layout-sidebar
-						
-						//check if searchKeyword is empty or not . If not empty search_function is working
-						if(searchKeyword != null && !searchKeyword.isEmpty())
-						{
-
-							Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_PageableAndSorting(land.getLandID()
-									,selectedPageResult,totalRow,searchKeyword);
-							model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(selectedPageResult,debtList.getTotalPages()));//for pagination function
-							model.addAttribute("debtList",debtList.toList() );
-
-							logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
-							logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
-						}
-						else
-						{
-
-							Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_Pageable(land.getLandID()
-									,selectedPageResult,totalRow);
-							model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(selectedPageResult,debtList.getTotalPages()));//for pagination function
-							model.addAttribute("debtList",debtList.toList() );
-
-							logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
-							logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
-						}
-					}
-				}
-				
-			}
-			else//neu chua chon land
-			{
-				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName());//for land list/delete/update func
-				model.addAttribute("landList",landList);//for land list/delete/update func
-				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
-				model.addAttribute("selectedLandID",landList.get(0).getLandID());//to create-property belong to land
-				model.addAttribute("selectedLand",landList.get(0));//to display selected-land-name at layout-sidebar
-				
-				//check if searchKeyword is empty or not . If not empty search_function is working
-				if(searchKeyword != null && !searchKeyword.isEmpty())
-				{
-					Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_PageableAndSorting(landList.get(0).getLandID()
-							,selectedPageResult,totalRow,searchKeyword);
-					model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(selectedPageResult,debtList.getTotalPages()));//for pagination function
-					model.addAttribute("debtList",debtList.toList() );
-
-					logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
-					logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
-				}
-				else
-				{
-					Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_Pageable(landList.get(0).getLandID()
-							,selectedPageResult,totalRow);
-					model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(selectedPageResult,debtList.getTotalPages()));//for pagination function
-					model.addAttribute("debtList",debtList.toList() );
-
-					logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
-					logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
-				}
-			}
-			return "manage_debt_by_land";
-		}
-		
-    }
-	 */
 	@PostMapping(value="/quan-ly-cong-no")
 	public String manageDebtPageByLand_searchFunctionWithPageable( @RequestParam("selectedPage") Integer selectedPage, @RequestParam("totalPage") Integer totalPage,@RequestParam("searchKeyword") String  searchKeyword
 			,HttpSession session,Model model  ,Authentication authentication){
@@ -347,6 +192,8 @@ public class ManageDebtController {
 
 							logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
 							logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
+							List<ManageDebt_ExpanseHeaderDTO> expanseHeaderList=this.recurringExpanseService.manageDebt_findRecurringExpanseBelongToLand(selectedLandID);
+							model.addAttribute("expanseHeaderList", expanseHeaderList);//for order-list function
 						}
 						else
 						{
@@ -358,6 +205,9 @@ public class ManageDebtController {
 
 							logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
 							logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
+							
+							List<ManageDebt_ExpanseHeaderDTO> expanseHeaderList=this.recurringExpanseService.manageDebt_findRecurringExpanseBelongToLand(land.getLandID());
+							model.addAttribute("expanseHeaderList", expanseHeaderList);//for order-list function
 						}
 					}
 				}
@@ -381,6 +231,9 @@ public class ManageDebtController {
 
 					logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
 					logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
+					
+					List<ManageDebt_ExpanseHeaderDTO> expanseHeaderList=this.recurringExpanseService.manageDebt_findRecurringExpanseBelongToLand(landList.get(0).getLandID());
+					model.addAttribute("expanseHeaderList", expanseHeaderList);//for order-list function
 				}
 				else
 				{
@@ -391,42 +244,14 @@ public class ManageDebtController {
 
 					logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
 					logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.getContent());
+					
+					List<ManageDebt_ExpanseHeaderDTO> expanseHeaderList=this.recurringExpanseService.manageDebt_findRecurringExpanseBelongToLand(landList.get(0).getLandID());
+					model.addAttribute("expanseHeaderList", expanseHeaderList);//for order-list function
 				}
 			}
 			return "manage_debt_by_land";
 		}
 	}
-	/*@GetMapping(value="/quan-ly-cong-no/hop-dong")
-	public String manageDebt_BelongToWorksheet( @RequestParam("worksheetId") UUID worksheetID,Model model  ,Principal principal){
-		//kiem tra xem worksheet nay co thuoc pham vi nguoi dung hay khong 
-		Boolean belongToUser=this.manageDebt_PrivilegeService.isWorksheetBelongToUser(worksheetID, principal.getName());
-		if(belongToUser)
-			
-		{
-			List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName());//for land list/delete/update func
-			model.addAttribute("landList",landList);//for land list/delete/update func
-			model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
-			model.addAttribute("selectedLandID",landList.get(0).getLandID());//to create-property belong to land
-			model.addAttribute("selectedLand",landList.get(0));//to display selected-land-name at layout-sidebar
-			
-			int totalRow=30;//we can make this edittable by admin later on
-			int firstPage=0;
-			Pageable firstPageWithThirtyElements = PageRequest.of(firstPage, totalRow);
-			
-			Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToWorksheet_ManageDebt(worksheetID,firstPageWithThirtyElements);
-			model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByWorksheet(firstPage,debtList.getTotalPages(),worksheetID));//for pagination function
-			model.addAttribute("debtList",debtList.getContent());
-
-			logger.info("pagination debt of worksheet id:"+worksheetID +" with debt list:"+debtList.toList());
-			logger.info("pagination debt of worksheet id:"+worksheetID +" with debt list:"+debtList.getContent());
-			return "manage_debt_by_worksheet";
-			
-		}
-		else
-		{
-			return "redirect:/quan-ly-cong-no";
-		}
-    }*/
 	@GetMapping(value="/quan-ly-cong-no/hop-dong")
 	public String manageDebt_BelongToWorksheet( @RequestParam("worksheetId") UUID worksheetID,Model model  ,Authentication authentication){
 		
@@ -462,6 +287,9 @@ public class ManageDebtController {
 
 			logger.info("pagination debt of worksheet id:"+worksheetID +" with debt list:"+debtList.toList());
 			logger.info("pagination debt of worksheet id:"+worksheetID +" with debt list:"+debtList.getContent());
+			
+			List<ManageDebt_ExpanseHeaderDTO> expanseHeaderList=this.recurringExpanseService.manageDebt_findRecurringExpanseBelongToLand(landList.get(0).getLandID());
+			model.addAttribute("expanseHeaderList", expanseHeaderList);//for order-list function
 			return "manage_debt_by_worksheet";
 			
 		}
@@ -470,48 +298,6 @@ public class ManageDebtController {
 			return "redirect:/quan-ly-cong-no";
 		}
 	}
-	/*
-	 * @PostMapping(value="/quan-ly-cong-no/hop-dong")
-	public String manageDebt_BelongToWorksheet_pageable( @RequestParam("worksheetId") UUID worksheetID,@RequestParam("selectedPage") Integer selectedPage,
-			@RequestParam("totalPage") Integer totalPage,Model model  ,Principal principal){
-		
-		if(selectedPage<0)
-		{
-			selectedPage=0;
-		}
-		if(selectedPage>=totalPage-1 )
-		{
-			selectedPage=totalPage-1;
-		}
-		//kiem tra xem worksheet nay co thuoc pham vi nguoi dung hay khong 
-		Boolean belongToUser=this.manageDebt_PrivilegeService.isWorksheetBelongToUser(worksheetID, principal.getName());
-		if(belongToUser)
-			
-		{
-			List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName());//for land list/delete/update func
-			model.addAttribute("landList",landList);//for land list/delete/update func
-			model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
-			model.addAttribute("selectedLandID",landList.get(0).getLandID());//to create-property belong to land
-			model.addAttribute("selectedLand",landList.get(0));//to display selected-land-name at layout-sidebar
-			
-			int totalRow=30;//we can make this edittable by admin later on
-			int selectedPageResult=(selectedPage != null && !selectedPage.equals("")) ? selectedPage : 0;
-			Pageable selectedPageWithThirtyElements = PageRequest.of(selectedPageResult, totalRow);
-			
-			Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToWorksheet_ManageDebt(worksheetID,selectedPageWithThirtyElements);
-			model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByWorksheet(selectedPageResult,debtList.getTotalPages(),worksheetID));//for pagination function
-			model.addAttribute("debtList",debtList.toList());
-
-			logger.info("pagination debt of worksheet id:"+worksheetID +" with debt list:"+debtList.toList());
-			logger.info("pagination debt of worksheet id:"+worksheetID +" with debt list:"+debtList.getContent());
-			return "manage_debt_by_worksheet";
-			
-		}
-		else
-		{
-			return "redirect:/quan-ly-cong-no";
-		}
-    }*/
 	@PostMapping(value="/quan-ly-cong-no/hop-dong")
 	public String manageDebt_BelongToWorksheet_pageable( @RequestParam("worksheetId") UUID worksheetID,@RequestParam("selectedPage") Integer selectedPage,
 			@RequestParam("totalPage") Integer totalPage,Model model  ,Authentication authentication){
@@ -556,6 +342,10 @@ public class ManageDebtController {
 
 			logger.info("pagination debt of worksheet id:"+worksheetID +" with debt list:"+debtList.toList());
 			logger.info("pagination debt of worksheet id:"+worksheetID +" with debt list:"+debtList.getContent());
+			
+			List<ManageDebt_ExpanseHeaderDTO> expanseHeaderList=this.recurringExpanseService.manageDebt_findRecurringExpanseBelongToLand(landList.get(0).getLandID());
+			model.addAttribute("expanseHeaderList", expanseHeaderList);//for order-list function
+			
 			return "manage_debt_by_worksheet";
 			
 		}
