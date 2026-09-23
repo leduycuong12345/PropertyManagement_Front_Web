@@ -516,11 +516,16 @@
 													       		</h5>
 													       		
 													       		<div class="form-floating mb-3 mt-3">
-																      <input type="number" class="form-control"  th:name="depositAmount" th:id="'depositAmount-'+${property.getPropertyID()}" th:value="${property.getPropertyRentalPrice()}" pattern="[0-9]+([\.,][0-9]+)?" step="0.001" required min="0"/>
+													       			  <input type="hidden" name="depositAmount" th:value="${property.getPropertyRentalPrice()}" />
+																      <textarea class="form-control editable_depositAmount_textarea"   th:id="'depositAmount-'+${property.getPropertyID()}" th:text="${property.getPropertyRentalPrice()}" required>
+																      </textarea>
 																      <label th:for="'depositAmount-'+${property.getPropertyID()}">Mức giá tiền cọc</label>
 																</div>
 																<div class="form-floating mb-3 mt-3">
-																      <input type="number" class="form-control"  th:name="worksheetRentalPrice" th:id="'worksheetRentalPrice-'+${property.getPropertyID()}" th:value="${property.getPropertyRentalPrice()}" pattern="[0-9]+([\.,][0-9]+)?" step="0.001" required min="0"/>
+																	  <input type="hidden" name="worksheetRentalPrice" th:value="${property.getPropertyRentalPrice()}" />
+																      <textarea type="number" class="form-control editable_worksheetRentalPrice_textarea"   
+																      th:id="'worksheetRentalPrice-'+${property.getPropertyID()}" th:text="${property.getPropertyRentalPrice()}"  required >
+																      </textarea>
 																      <label th:for="'worksheetRentalPrice-'+${property.getPropertyID()}">Giá thuê</label>
 																</div>
 														      </div>	
