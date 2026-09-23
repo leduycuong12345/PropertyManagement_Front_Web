@@ -441,7 +441,7 @@ function formatVnFormatCurrency()
     });
     
 }
-function formatNumberTextarea_FocusOn_BlurOut()
+function formatNumberTextarea_receiptAmount_FocusOn_BlurOut()
 {
 	 // On focus: convert UI display from "1.500.500" -> "1500500"
     $('textarea.formatNumberTextarea').on('focus', function() {
