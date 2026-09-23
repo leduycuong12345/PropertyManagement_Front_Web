@@ -453,10 +453,6 @@ function formatNumberTextarea_FocusOn_BlurOut()
 
     // On blur: convert display back "1500500,5" -> "1.500.500,5"
     $('textarea.formatNumberTextarea').on('blur', function() {
-        //var text = $(this).val().trim();
-        //var formatted = text.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        //$(this).text(formatted);
-        
     	var content =  $(this).closest('div').children('input[name="receiptAmount"]').val() ;
         // Convert the content to a number
 	    var number = safeLoadFloatValue(content);
