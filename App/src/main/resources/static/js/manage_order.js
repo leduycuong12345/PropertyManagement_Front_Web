@@ -519,7 +519,7 @@ $(document).ready(function(){
     
     //formatting textarea create-receipt
     updateValueToHiddenInputField_editableTextarea_Receipt();
-    formatNumberTextarea_FocusOn_BlurOut();
+    formatNumberTextarea_receiptAmount_FocusOn_BlurOut();
     numberInputrOnly_receiptAmount_editableTextarea_Receipt();
     formatNumber_receiptAmount_editableTextarea_Receipt_firstTimeRender();
     //formatting textarea create-receipt ending
