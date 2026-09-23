@@ -443,22 +443,38 @@ function formatVnFormatCurrency()
 }
 function formatNumberTextarea_FocusOn_BlurOut()
 {
-	 // On focus: convert "1.500.500" -> "1500500"
+	 // On focus: convert UI display from "1.500.500" -> "1500500"
     $('textarea.formatNumberTextarea').on('focus', function() {
         var text = $(this).val().trim(); 
         var raw = text.replace(/\./g, ""); // remove all dot 
+        $(this).text(raw);
         $(this).val(raw);
     });
 
-    // On blur: convert back "1500500,5" -> "1.500.500,5"
+    // On blur: convert display back "1500500,5" -> "1.500.500,5"
     $('textarea.formatNumberTextarea').on('blur', function() {
-        var text = $(this).val().trim();
-        var formatted = text.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        $(this).val(formatted);
+        //var text = $(this).val().trim();
+        //var formatted = text.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        //$(this).text(formatted);
         
-        //update value of hidden input after edit at textarea 
-        $(this).closest("tr").children('td:eq(1)').children('input[name="formatNumberTextarea"]).val(text);
+    	var content =  $(this).closest('div').children('input[name="receiptAmount"]').val() ;
+        // Convert the content to a number
+	    var number = safeLoadFloatValue(content);
+	    // Format the number with commas every 3 digits
+	    var formattedNumber = number.toLocaleString();
+	    //parse to textarea display UI
+	    $(this).val(formattedNumber);
+	    $(this).text(formattedNumber);
     });
+}
+function updateValueToHiddenInputField_editableTextarea_Receipt()
+{
+	$(".editable_receiptAmount_textarea").change(function (e) {
+           var content=$(this).val();
+           
+           //update value of hidden input after edit at textarea to submit post form if needed be.
+           $(this).closest('div').children('input[name="receiptAmount"]').val(content);
+     });
 }
 function numberInputrOnly_receiptAmount_editableTextarea_Receipt()
 {
@@ -481,7 +497,7 @@ function formatNumber_receiptAmount_editableTextarea_Receipt_firstTimeRender()
 	    // Format the number with commas every 3 digits
 	    var formattedNumber = number.toLocaleString();
 	    // Replace the content of the <p> element with the formatted number
-	    $(this).val(formattedNumber);
+	    $(this).text(formattedNumber);
     });
 }
 $(document).ready(function(){
@@ -503,11 +519,13 @@ $(document).ready(function(){
     formatPreviousReadingValueWithComma();
     formatExpanseCostWithComma();
     formatVnFormatCurrency();
-    formatNumberTextarea_FocusOn_BlurOut();
     //end formatting number zone
     
     //formatting textarea create-receipt
+    updateValueToHiddenInputField_editableTextarea_Receipt();
+    formatNumberTextarea_FocusOn_BlurOut();
     numberInputrOnly_receiptAmount_editableTextarea_Receipt();
     formatNumber_receiptAmount_editableTextarea_Receipt_firstTimeRender();
     //formatting textarea create-receipt ending
+    
 });

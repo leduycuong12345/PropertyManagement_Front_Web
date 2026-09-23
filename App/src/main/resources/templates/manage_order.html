@@ -226,7 +226,8 @@
 														  	<form  th:action="@{/quan-ly-hoa-don/thanh-toan}"  method="post" th:object="${newReceipt}" th:id="'receiptForm-'+${order.getOrderID()}">
 													          		<input type="hidden"  name="orderID" th:value="${order.getOrderID()}" />
 														      		<div class="form-floating mb-3 mt-3">
-																      <textarea class="form-control formatNumberTextarea editable_receiptAmount_textarea" name="receiptAmount" 
+														      		  <input type="hidden" name="receiptAmount" th:value="${order.getRemainingAmount()}" />
+																      <textarea class="form-control formatNumberTextarea editable_receiptAmount_textarea" 
 																      	th:id="'receiptAmount-'+${order.getOrderID()}" th:text="${order.getRemainingAmount()}" required >
 																      </textarea>
 																      <label th:for="'receiptAmount-'+${order.getOrderID()}">Nhập số tiền khách thuê thanh toán</label>
