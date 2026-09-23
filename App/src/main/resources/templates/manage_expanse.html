@@ -123,7 +123,10 @@
 									<div class="row g-2">
 					        			<div class="col-md">
 					        				<div class="form-floating">
-					        					<input type="number" class="form-control" name="recurringExpansePrice" th:id="'recurringExpansePrice-'+${recurringExpanse.getRecurringExpanseID()}" th:value="${recurringExpanse.getRecurringExpansePrice()}" pattern="[0-9]+([\.,][0-9]+)?" step="0.001" min="0" required>
+					        					<input type="hidden" name="recurringExpansePrice" th:value="${recurringExpanse.getRecurringExpansePrice()}" />
+					        					<textarea  class="form-control editable_recurringExpansePrice_textarea"  th:id="'recurringExpansePrice-'+${recurringExpanse.getRecurringExpanseID()}" 
+					        					th:text="${recurringExpanse.getRecurringExpansePrice()}"  required>
+					        					</textarea>
 												<label th:for="'recurringExpansePrice-'+${recurringExpanse.getRecurringExpanseID()}">Đơn giá dịch vụ</label>
 					        				</div>
 					        			</div>
