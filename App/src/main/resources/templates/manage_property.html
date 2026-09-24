@@ -951,13 +951,21 @@
 														  
 														  	<form  th:action="@{/quan-ly/nop-tien-coc}"  method="post" th:object="${newDeposit}" th:id="'depositForm-'+${property.getPropertyID()}" >
 													          	<input type="hidden" name="worksheetID" th:value="${property.getWorksheetID()}" />
-														        Tổng giá trị cọc:<p th:text="${#numbers.formatDecimal(property.getWorksheetTotalDeposit(), 0, 'COMMA', 0, 'POINT')}" ></p>
-														        Cọc còn phải thanh toán:<p th:text="${#numbers.formatDecimal(property.getWorksheetDepositRemaining(), 0, 'COMMA', 0, 'POINT')}"></p>
+														        <div class="form-floating mb-3 mt-3">
+														        	Tổng giá trị cọc:<p th:text="${#numbers.formatDecimal(property.getWorksheetTotalDeposit(), 0, 'POINT', 0, 'COMMA')}" ></p>
+														        	Cọc còn phải thanh toán:<p th:text="${#numbers.formatDecimal(property.getWorksheetDepositRemaining(), 0, 'POINT' , 0, 'COMMA')}"></p>
+														        </div>
 														        <div class="form-floating mb-3 mt-3">
 																      <input type="month" class="form-control" name="orderBelongMonth" th:id="'depositBelongMonth-'+${property.getPropertyID()}" required>
 																      <label th:for="'depositBelongMonth-'+${property.getPropertyID()}">Tháng lập phiếu</label>
 																</div>
-														      	Tổng số tiền nộp:<input type="number" name="depositAmount" th:value="${property.getWorksheetDepositRemaining()}"/> 
+																<div class="form-floating mb-3 mt-3">
+																	  <input type="hidden" name="depositAmount" th:value="${property.getWorksheetDepositRemaining()}" value="0" min="0"/>
+																      <textarea class="form-control editable_depositAmount_createOrderForDeposit_textarea" th:id="'expanseCost-'+${property.getPropertyID()}" 
+																      th:text="${property.getWorksheetDepositRemaining()}" required>
+																      </textarea>
+																      <label th:for="'expanseCost-'+${property.getPropertyID()}">Tổng số tiền nộp:</label>
+																</div>
 														       </form> 
 														      </div>
 														      <div class="modal-footer">
