@@ -271,7 +271,7 @@ function postChangedPropertyToAPI(item, index) {
   var propertyID=$(item).closest("tr").children('input').val() ?? "";
   var worksheetTimeInverval=$(item).closest("tr").children('td:eq(4)').children('div').children('div').children('select').children('option:selected').val() ?? -1;
   var propertyName=$(item).closest("tr").children('td:eq(0)').children('textarea').val() ?? "";
-  var propertyRentalPrice=parseFloat($(item).closest("tr").children('td:eq(1)').children('input.updatePropertyRentalPrice').val().replace(/,/g,'')) ?? 0;
+  var propertyRentalPrice=parseFloat($(item).closest("tr").children('td:eq(1)').children('div').children('input.updatePropertyRentalPrice').val().replace(/,/g,'')) ?? 0;
   var worksheetTotalDeposit=parseFloat($(item).closest("tr").children('td:eq(2)').children('div').children('div').children('input.updateWorksheetTotalDeposit').val().replace(/,/g,'')) ?? 0;
   var worksheetOrderCreationDate=$(item).closest("tr").children('td:eq(3)').children('div').children('div').children('select').children('option:selected').val() ?? -1;
 					
@@ -299,10 +299,12 @@ function postChangedPropertyToAPI(item, index) {
             }
    });
 }
+//update formatNumber at updateWorksheetTotalDeposit updatePropertyRentalPrice editProperty
 function numberInputrOnly_editableTextarea_editProperty()
 {
 	$(".editable_property_textarea").keypress(function (e) {
-	    var allowedCharacters = [46]; // Mã ký tự của dấu d0t và các số từ 0 đến 9
+	    var allowedCharacters = []; // Mã ký tự của dấu d0t và các số từ 0 đến 9
+	    //"." (dot) = 46"," (comma) = 44
 	    var keyCode = e.which;
 	    
 	    if (!(allowedCharacters.includes(keyCode) || (keyCode >= 48 && keyCode <= 57))) {
@@ -310,71 +312,106 @@ function numberInputrOnly_editableTextarea_editProperty()
 	    }
 	});
 }
-function formatCommasNumber_editableTextarea_EditProperty()
+function formatNumberTextarea_updateWorksheetTotalDeposit_EditProperty_FocusOn_BlurOut()
 {
-	$(".editable_property_textarea").change(function (e) {
-           //var formattedNumberValue=5000;
-           var str=$(this).val();
-           var removedCommaStr=str.replaceAll(',','');
-           var formattedNumberValue=parseFloat(removedCommaStr);
-           formattedNumberValue=formattedNumberValue.toLocaleString();
-           $(this).val(formattedNumberValue);
+	 // On focus: convert UI display from "1.500.500" -> "1500500"
+    $('textarea.editable_updateWorksheetTotalDeposit_EditProperty_textarea').on('focus', function() {
+        var text = $(this).val().trim(); 
+        var raw = text.replace(/\./g, ""); // remove all dot 
+        $(this).text(raw);
+        $(this).val(raw);
+    });
+
+    // On blur: convert display back "1500500,5" -> "1.500.500,5"
+    $('textarea.editable_updateWorksheetTotalDeposit_EditProperty_textarea').on('blur', function() {
+    	var content =  $(this).closest('div').children('input.updateWorksheetTotalDeposit').val() ;
+        // Convert the content to a number
+	    var number = safeLoadFloatValue(content);
+	    // Format the number with commas every 3 digits
+	    var formattedNumber = number.toLocaleString();
+	    //parse to textarea display UI
+	    $(this).val(formattedNumber);
+	    $(this).text(formattedNumber);
+    });
+}
+function formatNumber_updateWorksheetTotalDeposit_EditProperty_editableTextarea_firstTimeRender()
+{
+	$('.editable_updateWorksheetTotalDeposit_EditProperty_textarea').each(function() {
+        var content = $(this).val();
+        // Convert the content to a number
+	    var number = safeLoadFloatValue(content);
+	    // Format the number with commas every 3 digits
+	    var formattedNumber = number.toLocaleString();
+	    // Replace the content of the <p> element with the formatted number
+	    $(this).text(formattedNumber);
+    });
+}
+function updateValueToHiddenInputField_editableTextarea_updateWorksheetTotalDeposit_EditPropertỵ()
+{
+	$(".editable_updateWorksheetTotalDeposit_EditProperty_textarea").change(function (e) {
+           var content=$(this).val();
+           
+           //update value of hidden input after edit at textarea to submit post form if needed be.
+           $(this).closest('div').children('input.updateWorksheetTotalDeposit').val(content);
      });
 }
-function formatNumber_editableTextarea_firstTimeRender()
+function formatNumberTextarea_updatePropertyRentalPrice_EditProperty_FocusOn_BlurOut()
 {
-	$('.editable_property_textarea').each(function() {
-        var text = $(this).text().trim();
-        // Replace commas (thousand separators) with spaces
-        var converted = text.replace(/,/g, ' ');
-        $(this).text(converted);
-    });
-}
-function formatNumber_editableTextarea_formatWithSpaces(str) {
-    if (!str) return str;
-    var parts = str.split('.');
-    // Add space every 3 digits from the right, on the integer part only
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-    return parts.join('.');
-}
-function formatNumber_editableTextarea_updatePropertyRentalPrice_FocusOn_BlurOut()
-{
-	 // On focus: convert "1 500 500.5" -> "1500500.5"
-    $('textarea.updatePropertyRentalPrice').on('focus', function() {
-        var text = $(this).val().trim();
-        var raw = text.replace(/\s/g, ''); // remove all spaces
+	 // On focus: convert UI display from "1.500.500" -> "1500500"
+    $('textarea.editable_updatePropertyRentalPrice_EditProperty_textarea').on('focus', function() {
+        var text = $(this).val().trim(); 
+        var raw = text.replace(/\./g, ""); // remove all dot 
+        $(this).text(raw);
         $(this).val(raw);
     });
 
-    // On blur: convert back "1500500.5" -> "1 500 500.5"
-    $('textarea.updatePropertyRentalPrice').on('blur', function() {
-        var text = $(this).val().trim();
-        var formatted = formatNumber_editableTextarea_formatWithSpaces(text);
-        $(this).val(formatted);
-        
-        //update value of hidden input after edit at textarea .
-        $(this).closest("tr").children('td:eq(1)').children('input.updatePropertyRentalPrice').val(text);
+    // On blur: convert display back "1500500,5" -> "1.500.500,5"
+    $('textarea.editable_updatePropertyRentalPrice_EditProperty_textarea').on('blur', function() {
+    	var content =  $(this).closest('div').children('input.updatePropertyRentalPrice').val() ;
+        // Convert the content to a number
+	    var number = safeLoadFloatValue(content);
+	    // Format the number with commas every 3 digits
+	    var formattedNumber = number.toLocaleString();
+	    //parse to textarea display UI
+	    $(this).val(formattedNumber);
+	    $(this).text(formattedNumber);
     });
 }
-function formatNumber_editableTextarea_updateWorksheetTotalDeposit_FocusOn_BlurOut()
+function formatNumber_updatePropertyRentalPrice_EditProperty_editableTextarea_firstTimeRender()
 {
-	 // On focus: convert "1 500 500.5" -> "1500500.5"
-    $('textarea.updateWorksheetTotalDeposit').on('focus', function() {
-        var text = $(this).val().trim();
-        var raw = text.replace(/\s/g, ''); // remove all spaces
-        $(this).val(raw);
-    });
-
-    // On blur: convert back "1500500.5" -> "1 500 500.5"
-    $('textarea.updateWorksheetTotalDeposit').on('blur', function() {
-        var text = $(this).val().trim();
-        var formatted = formatNumber_editableTextarea_formatWithSpaces(text);
-        $(this).val(formatted);
-        
-        //update value of hidden input after edit at textarea .
-        $(this).closest("tr").children('td:eq(2)').children('div').children('div').children('input.updateWorksheetTotalDeposit').val(text);
+	$('.editable_updatePropertyRentalPrice_EditProperty_textarea').each(function() {
+        var content = $(this).val();
+        // Convert the content to a number
+	    var number = safeLoadFloatValue(content);
+	    // Format the number with commas every 3 digits
+	    var formattedNumber = number.toLocaleString();
+	    // Replace the content of the <p> element with the formatted number
+	    $(this).text(formattedNumber);
     });
 }
+function updateValueToHiddenInputField_editableTextarea_updatePropertyRentalPrice_EditProperty()
+{
+	$(".editable_updatePropertyRentalPrice_EditProperty_textarea").change(function (e) {
+           var content=$(this).val();
+           
+           //update value of hidden input after edit at textarea to submit post form if needed be.
+           $(this).closest('div').children('input.updatePropertyRentalPrice').val(content);
+     });
+}
+function updateNumberFormat_EditProperty()
+{
+	numberInputrOnly_editableTextarea_editProperty();
+	
+	formatNumberTextarea_updateWorksheetTotalDeposit_EditProperty_FocusOn_BlurOut();
+	formatNumber_updateWorksheetTotalDeposit_EditProperty_editableTextarea_firstTimeRender();
+	updateValueToHiddenInputField_editableTextarea_updateWorksheetTotalDeposit_EditPropertỵ();
+	
+	formatNumberTextarea_updatePropertyRentalPrice_EditProperty_FocusOn_BlurOut();
+	updateValueToHiddenInputField_editableTextarea_updatePropertyRentalPrice_EditProperty();
+	formatNumber_updatePropertyRentalPrice_EditProperty_editableTextarea_firstTimeRender();
+}
+//update formatNumber at updateWorksheetTotalDeposit updatePropertyRentalPrice editProperty ending
+
 function filter_propertyList_manageProperty()
 {
 	$("#noWorksheetFilter").change(function() {
@@ -1026,6 +1063,7 @@ function updateNumberFormat_depositAmount_CreateOrderForDeposit()
 	formatNumber_depositAmount_CreateOrderForDeposit_editableTextarea_firstTimeRender();
 } 
 //UI update number format of depositAmount cost in create_order_for_deposit ending 
+
 $(document).ready(function(){
 
 	//create-worksheet
@@ -1034,12 +1072,7 @@ $(document).ready(function(){
 	callFunctionFor_FastEditExpanseList_Sequences();
 	//create order function	
 	callFunctionFor_CreateOrder_Sequences();
-	//number_only_textarea for edit_property function
-	numberInputrOnly_editableTextarea_editProperty();
-	//create comma each "000" at textarea at edit_property
-	formatNumber_editableTextarea_firstTimeRender();
-	formatNumber_editableTextarea_updatePropertyRentalPrice_FocusOn_BlurOut();
-	formatNumber_editableTextarea_updateWorksheetTotalDeposit_FocusOn_BlurOut();
+	
 	//filter function
 	filter_propertyList_manageProperty();
 	//edit property by jequery via API.
@@ -1070,6 +1103,7 @@ $(document).ready(function(){
     updateNumberFormat_worksheetRentalPrice_CreateContact();
     updateNumberFormat_unexpectedExpanseCost_CreateOrder();
     updateNumberFormat_depositAmount_CreateOrderForDeposit();
+    updateNumberFormat_EditProperty();
     //ending update numberformat
     
 });
