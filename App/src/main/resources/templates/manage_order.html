@@ -150,8 +150,19 @@
 								                	<p th:text="${order.getTotalDay()}" />
 								                </td>
 								                <input type="hidden" name="propertyRentPrice" th:value="${order.getPropertyRentPrice()}"/>
-								                <td name="totalRentCost" class="content-table-data">
+								                <!--  <td name="totalRentCost" class="content-table-data">
  													<p></p>
+ 								                </td>-->
+ 								                <td th:switch="${order.getOrderType()}"  class="content-table-data">
+ 								                	<div th:case="0">
+ 								                		<p></p>
+ 								                	</div>
+ 								                	<div th:case="1">
+ 								                		<p name="totalRentCost"></p>
+ 								                	</div>
+ 													<div th:case="2">
+ 								                		<p name="totalRentCost"></p>
+ 								                	</div>
  								                </td>
 								                <th:block th:each="expanse : ${order.getExpanseList()}">
 								                	<td name="previousReadingValue" class="content-table-data">

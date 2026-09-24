@@ -19,7 +19,7 @@ function printOrderFunction(){
       var selectedYear=$('input[name="selectedYear"]').val();
       var propertyName=$(this).closest('tr').children('td[name="propertyName"]').children("p:eq(0)").text();
       var propertyRentPrice=safeLoadFloatValue($(this).closest('tr').children('input[name="propertyRentPrice"]').val());//don gia tien phong
-      var totalRentCost=$(this).closest('tr').children('td[name="totalRentCost"]').children('p:eq(0)').text();// tong tien phong da duoc convert k can  parseFloat nua
+      var totalRentCost=$(this).closest('tr').children('td').children('div').children('p[name="totalRentCost"]').text();// tong tien phong da duoc convert k can  parseFloat nua
 	  var totalAmount=$(this).closest('tr').children('td[name="totalAmount"]').children('p:eq(0)').text();//tong gia tri order da duoc convert k can parseFloat nua
 	  var remainingAmount=safeLoadFloatValue($(this).closest('tr').children('input[name="remainingAmount"]').val());//tong tien can phai thanh toan cua phieu thu tien nay
 	  var totalDay=safeLoadFloatValue($(this).closest('tr').children('td[name="totalDay"]').children('p:eq(0)').text());
@@ -173,7 +173,7 @@ $(function () {
 });
 
 function calculateTotalPrice() {
-  	var calculatePrice = $('td[name="totalRentCost"]');
+  	var calculatePrice = $('p[name="totalRentCost"]');
     
     // Now you can work with the selected input elements
     calculatePrice.each(function(index, element) {
@@ -188,7 +188,7 @@ function calculateTotalPrice() {
     	
     	//round up to 3 digit decimal
     	var totalAmount=totalCost.toFixed(3);
-    	$(element).children('p').text(totalAmount);
+    	$(element).text(totalAmount);
     });
 }
 function filter_orderList_manageOrder()
@@ -312,9 +312,9 @@ function formatRemainingAmountWithComma()
 function formatTotalRentCostWithComma()
 {
 	// Iterate through each <li> with name "remainingAmount"
-    $('td[name="totalRentCost"]').each(function() {
+    $('p[name="totalRentCost"]').each(function() {
       // Get the content of the <p> element
-      var content = $(this).find('p').text();
+      var content = $(this).text();
       
       // Convert the content to a number
       var number = safeLoadFloatValue(content);
@@ -323,7 +323,7 @@ function formatTotalRentCostWithComma()
       var formattedNumber = number.toLocaleString();
 
       // Replace the content of the <p> element with the formatted number
-      $(this).find('p').text(formattedNumber);
+      $(this).text(formattedNumber);
     });
     
 }
