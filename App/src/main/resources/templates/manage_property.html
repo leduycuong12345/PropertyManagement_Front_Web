@@ -388,8 +388,8 @@
 									<label for="floatingNewPropertyName">Tên tài sản</label>
 								</div>
 								<div class="form-floating mb-3">
-									<input type="hidden" placeholder="Enter rental price" id="floatingNewPropertyPrice" name="propertyRentalPrice"  required min="0"/>
-									<textarea class="form-control editable_propertyRentalPrice_CreateProperty_textarea "  
+									<input type="hidden" placeholder="Enter rental price" name="propertyRentalPrice"  required min="0"/>
+									<textarea id="floatingNewPropertyPrice"  class="form-control editable_propertyRentalPrice_CreateProperty_textarea "  
 					                		value="0"  onchange="allowToSave(this)"  >
 					                0
 					               	</textarea>
@@ -930,8 +930,15 @@
 																			       </div>
 																			    </div>
 												                			</th:block>
-												                			Tổng giá trị đơn: <input type="number" name="totalCost" value="0"/>
+												                			
 																		    <input type="hidden" name="currentPropertyRentalPrice" th:value="${property.getPropertyRentalPrice()}"  />
+												                			<div class="form-floating mb-3 mt-3">
+																		    	<input type="hidden" name="totalCost" value="0"  />
+												                				<textarea name="totalCost"  class="form-control editable_totalCost_CreateFastOrder_textarea" th:id="'totalCost-'+${property.getWorksheetID()}"
+																                		th:text="${property.getPropertyRentalPrice()}"  onchange="allowToSave(this)" required >
+																               	</textarea>
+																      			<label th:for="'totalCost-'+${property.getWorksheetID()}">Tổng giá trị đơn:</label>
+												                			</div>
 												                		</div>
 												                	</div>
 															    </div>

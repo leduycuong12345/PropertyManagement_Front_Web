@@ -130,7 +130,7 @@ function calculateTotalCost_CreateOrder_ManageProperty()
 	  //set value for detailsOrder so user know what they entered.
 	  $(this).closest('form').children('textarea[name="orderDetails"]').val(orderDetails);
   	  //set value to totalCost and display it as totalCostText
-  	  $(this).closest('form').children('input[name="totalCost"]').val(totalCost);
+  	  $(this).closest('form').children('div').children('input[name="totalCost"]').val(totalCost);
   	  $(this).closest('form').children('textarea[name="orderDetailsText"]').val(orderDetails);
   	  $(this).closest('.modal-content').children('.modal-footer').children('input[name="totalCostText"]').val(totalCost);
   	});
@@ -563,12 +563,22 @@ function sumRecurringExpanse_calculateTotalCost(x,totalCost)
 				}
 			}
 	  });
-	  $(x).closest('div[name="fastCreateOrder"]').children('input[name="totalCost"]').val(totalCost);
+	  $(x).closest('div[name="fastCreateOrder"]').children('div').children('input[name="totalCost"]').val(totalCost);
+	  
+	  updateValueToTextarea_calculateTotalCost_createFastOrder(x,totalCost);
+}
+function updateValueToTextarea_calculateTotalCost_createFastOrder(x,totalCost)
+{
+	  // Format the number with dot. every 3 digits
+	  var formattedNumber = totalCost.toLocaleString();
+	  //parse to textarea display UI
+	  $(x).closest('div[name="fastCreateOrder"]').children('div').children('textarea[name="totalCost"]').val(formattedNumber);
+	  $(x).closest('div[name="fastCreateOrder"]').children('div').children('textarea[name="totalCost"]').text(formattedNumber);
 }
 function calculateTotalCost_CreateFastOrderList_ManageProperty()
 {
 	//calculatte each order-totalCost each orderList
-	$("input.calculateOrderList").change(function(x){
+	$(".calculateOrderList").change(function(x){
 	  let currentWorksheetPrice=0;
 	  currentWorksheetPrice=parseFloat($(this).closest('div[name="fastCreateOrder"]').children('input[name="currentPropertyRentalPrice"]').val());//find the id of reccuringExpanse
 	  let averageCostPerDay=0;
@@ -1129,6 +1139,70 @@ function updateNumberFormat_propertyRentalPrice_CreateProperty()
 } 
 //UI update number format of propertyRentalPrice in create_property ending
 
+//UI update number format of propertyRentalPrice in create_property ending
+function formatNumberTextarea_totalCost_CreateFastOrder_FocusOn_BlurOut()
+{
+	 // On focus: convert UI display from "1.500.500" -> "1500500"
+    $('textarea.editable_totalCost_CreateFastOrder_textarea').on('focus', function() {
+        var text = $(this).val().trim(); 
+        var raw = text.replace(/\./g, ""); // remove all dot 
+        $(this).text(raw);
+        $(this).val(raw);
+    });
+
+    // On blur: convert display back "1500500,5" -> "1.500.500,5"
+    $('textarea.editable_totalCost_CreateFastOrder_textarea').on('blur', function() {
+    	var content =  $(this).closest('div').children('input[name="totalCost"]').val() ;
+        // Convert the content to a number
+	    var number = safeLoadFloatValue(content);
+	    // Format the number with commas every 3 digits
+	    var formattedNumber = number.toLocaleString();
+	    //parse to textarea display UI
+	    $(this).val(formattedNumber);
+	    $(this).text(formattedNumber);
+    });
+}
+function updateValueToHiddenInputField_editableTextarea_totalCost_CreateFastOrder()
+{
+	$(".editable_totalCost_CreateFastOrder_textarea").change(function (e) {
+           var content=$(this).val();
+           
+           //update value of hidden input after edit at textarea to submit post form if needed be.
+           $(this).closest('div').children('input[name="totalCost"]').val(content);
+     });
+}
+function numberInputrOnly_totalCost_CreateFastOrder_editableTextarea()
+{
+	$(".editable_totalCost_CreateFastOrder_textarea").keypress(function (e) {
+	    var allowedCharacters = []; // Mã ký tự của dấu d0t và các số từ 0 đến 9 
+	    //"." (dot) = 46"," (comma) = 44
+	    var keyCode = e.which;
+	    
+	    if (!(allowedCharacters.includes(keyCode) || (keyCode >= 48 && keyCode <= 57))) {
+	        e.preventDefault();
+	    }
+	});
+}
+function formatNumber_totalCost_CreateFastOrder_editableTextarea_firstTimeRender()
+{
+	$('.editable_totalCost_CreateFastOrder_textarea').each(function() {
+        var content = $(this).val();
+        // Convert the content to a number
+	    var number = safeLoadFloatValue(content);
+	    // Format the number with commas every 3 digits
+	    var formattedNumber = number.toLocaleString();
+	    // Replace the content of the <p> element with the formatted number
+	    $(this).text(formattedNumber);
+    });
+}
+function updateNumberFormat_totalCost_CreateFastOrder()
+{
+	formatNumberTextarea_totalCost_CreateFastOrder_FocusOn_BlurOut();
+	formatNumber_totalCost_CreateFastOrder_editableTextarea_firstTimeRender();
+	numberInputrOnly_totalCost_CreateFastOrder_editableTextarea();
+	updateValueToHiddenInputField_editableTextarea_totalCost_CreateFastOrder();
+} 
+//UI update number format of propertyRentalPrice in create_property ending
 $(document).ready(function(){
 
 	//create-worksheet
@@ -1170,6 +1244,7 @@ $(document).ready(function(){
     updateNumberFormat_depositAmount_CreateOrderForDeposit();
     updateNumberFormat_EditProperty();
     updateNumberFormat_propertyRentalPrice_CreateProperty();
+    updateNumberFormat_totalCost_CreateFastOrder();
     //ending update numberformat
     
 });
