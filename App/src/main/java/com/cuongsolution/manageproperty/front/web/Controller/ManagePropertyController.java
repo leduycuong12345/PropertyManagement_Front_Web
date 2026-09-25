@@ -27,6 +27,7 @@ import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_EditLandD
 import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_FastCreateLandDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_AddTenantToWorksheetDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_BookDTO;
+import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_Client_FastCreateOrderListDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_CreateOrderDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_CreateWorksheetDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_DepositDTO;
@@ -194,14 +195,14 @@ public class ManagePropertyController {
 		return "redirect:/quan-ly";
     }
     @PostMapping("/quan-ly/tao-nhanh-danh-sach-hoa-don")
-    public String createFastOrderList_ManageProperty(  @Validated @RequestBody ManageProperty_FastCreateOrderListDTO ManageProperty_FastCreateOrderListDTO)  {
+    public String createFastOrderList_ManageProperty(  @Validated @RequestBody ManageProperty_Client_FastCreateOrderListDTO client_DTO)  {
 		//System.out.println("haha: "+orderList.getWorksheetList_withCurrentReading());
-    	ManageProperty_FastCreateOrderListDTO.setParsedOrderBelongMonth(ManageProperty_FastCreateOrderListDTO.getOrderBelongMonth());
+    	ManageProperty_FastCreateOrderListDTO dto=new ManageProperty_FastCreateOrderListDTO(client_DTO);
     	
-    	logger.info("createFastOrderList_ManageProperty start_rental_date:"+ManageProperty_FastCreateOrderListDTO.getOrderCreateDate()
-		+" and end-rental-date:"+ManageProperty_FastCreateOrderListDTO.getOrderExpireDate()+" and belong month:"+ManageProperty_FastCreateOrderListDTO.getOrderBelongMonth()
-		+" and parsed the date:" +ManageProperty_FastCreateOrderListDTO.getParsedOrderBelongMonth());
-		for(ManageProperty_FastCreateOrderList_WorksheetDTO worksheet:ManageProperty_FastCreateOrderListDTO.getWorksheetList_withCurrentReading())
+    	logger.info("createFastOrderList_ManageProperty start_rental_date:"+dto.getOrderCreateDate()
+		+" and end-rental-date:"+dto.getOrderExpireDate()+" and belong month:"+client_DTO.getOrderBelongMonth()
+		+" and parsed the date:" +dto.getParsedOrderBelongMonth());
+		for(ManageProperty_FastCreateOrderList_WorksheetDTO worksheet:dto.getWorksheetList_withCurrentReading())
 		{
 			logger.info("worksheet id:{},total_cost:{}", worksheet.getWorksheetID(),worksheet.getTotalCost());
 			for(ManageProperty_FastCreateOrderList_RecurringExpanseDTO expanse: worksheet.getExpanseList())
@@ -214,7 +215,7 @@ public class ManagePropertyController {
 			}
 		}
     	
-    	this.manageProperty_OrderInfoService.createFastOrderList_ManageProperty(ManageProperty_FastCreateOrderListDTO);
+    	this.manageProperty_OrderInfoService.createFastOrderList_ManageProperty(dto);
 		return "redirect:/quan-ly";
     }
     @PostMapping("/quan-ly/nop-tien-coc")

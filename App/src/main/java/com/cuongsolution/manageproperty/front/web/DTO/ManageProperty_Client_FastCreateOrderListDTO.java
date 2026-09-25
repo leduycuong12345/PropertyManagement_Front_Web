@@ -9,20 +9,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 
-public class ManageProperty_FastCreateOrderListDTO {
+public class ManageProperty_Client_FastCreateOrderListDTO {
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private LocalDate orderCreateDate;
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private LocalDate orderExpireDate;
-	@DateTimeFormat(pattern = "dd-MM-yyyy")
-	private LocalDate parsedOrderBelongMonth ;
+	@DateTimeFormat(pattern = "yyyy-MM")
+	private String orderBelongMonth;
 	private int totalDay;
 	private int totalMonth;
 	private List<ManageProperty_FastCreateOrderList_WorksheetDTO> worksheetList_withCurrentReading=new ArrayList<ManageProperty_FastCreateOrderList_WorksheetDTO>();
 	
-	public void setParsedOrderBelongMonth(LocalDate parsedOrderBelongMonth) {
-		this.parsedOrderBelongMonth = parsedOrderBelongMonth;
-	}
 	public LocalDate getOrderCreateDate() {
 		return orderCreateDate;
 	}
@@ -52,31 +49,34 @@ public class ManageProperty_FastCreateOrderListDTO {
 	
 	
 	
+	public String getOrderBelongMonth() {
+		return orderBelongMonth;
+	}
+	public void setOrderBelongMonth(String orderBelongMonth) {
+		this.orderBelongMonth = orderBelongMonth;
+	}
 	public List<ManageProperty_FastCreateOrderList_WorksheetDTO> getWorksheetList_withCurrentReading() {
 		return worksheetList_withCurrentReading;
-	}
-	
-	
-	public LocalDate getParsedOrderBelongMonth() {
-		return parsedOrderBelongMonth;
 	}
 	public void setWorksheetList_withCurrentReading(
 			List<ManageProperty_FastCreateOrderList_WorksheetDTO> worksheetList_withCurrentReading) {
 		this.worksheetList_withCurrentReading = worksheetList_withCurrentReading;
 	}
-	public ManageProperty_FastCreateOrderListDTO() {
+	public ManageProperty_Client_FastCreateOrderListDTO() {
 		super();
 	}
-	public ManageProperty_FastCreateOrderListDTO(ManageProperty_Client_FastCreateOrderListDTO client_DTO) {
-
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        this.parsedOrderBelongMonth= LocalDate.parse(client_DTO.getOrderBelongMonth()+"-01", formatter);
-        
-		this.orderCreateDate = client_DTO.getOrderCreateDate();
-		this.orderExpireDate = client_DTO.getOrderExpireDate();
-		this.totalMonth = client_DTO.getTotalMonth();
-		this.totalDay = client_DTO.getTotalDay();
-		this.worksheetList_withCurrentReading = client_DTO.getWorksheetList_withCurrentReading();
+	public ManageProperty_Client_FastCreateOrderListDTO(LocalDate orderCreateDate, LocalDate orderExpireDate,
+			String orderBelongMonth, int totalMonth, int totalDay,
+			List<ManageProperty_FastCreateOrderList_WorksheetDTO> worksheetList_withCurrentReading) {
+		super();
+		this.orderCreateDate = orderCreateDate;
+		this.orderExpireDate = orderExpireDate;
+		this.orderBelongMonth = orderBelongMonth;
+		this.totalMonth = totalMonth;
+		this.totalDay = totalDay;
+		this.worksheetList_withCurrentReading = worksheetList_withCurrentReading;
+		
+		
 	}
 	
 	
