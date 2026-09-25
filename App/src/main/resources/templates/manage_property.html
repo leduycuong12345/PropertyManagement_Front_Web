@@ -92,8 +92,6 @@
 				                    
 				                </td>
 				                <td>
-				                	<!--  <input type="text" onchange="allowToSave(this)" th:name="worksheetOrderCreationDate" th:value="${property.getWorksheetOrderCreationDate()}" />
-				                	 -->
 				                   <div th:switch="${property.getRentStatus()}" >
 				                   		<div th:case="0">
 				                   			<p style="color:black;" class="h-100 w-auto d-inline-block" th:text="'Ngày '+${property.getWorksheetOrderCreationDate()}"></p>
@@ -507,20 +505,6 @@
 																					</th:block>
 																		  </th:block>	
 																        </div>
-																       <!--
-																        <div name="expanseContainer" style="border-style:outset;padding:5px;"> 
-																        	 <input type="hidden" name="expanseID" th:value="${item.propertyServiceID}" />
-																        	 <input type="checkbox"  th:field="*{selectedExpanseList}" th:value="${item.propertyServiceID}"  /> 
-																        	 <b><span th:text="${item.recurringExpanseName}"></span></b>
-																        	 <p th:text="'Số cũ: ' + ${item.lastRecord.readingValue}"></p>
-																        	 <p>
-																        	 	<span th:text="'Giá '+${item.recurringExpansePrice}+' đ/'+${item.recurringExpanseUnitCount}"></span>
-																        	 </p>
-																        	 <div class="input-group mb-3">
-																			   <input type="number" class="form-control" name="recurringExpanseValue" th:value="${item.lastRecord.readingValue}">
-																			   <span class="input-group-text" th:text="${item.recurringExpanseUnitCount}+'(Chỉ số hiện tại)'"></span>
-																			 </div>			
-																        </div>-->
 																    </div>
 															    </th:block>
 															    
@@ -600,7 +584,6 @@
 																      <input type="number" class="form-control calculateTotalCost_CreateOrder" th:field="*{totalMonth}" name="totalMonth" th:id="'totalMonth-'+${property.getPropertyID()}"  required min="0">
 																      <label th:for="'totalMonth-'+${property.getPropertyID()}">Số tháng</label>
 																</div>
-														        <!-- <p>Số ngày lẻ  : </p><input name="totalDay" class="calculateTotalCost_CreateOrder" type="number" > -->
 														        <div class="form-floating mb-3 mt-3">
 																      <input type="number" class="form-control calculateTotalCost_CreateOrder" th:field="*{totalDay}" name="totalDay" th:id="'totalDay-'+${property.getPropertyID()}"  min="0">
 																      <label th:for="'totalDay-'+${property.getPropertyID()}">Số ngày lẻ </label>
@@ -682,8 +665,7 @@
 																      </textarea>
 																      <label th:for="'expanseCost-'+${property.getPropertyID()}">Số tiền</label>
 																</div>
-															 	<!--  <p>Số tiền : </p><input type="number" class="calculateTotalCost_CreateOrder" >-->
-														      	
+															 	
 														      	<div class="form-floating mb-3 mt-3">
 																      <input type="text" class="form-control calculateTotalCost_CreateOrder" th:field="*{expanseDetails}"  th:id="'expanseDetails-'+${property.getPropertyID()}" >
 																      <label th:for="'expanseDetails-'+${property.getPropertyID()}">Lý do</label>
@@ -861,7 +843,6 @@
 																      <input type="number" class="form-control updateTotalCost_FastCreateOrderList"  name="orderList_TotalMonth" id="orderList_TotalMonth" value="1" required min="0">
 																      <label th:for="orderList_TotalMonth">Số tháng</label>
 																</div>
-														        <!-- <p>Số ngày lẻ  : </p><input name="totalDay" class="calculateTotalCost_CreateOrder" type="number" > -->
 														        <div class="form-floating mb-3 mt-3">
 																      <input type="number" class="form-control updateTotalCost_FastCreateOrderList"  name="orderList_TotalDay" id="orderList_TotalDay"  value="0" min="0">
 																      <label th:for="orderList_TotalDay">Số ngày lẻ </label>

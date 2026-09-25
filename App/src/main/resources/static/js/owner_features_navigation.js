@@ -1,4 +1,8 @@
 //UI update number format of propertyRentalPrice in create_land ending
+function safeLoadFloatValue(containerValue)
+{
+	return parseFloat(containerValue.replace(/,/g, ''));
+}
 function formatNumberTextarea_propertyRentalPrice_CreateNewLand_FocusOn_BlurOut()
 {
 	 // On focus: convert UI display from "1.500.500" -> "1500500"

@@ -209,7 +209,7 @@
 					        			</div>
 					        			<div class="col-md">
 					        				<div class="form-floating">
-					        					<select class="form-select form-select-sm" name="recurringExpanseUnitID" th:id="newRecurringExpanseType">
+					        					<select class="form-select form-select-sm" name="recurringExpanseUnitID" th:id="recurringExpanseUnit">
 												    <th:block th:if="${not #lists.isEmpty(recurringExpanseUnitList)}">
 												    	<th:block  th:each="recurringExpanseUnit: ${recurringExpanseUnitList}">
 												    		<option  th:value="${recurringExpanseUnit.recurringExpanseUnitID}">
