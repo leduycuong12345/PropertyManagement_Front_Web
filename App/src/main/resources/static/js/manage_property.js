@@ -698,20 +698,22 @@ function createFastOrderList() {
 	 
 	 var expanseList=[];
 	 //if selected then this worksheet ll generate order
-	
-	 	$(this).closest('div[name="fastCreateOrder"]').children('div').children('div').children('div').children('div[name="expanseContainer"]').each(function(key,container) { // we ve to tag as "tbody tr" becauce thead_included_tr too. If u call only ll be redundant one ( tr sum from thead and tbody)
+	 let isSelected=$(bigContainer).children('input[name="worksheetIsSelected"]').is(":checked");
+	 if(isSelected)
+	 {
+	 	$(bigContainer).children('div').children('div').children('div').children('div[name="expanseContainer"]').each(function(key,container) { // we ve to tag as "tbody tr" becauce thead_included_tr too. If u call only ll be redundant one ( tr sum from thead and tbody)
 			
-			let isSelected=$(this).children('input[name="worksheetIsSelected"]').is(":checked");
-			if(isSelected)
-			{
+			
 				let expanseType=parseInt($(container).children('input[name="recurringExpanseType"]').val());
-				let propertyServiceID=$(container).children('input[name="propertyServiceID"]').val();
-				if(isNaN(propertyServiceID))
+				const propertyServiceID=$(container).children('input[name="propertyServiceID"]').val();
+				//const id=$(container).children('input[name="propertyServiceID"]').val();
+				//console.log(id);
+				if(propertyServiceID === undefined || propertyServiceID === "")
 				{
 						propertyServiceID=-1;
 				}
 				
-				if(isNaN(expanseType))
+				if(expanseType === undefined || expanseType === "")
 				{
 					expanseType=0;
 				}
@@ -767,12 +769,12 @@ function createFastOrderList() {
 				}
 				expanseList.push(expanse);
 		
-		}	
-	});	
-	 
+			
+		});	
+	 } 
 	 var worksheet={
-		 worksheetID:$(this).children("input[name='worksheetID']").val(),
-		 totalCost:$(this).children("input[name='totalCost']").val(),
+		 worksheetID:$(bigContainer).children("input[name='worksheetID']").val(),
+		 totalCost:$(bigContainer).children("div").children("input[name='totalCost']").val(),
 		 expanseList:expanseList
 	 }
 	 

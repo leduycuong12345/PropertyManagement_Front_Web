@@ -1,21 +1,26 @@
 package com.cuongsolution.manageproperty.front.web.Service.OrderInfo;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.cuongsolution.manageproperty.front.web.Controller.ManagePropertyController;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_CreateOrderDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_DepositDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_FastCreateOrderListDTO;
 import com.cuongsolution.manageproperty.front.web.Service.Utils.API_Connection.RequestAPI_Service;
 
 import reactor.core.publisher.Mono;
+import tools.jackson.databind.json.JsonMapper;
 
 @Service
 public class ManageProperty_OrderInfoServiceImpl implements ManageProperty_OrderInfoService{
+	private Logger logger = LoggerFactory.getLogger(ManageProperty_OrderInfoServiceImpl.class);
 	@Value("${cuongsolution.manageproperty.core.kafka.baseURL}")//this variable being declared at application.properties
 	private String kafkaBaseURL;
 	@Autowired
@@ -52,9 +57,12 @@ public class ManageProperty_OrderInfoServiceImpl implements ManageProperty_Order
         // Subscribe to get the response
         responseMono.block();
 	}
-
+	@Autowired
+    private JsonMapper objectMapper;
 	@Override
 	public void createFastOrderList_ManageProperty(ManageProperty_FastCreateOrderListDTO newOrderList) {
+		String jsonPayload = objectMapper.writeValueAsString(newOrderList);
+		logger.info("createFastOrderList_ManageProperty : {}",jsonPayload);
 		String fullPostURL = kafkaBaseURL+"/manageproperty/createfastorderlist";
 		// Create a WebClient instance
 		WebClient webClient = WebClient.create(kafkaBaseURL);

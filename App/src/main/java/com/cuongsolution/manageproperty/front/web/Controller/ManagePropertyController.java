@@ -32,6 +32,8 @@ import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_CreateWorks
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_DepositDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_EditFastRecurringExpanseListDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_FastCreateOrderListDTO;
+import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_FastCreateOrderList_RecurringExpanseDTO;
+import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_FastCreateOrderList_WorksheetDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_PropertyDTO;
 import com.cuongsolution.manageproperty.front.web.Service.Land.ManageNavigation_LandService_Production;
 import com.cuongsolution.manageproperty.front.web.Service.OrderInfo.ManageProperty_OrderInfoService;
@@ -55,68 +57,7 @@ public class ManagePropertyController {
 	private ManageProperty_OrderInfoService manageProperty_OrderInfoService;
     @Autowired
 	private WorksheetService worksheetService;
-	/*@GetMapping(value="/quan-ly")
-	public String managePropertyPage( HttpSession session,Model model,Principal principal)  {
-		if(this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName()).isEmpty())//kiem tra xem ng dung da khoi tao Land chua? chua thi khoi tao
-		{
-			model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
-			return "new_user";
-		}
-		else
-		{
-			UUID selectedLandID=(UUID) session.getAttribute("selectedLandID");
-			if(selectedLandID !=null)//neu da chon land
-			{
-				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName());
-				model.addAttribute("landList",landList);//for land list/delete/update func
-				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
-				
-				for(ManageNavigation_FastCreateLandDTO land:landList)
-				{
-					if(land.getLandID()==selectedLandID)
-					{
-						model.addAttribute("selectedLandID",land.getLandID());//to create-property belong to land
-						model.addAttribute("selectedLand",land );//to display selected-land-name at layout-sidebar
-					}
-				}
-				model.addAttribute("propertyList",this.propertyService.getPropertyBelongToLand_ManageProperty(selectedLandID));
-				model.addAttribute("newWorksheet",new ManageProperty_CreateWorksheetDTO());//for create-worksheet function
-				model.addAttribute("newOrder",new ManageProperty_CreateOrderDTO());//for create-order function
-				model.addAttribute("editFastExpanseList",new ManageProperty_EditFastRecurringExpanseListDTO());//for edit-fast-recurring-expanse-list function;
-				model.addAttribute("newTenant",new ManageProperty_AddTenantToWorksheetDTO());//for add-tenant-to-worksheet function;
-				model.addAttribute("fastCreateOrderList",new ManageProperty_FastCreateOrderListDTO());//for fast-create-order-list function;
-				model.addAttribute("newDeposit",new ManageProperty_DepositDTO());//for deposit function of worksheet which signed by tenant;
-				model.addAttribute("newBooking",new ManageProperty_BookDTO());//for book function;
-			}
-			else//neu chua chon land
-			{
-				
-				List<ManageNavigation_FastCreateLandDTO> landList=this.landService.getDetailsLandList_ManageNavigation_Production(principal.getName());//for land list/delete/update func
-				List<ManageProperty_PropertyDTO> propertyListBelongToLand=this.propertyService.getPropertyBelongToLand_ManageProperty(landList.get(0).getLandID());
-				model.addAttribute("landList",landList);//for land list/delete/update func
-				model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
-				model.addAttribute("selectedLandID",landList.get(0).getLandID());//to create-property belong to land
-				model.addAttribute("selectedLand",landList.get(0));//to display selected-land-name at layout-sidebar
-				model.addAttribute("propertyList",propertyListBelongToLand);
-				model.addAttribute("newWorksheet",new ManageProperty_CreateWorksheetDTO());//for create-worksheet function
-				model.addAttribute("newOrder",new ManageProperty_CreateOrderDTO());//for create-order function
-				model.addAttribute("editFastExpanseList",new ManageProperty_EditFastRecurringExpanseListDTO());//for edit-fast-recurring-expanse-list function;
-				model.addAttribute("newTenant",new ManageProperty_AddTenantToWorksheetDTO());//for add-tenant-to-worksheet function;
-				model.addAttribute("fastCreateOrderList",new ManageProperty_FastCreateOrderListDTO());//for fast-create-order-list function;
-				model.addAttribute("newDeposit",new ManageProperty_DepositDTO());//for deposit function of worksheet which signed by tenant;
-				model.addAttribute("newBooking",new ManageProperty_BookDTO());//for book function;
-				
-				logger.info("land id:"+landList.get(0).getLandID()+" with property land:"+propertyListBelongToLand);
-				for( ManageProperty_PropertyDTO dto:propertyListBelongToLand)
-				{
-					logger.info("property id:"+dto.getPropertyID()+" is being load.");
-				}
-			}
-			return "manage_property";
-		}
-    }*/
     @GetMapping(value="/quan-ly")
-	//public String managePropertyPage( HttpSession session,Model model,Principal principal)  {
     public String managePropertyPage( HttpSession session,Model model,Authentication authentication)  {
 		
 		if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
@@ -257,10 +198,22 @@ public class ManagePropertyController {
 		//System.out.println("haha: "+orderList.getWorksheetList_withCurrentReading());
     	ManageProperty_FastCreateOrderListDTO.setParsedOrderBelongMonth(ManageProperty_FastCreateOrderListDTO.getOrderBelongMonth());
     	
-    	logger.info("create fast order list with created order:"+ManageProperty_FastCreateOrderListDTO.getOrderCreateDate()
+    	logger.info("createFastOrderList_ManageProperty start_rental_date:"+ManageProperty_FastCreateOrderListDTO.getOrderCreateDate()
 		+" and end-rental-date:"+ManageProperty_FastCreateOrderListDTO.getOrderExpireDate()+" and belong month:"+ManageProperty_FastCreateOrderListDTO.getOrderBelongMonth()
 		+" and parsed the date:" +ManageProperty_FastCreateOrderListDTO.getParsedOrderBelongMonth());
-		
+		for(ManageProperty_FastCreateOrderList_WorksheetDTO worksheet:ManageProperty_FastCreateOrderListDTO.getWorksheetList_withCurrentReading())
+		{
+			logger.info("worksheet id:{},total_cost:{}", worksheet.getWorksheetID(),worksheet.getTotalCost());
+			for(ManageProperty_FastCreateOrderList_RecurringExpanseDTO expanse: worksheet.getExpanseList())
+			{
+				logger.info("propertyServiceId:{},previousReadingVal:{},currentReadingVal:{},ExpanseType:{}"
+						,expanse.getPropertyServiceID()
+						,expanse.getPreviousReadingValue()
+						,expanse.getCurrentReadingValue()
+						,expanse.getExpanseType());
+			}
+		}
+    	
     	this.manageProperty_OrderInfoService.createFastOrderList_ManageProperty(ManageProperty_FastCreateOrderListDTO);
 		return "redirect:/quan-ly";
     }

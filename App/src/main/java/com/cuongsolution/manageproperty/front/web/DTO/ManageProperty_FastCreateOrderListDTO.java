@@ -18,16 +18,19 @@ public class ManageProperty_FastCreateOrderListDTO {
 	private String orderBelongMonth;
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private LocalDate parsedOrderBelongMonth ;
+	private int totalDay;
 	private int totalMonth;
+	private List<ManageProperty_FastCreateOrderList_WorksheetDTO> worksheetList_withCurrentReading=new ArrayList<ManageProperty_FastCreateOrderList_WorksheetDTO>();
+	
+	public void setParsedOrderBelongMonth(LocalDate parsedOrderBelongMonth) {
+		this.parsedOrderBelongMonth = parsedOrderBelongMonth;
+	}
 	public LocalDate getOrderCreateDate() {
 		return orderCreateDate;
 	}
 	public void setOrderCreateDate(LocalDate orderCreateDate) {
 		this.orderCreateDate = orderCreateDate;
 	}
-	private int totalDay;
-	private List<ManageProperty_FastCreateOrderList_WorksheetDTO> worksheetList_withCurrentReading=new ArrayList<ManageProperty_FastCreateOrderList_WorksheetDTO>();
-	
 	
 	public int getTotalMonth() {
 		return totalMonth;
@@ -42,12 +45,6 @@ public class ManageProperty_FastCreateOrderListDTO {
 		this.totalDay = totalDay;
 	}
 	
-	public LocalDate getParsedOrderCreateDate() {
-		return orderCreateDate;
-	}
-	public void setParsedOrderCreateDate(LocalDate orderCreateDate) {
-		this.orderCreateDate = orderCreateDate;
-	}
 	public LocalDate getOrderExpireDate() {
 		return orderExpireDate;
 	}
