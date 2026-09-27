@@ -3,10 +3,13 @@ package com.cuongsolution.manageproperty.front.web.Controller;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,24 +18,37 @@ import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_EditLandD
 import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_FastCreateLandDTO;
 import com.cuongsolution.manageproperty.front.web.Service.Chart.ManageCharts_ChartService;
 import com.cuongsolution.manageproperty.front.web.Service.Land.ManageNavigation_LandService_Production;
+import com.cuongsolution.manageproperty.front.web.Service.User.Oauth_UserService;
 
 import jakarta.servlet.http.HttpSession;
 
 
 @Controller
 public class ManageChartsController {
+	private Logger logger = LoggerFactory.getLogger(ManageChartsController.class);
+
 	@Autowired
 	private ManageNavigation_LandService_Production landService;
 	@Autowired
 	private ManageCharts_ChartService manageCharts_ChartService;
+	@Autowired
+    private Oauth_UserService oauth_UserService;
 	@GetMapping(value="/quan-ly-thong-ke")
     //public String getPropertyChart(Model model ,Principal principal,HttpSession session)  {
 	public String getPropertyChart(Model model ,Authentication authentication,HttpSession session)  {
 		if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
 	        String oauthUsername=authentication.getName();
+	        //return extractedGetPropertyChart(model, oauthUsername, session);//this s cute, but the username in gmail may different with username_in_system
 	        
-	        return extractedGetPropertyChart(model, oauthUsername, session);
-	    } else {
+	        OAuth2User oauthUser = oauthToken.getPrincipal();
+	        String email = oauthUser.getAttribute("email");
+	        
+	        logger.info("user access manageproperty by google_oauth gmail account with username:{},email:{}"
+	        		,oauthUsername,email);
+	        String realAppUsername=this.oauth_UserService.getRealUsernameByGmail_OAuth2(email);
+	        return extractedGetPropertyChart(model,realAppUsername,session  );
+	    
+		} else {
 	        // local/form login
 	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 	        String username=userDetails.getUsername();
