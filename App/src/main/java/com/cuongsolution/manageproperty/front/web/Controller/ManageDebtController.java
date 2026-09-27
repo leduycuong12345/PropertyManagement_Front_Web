@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ import com.cuongsolution.manageproperty.front.web.Service.OrderInfo.ManageDebt_O
 import com.cuongsolution.manageproperty.front.web.Service.Privileges.ManageDebt_PrivilegeService;
 import com.cuongsolution.manageproperty.front.web.Service.Receipt.ManageDebt_ReceiptService;
 import com.cuongsolution.manageproperty.front.web.Service.RecurringExpanse.RecurringExpanseService;
+import com.cuongsolution.manageproperty.front.web.Service.User.Oauth_UserService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -48,12 +50,22 @@ public class ManageDebtController {
 	private ManageDebt_PrivilegeService manageDebt_PrivilegeService;
 	@Autowired
 	private RecurringExpanseService recurringExpanseService;
+	@Autowired
+    private Oauth_UserService oauth_UserService;
 	@GetMapping(value="/quan-ly-cong-no")
 	public String manageDebtPageByLand( HttpSession session,Model model  ,Authentication authentication){
 		
 		if (authentication instanceof OAuth2AuthenticationToken oauthToken) {//oauth login
 	        String oauthUsername=authentication.getName();
-	        return extracted_manageDebtPageByLand(session, model, oauthUsername);
+	        //return extracted_manageDebtPageByLand(session, model, oauthUsername);//this s cute, but the username in gmail may different with username_in_system
+	        
+	        OAuth2User oauthUser = oauthToken.getPrincipal();
+	        String email = oauthUser.getAttribute("email");
+	        
+	        logger.info("user access manageproperty by google_oauth gmail account with username:{},email:{}"
+	        		,oauthUsername,email);
+	        String realAppUsername=this.oauth_UserService.getRealUsernameByGmail_OAuth2(email);
+	        return extracted_manageDebtPageByLand(session,model,realAppUsername  );
 		} else {
 	        // local/form login
 	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -131,8 +143,18 @@ public class ManageDebtController {
 			
 			if (authentication instanceof OAuth2AuthenticationToken oauthToken) {//oauth login
 		        String oauthUsername=authentication.getName();
-		        return extracted_manageDebtPageByLand_searchFunctionWithPageable(selectedPage, totalPage, searchKeyword,
-						session, model, oauthUsername);
+		        //return extracted_manageDebtPageByLand_searchFunctionWithPageable(selectedPage, totalPage, searchKeyword,
+				//		session, model, oauthUsername);//this s cute, but the username in gmail may different with username_in_system
+		        
+		        OAuth2User oauthUser = oauthToken.getPrincipal();
+		        String email = oauthUser.getAttribute("email");
+		        
+		        logger.info("user access manageproperty by google_oauth gmail account with username:{},email:{}"
+		        		,oauthUsername,email);
+		        String realAppUsername=this.oauth_UserService.getRealUsernameByGmail_OAuth2(email);
+		        return extracted_manageDebtPageByLand_searchFunctionWithPageable(selectedPage,totalPage,searchKeyword,
+		        		session, model,realAppUsername  );
+		        
 			} else {
 		        // local/form login
 		        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -257,7 +279,15 @@ public class ManageDebtController {
 		
 		if (authentication instanceof OAuth2AuthenticationToken oauthToken) {//oauth login
 	        String oauthUsername=authentication.getName();
-	        return extracted_manageDebt_BelongToWorksheet(worksheetID, model, oauthUsername);
+	        //return extracted_manageDebt_BelongToWorksheet(worksheetID, model, oauthUsername);//this s cute, but the username in gmail may different with username_in_system
+	        
+	        OAuth2User oauthUser = oauthToken.getPrincipal();
+	        String email = oauthUser.getAttribute("email");
+	        
+	        logger.info("user access manageproperty by google_oauth gmail account with username:{},email:{}"
+	        		,oauthUsername,email);
+	        String realAppUsername=this.oauth_UserService.getRealUsernameByGmail_OAuth2(email);
+	        return extracted_manageDebt_BelongToWorksheet(worksheetID,model,realAppUsername  );
 		} else {
 	        // local/form login
 	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -303,7 +333,16 @@ public class ManageDebtController {
 			@RequestParam("totalPage") Integer totalPage,Model model  ,Authentication authentication){
 		if (authentication instanceof OAuth2AuthenticationToken oauthToken) {//oauth login
 	        String oauthUsername=authentication.getName();
-			return extracted_manageDebt_BelongToWorksheet_pageable(worksheetID, selectedPage, totalPage, model, oauthUsername);
+			//return extracted_manageDebt_BelongToWorksheet_pageable(worksheetID, selectedPage, totalPage, model, oauthUsername);//this s cute, but the username in gmail may different with username_in_system
+	        
+	        OAuth2User oauthUser = oauthToken.getPrincipal();
+	        String email = oauthUser.getAttribute("email");
+	        
+	        logger.info("user access manageproperty by google_oauth gmail account with username:{},email:{}"
+	        		,oauthUsername,email);
+	        String realAppUsername=this.oauth_UserService.getRealUsernameByGmail_OAuth2(email);
+	        return extracted_manageDebt_BelongToWorksheet_pageable(worksheetID,selectedPage,totalPage,model,realAppUsername  );
+		
 		} else {
 	        // local/form login
 	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
