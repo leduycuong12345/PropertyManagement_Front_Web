@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -36,11 +37,13 @@ import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_FastCreateO
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_FastCreateOrderList_RecurringExpanseDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_FastCreateOrderList_WorksheetDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_PropertyDTO;
+import com.cuongsolution.manageproperty.front.web.DTO.Oauth_UserDTO;
 import com.cuongsolution.manageproperty.front.web.Service.Land.ManageNavigation_LandService_Production;
 import com.cuongsolution.manageproperty.front.web.Service.OrderInfo.ManageProperty_OrderInfoService;
 import com.cuongsolution.manageproperty.front.web.Service.Property.ManageProperty_PropertySer;
 import com.cuongsolution.manageproperty.front.web.Service.PropertyService.PropertyServiceSer;
 import com.cuongsolution.manageproperty.front.web.Service.Tenant.TenantService;
+import com.cuongsolution.manageproperty.front.web.Service.User.Oauth_UserService;
 import com.cuongsolution.manageproperty.front.web.Service.Worksheet.WorksheetService;
 @Controller
 public class ManagePropertyController {
@@ -58,16 +61,26 @@ public class ManagePropertyController {
 	private ManageProperty_OrderInfoService manageProperty_OrderInfoService;
     @Autowired
 	private WorksheetService worksheetService;
+    @Autowired
+    private Oauth_UserService oauth_UserService;
     @GetMapping(value="/quan-ly")
     public String managePropertyPage( HttpSession session,Model model,Authentication authentication)  {
 		
 		if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
-	        String oauthUsername=authentication.getName();
-	        return extractedManagePropertyPage(session, model, oauthUsername);
+	        String oauthUsername=authentication.getName(); //this s cute, but the username in gmail may different with username_in_system
+	        
+	        OAuth2User oauthUser = oauthToken.getPrincipal();
+	        String email = oauthUser.getAttribute("email");
+	        
+	        logger.info("user access manageproperty by google_oauth gmail account with username:{},email:{}"
+	        		,oauthUsername,email);
+	        String realAppUsername=this.oauth_UserService.getRealUsernameByGmail_OAuth2(email);
+	        return extractedManagePropertyPage(session, model, realAppUsername);
 	    } else {
 	        // local/form login
 	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 	        String username=userDetails.getUsername();
+	        logger.info("user access manageproperty by normal_method username:{}",username);
 	        return extractedManagePropertyPage(session, model, username);
 	    }
 		

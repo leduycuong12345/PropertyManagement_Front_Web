@@ -54,5 +54,16 @@ public class Oauth_UserServiceImpl implements Oauth_UserService{
         return postMonoResponse.block();
 	}
 
+	@Override
+	public String getRealUsernameByGmail_OAuth2(String email) {
+		String fullPostURL = kafkaBaseURL+"/oauthservice/findusernamebygmail";
+		LinkedMultiValueMap<String, String> requestJson = 
+				new LinkedMultiValueMap<String, String>();
+		requestJson.add("email", ""+email);
+        Mono<String> postMonoResponse = apiCaller.post(fullPostURL, requestJson, String.class);
+        
+        return postMonoResponse.block();
+	}
+
 
 }
