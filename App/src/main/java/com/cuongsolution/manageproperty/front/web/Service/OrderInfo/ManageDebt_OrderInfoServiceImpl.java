@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -91,6 +92,21 @@ public class ManageDebt_OrderInfoServiceImpl implements ManageDebt_OrderInfoServ
 		requestJson.add("page", ""+pageable.getPageNumber());
 		requestJson.add("size", ""+pageable.getPageSize());
 		requestJson.add("worksheetId", ""+worksheetId);
+		Mono<RestResponsePage<ManageDebt_OrderDTO>> postMonoResponse = this.apiCaller.post_PageResult(fullPostURL, requestJson, ManageDebt_OrderDTO.class);
+
+        return postMonoResponse.block();
+	}
+	@Override
+	public Page<ManageDebt_OrderDTO> getDebtList_BelongToWorksheet_ManageDebt_paginationAndSorting(UUID worksheetID,UUID landID,
+			Integer selectedPage, Integer totalPage, String searchKeyword) {
+		String fullPostURL = kafkaBaseURL+"/managedebt/getdebtlistbelongtoworksheetwithsorting";
+		LinkedMultiValueMap<String, String> requestJson = 
+				new LinkedMultiValueMap<String, String>();
+		requestJson.add("page", ""+selectedPage);
+		requestJson.add("size", ""+totalPage);
+		requestJson.add("worksheetID", ""+worksheetID);
+		requestJson.add("searchKeyword", ""+searchKeyword);
+		requestJson.add("landId", ""+landID);
 		Mono<RestResponsePage<ManageDebt_OrderDTO>> postMonoResponse = this.apiCaller.post_PageResult(fullPostURL, requestJson, ManageDebt_OrderDTO.class);
 
         return postMonoResponse.block();

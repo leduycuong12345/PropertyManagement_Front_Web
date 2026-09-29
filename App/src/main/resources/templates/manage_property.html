@@ -245,9 +245,12 @@
 													<!-- Button trigger modal -->	
 											    </li>
 											    <li class="dropdown-item">
-													<a  th:href="'/quan-ly-cong-no/hop-dong?worksheetId='+${property.getWorksheetID()}">
-													  Quản lý công nợ
-													</a>
+													<form th:action="@{/quan-ly-cong-no/hop-dong}" method="post">
+														<input type="hidden" name="worksheetId" th:value="${property.getWorksheetID()}">
+														<button type="submit"  style="border: none;background-color:white;color:black;">
+														  Quản lý công nợ
+														</button>
+													</form>
 											    </li>
 											    <li class="dropdown-item">Đóng Menu</li>
 											  </ul>
