@@ -179,6 +179,10 @@ public class ManageDebtController {
 		{
 			dto.setSelectedPage(dto.getTotalPage()-1);
 		}
+		if(dto.getTotalPage()<10)
+		{
+			dto.setTotalPage(10);//if total <10 then set 10
+		}
 		if(this.landService.getDetailsLandList_ManageNavigation_Production(username).isEmpty())//kiem tra xem ng dung da khoi tao Land chua? chua thi khoi tao
 		{
 			model.addAttribute("newLand", new ManageNavigation_FastCreateLandDTO());//for create land func
@@ -190,7 +194,7 @@ public class ManageDebtController {
 					,dto.getSelectedPage()
 					,dto.getTotalPage()
 					,dto.getSearchKey());
-			int totalRow=30;//we can make this edittable by admin later on
+			//int totalRow=30;//we can make this edittable by admin later on
 			//check if currentPage is empty or not.If not pageable_function is working
 			//int selectedPageResult = (dto.getSelectedPage() != null && !dto.getSelectedPage().equals("")) ? dto.setSelectedPage(0);
 			
@@ -217,7 +221,7 @@ public class ManageDebtController {
 						{
 
 							Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_PageableAndSorting(land.getLandID()
-									,dto.getSelectedPage(),totalRow,dto.getSearchKey());
+									,dto.getSelectedPage(),dto.getTotalPage(),dto.getSearchKey());
 							model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(dto.getSelectedPage(),debtList.getTotalPages()));//for pagination function
 							model.addAttribute("debtList",debtList.toList() );
 
@@ -230,7 +234,7 @@ public class ManageDebtController {
 						{
 
 							Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_Pageable(land.getLandID()
-									,dto.getSelectedPage(),totalRow);
+									,dto.getSelectedPage(),dto.getTotalPage());
 							model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(dto.getSelectedPage(),debtList.getTotalPages()));//for pagination function
 							model.addAttribute("debtList",debtList.toList() );
 
@@ -256,7 +260,7 @@ public class ManageDebtController {
 				if(dto.getSearchKey() != null && !dto.getSearchKey().isEmpty())
 				{
 					Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_PageableAndSorting(landList.get(0).getLandID()
-							,dto.getSelectedPage(),totalRow,dto.getSearchKey());
+							,dto.getSelectedPage(),dto.getTotalPage(),dto.getSearchKey());
 					model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(dto.getSelectedPage(),debtList.getTotalPages()));//for pagination function
 					model.addAttribute("debtList",debtList.toList() );
 
@@ -269,7 +273,7 @@ public class ManageDebtController {
 				else
 				{
 					Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_Pageable(landList.get(0).getLandID()
-							,dto.getSelectedPage(),totalRow);
+							,dto.getSelectedPage(),dto.getTotalPage());
 					model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(dto.getSelectedPage(),debtList.getTotalPages()));//for pagination function
 					model.addAttribute("debtList",debtList.toList() );
 
@@ -311,7 +315,7 @@ public class ManageDebtController {
 		{
 			
 			
-			int totalRow=30;//we can make this edittable by admin later on
+			int totalRow=10;//we can make this edittable by admin later on
 			int firstPage=0;
 			//Pageable firstPageWithThirtyElements = PageRequest.of(firstPage, totalRow);
 			
@@ -410,7 +414,7 @@ public class ManageDebtController {
 		}
 		if(totalPage<=0)
 		{
-			totalPage=30;
+			totalPage=10;//if total <10 then set 10
 		}
 		logger.info("manageDebt_BelongToWorksheet_pageable selectedPage:{},totalPage:{},searchKeyword:{},worksheetID:{}"
 				,selectedPage
