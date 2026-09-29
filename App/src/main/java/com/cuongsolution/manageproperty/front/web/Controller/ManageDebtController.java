@@ -309,6 +309,8 @@ public class ManageDebtController {
 		Boolean belongToUser=this.manageDebt_PrivilegeService.isWorksheetBelongToUser(worksheetID, username);
 		if(belongToUser)
 		{
+			
+			
 			int totalRow=30;//we can make this edittable by admin later on
 			int firstPage=0;
 			//Pageable firstPageWithThirtyElements = PageRequest.of(firstPage, totalRow);
@@ -338,6 +340,7 @@ public class ManageDebtController {
 						
 						List<ManageDebt_ExpanseHeaderDTO> expanseHeaderList=this.recurringExpanseService.manageDebt_findRecurringExpanseBelongToLand(landList.get(0).getLandID());
 						model.addAttribute("expanseHeaderList", expanseHeaderList);//for order-list function
+						model.addAttribute("worksheetID", worksheetID);//for pagination function
 					}
 				}
 			}
@@ -361,7 +364,7 @@ public class ManageDebtController {
 				
 				List<ManageDebt_ExpanseHeaderDTO> expanseHeaderList=this.recurringExpanseService.manageDebt_findRecurringExpanseBelongToLand(landList.get(0).getLandID());
 				model.addAttribute("expanseHeaderList", expanseHeaderList);//for order-list function
-
+				model.addAttribute("worksheetID", worksheetID);//for pagination function
 			}
 
 			return "manage_debt_by_worksheet";
@@ -372,9 +375,10 @@ public class ManageDebtController {
 		}
 	}
 	@PostMapping(value="/quan-ly-cong-no/hop-dong/pagination")
-	public String manageDebt_BelongToWorksheet_pageable( @RequestParam("worksheetId") UUID worksheetID,@RequestParam("selectedPage") Integer selectedPage,
+	public String manageDebt_BelongToWorksheet_pageable( @RequestParam("worksheetId") UUID worksheetID,
+			@RequestParam("selectedPage") Integer selectedPage,
 			@RequestParam("totalPage") Integer totalPage
-			,@RequestParam("searchKeyword") String searchKeyword,Model model  ,Authentication authentication,HttpSession session){
+			,@RequestParam("searchKey") String searchKey,Model model  ,Authentication authentication,HttpSession session){
 		if (authentication instanceof OAuth2AuthenticationToken oauthToken) {//oauth login
 	        String oauthUsername=authentication.getName();
 			//return extracted_manageDebt_BelongToWorksheet_pageable(worksheetID, selectedPage, totalPage, model, oauthUsername);//this s cute, but the username in gmail may different with username_in_system
@@ -385,13 +389,13 @@ public class ManageDebtController {
 	        logger.info("user access manageproperty by google_oauth gmail account with username:{},email:{}"
 	        		,oauthUsername,email);
 	        String realAppUsername=this.oauth_UserService.getRealUsernameByGmail_OAuth2(email);
-	        return extracted_manageDebt_BelongToWorksheet_pageable(worksheetID,searchKeyword, session,selectedPage,totalPage,model,realAppUsername  );
+	        return extracted_manageDebt_BelongToWorksheet_pageable(worksheetID,searchKey, session,selectedPage,totalPage,model,realAppUsername  );
 		
 		} else {
 	        // local/form login
 	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 	        String username=userDetails.getUsername();
-			return extracted_manageDebt_BelongToWorksheet_pageable(worksheetID,searchKeyword,session, selectedPage, totalPage, model, username);
+			return extracted_manageDebt_BelongToWorksheet_pageable(worksheetID,searchKey,session, selectedPage, totalPage, model, username);
 	    }
     }
 	private String extracted_manageDebt_BelongToWorksheet_pageable(UUID worksheetID,String searchKeyword, HttpSession session, Integer selectedPage,
@@ -422,7 +426,7 @@ public class ManageDebtController {
 						model.addAttribute("selectedLandID",selectedLandID);//to create-property belong to land
 						model.addAttribute("selectedLand",land);//to display selected-land-name at layout-sidebar
 						
-						int totalRow=30;//we can make this edittable by admin later on
+						//int totalRow=30;//we can make this edittable by admin later on
 						//int selectedPageResult=(selectedPage != null && !selectedPage.equals("")) ? selectedPage : 0;
 						//Pageable selectedPageWithThirtyElements = PageRequest.of(selectedPageResult, totalRow);
 						
@@ -437,7 +441,7 @@ public class ManageDebtController {
 						
 						List<ManageDebt_ExpanseHeaderDTO> expanseHeaderList=this.recurringExpanseService.manageDebt_findRecurringExpanseBelongToLand(landList.get(0).getLandID());
 						model.addAttribute("expanseHeaderList", expanseHeaderList);//for order-list function
-						
+						model.addAttribute("worksheetID", worksheetID);//for pagination function
 					}
 				}
 			}
@@ -447,9 +451,8 @@ public class ManageDebtController {
 				model.addAttribute("selectedLandID",firstLandID);//to create-property belong to land
 				model.addAttribute("selectedLand",landList.get(0));//to display selected-land-name at layout-sidebar
 				
-				int totalRow=30;//we can make this edittable by admin later on
 				int selectedPageResult=(selectedPage != null && !selectedPage.equals("")) ? selectedPage : 0;
-				Pageable selectedPageWithThirtyElements = PageRequest.of(selectedPageResult, totalRow);
+				
 				
 				//Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToWorksheet_ManageDebt(worksheetID,selectedPageWithThirtyElements);
 				Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToWorksheet_ManageDebt_paginationAndSorting(worksheetID,firstLandID, selectedPage,totalPage ,searchKeyword);
@@ -462,6 +465,7 @@ public class ManageDebtController {
 				
 				List<ManageDebt_ExpanseHeaderDTO> expanseHeaderList=this.recurringExpanseService.manageDebt_findRecurringExpanseBelongToLand(landList.get(0).getLandID());
 				model.addAttribute("expanseHeaderList", expanseHeaderList);//for order-list function
+				model.addAttribute("worksheetID", worksheetID);//for pagination function
 			}
 			return "manage_debt_by_worksheet";	
 		}
