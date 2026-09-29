@@ -369,6 +369,38 @@ function formatVnFormatCurrency()
     });
     
 }
+function statisticAmount()
+{
+	var debtAmount=0.0;
+	var unpaidDebtAmount=0.0;
+	var paidAmount=0.0;
+	
+	$("#debtList tr").each(function(key,container) { 
+		var total=parseFloat($(container).children("td[name='totalAmount']").children("p:eq(0)").text());
+		var orderStatus=parseInt($(container).children("input[name='orderStatus']").val());
+		var remainingAmount=parseFloat($(container).children("td[name='remainingAmount']").children("p:eq(0)").text());
+		switch(orderStatus) {
+			case 4: // đã thanh toán hết
+				debtAmount+=total;
+			    paidAmount+=total;
+			    break;
+			case 2:// chưa thanh toán
+				debtAmount+=total;
+				unpaidDebtAmount+=remainingAmount;
+			    break;
+			case 3:// xử lý chưa thanh toán hết
+				debtAmount+=total;
+				unpaidDebtAmount+=remainingAmount;
+				paidAmount+=total-remainingAmount;
+			default:// đơn đã bị hủy ??
+			    // code block
+		}
+	});
+	
+	$("#debtAmount").text(debtAmount);
+	$("#unpaidDebtAmount").text(unpaidDebtAmount);
+	$("#paidAmount").text(paidAmount);
+}
 $(document).ready(function(){
 
 	printTenantList();
