@@ -408,6 +408,17 @@ public class ManageDebtController {
 		{
 			selectedPage=totalPage-1;
 		}
+		if(totalPage<=0)
+		{
+			totalPage=30;
+		}
+		logger.info("manageDebt_BelongToWorksheet_pageable selectedPage:{},totalPage:{},searchKeyword:{},worksheetID:{}"
+				,selectedPage
+				,totalPage
+				,searchKeyword
+				,worksheetID
+				);
+		
 		//kiem tra xem worksheet nay co thuoc pham vi nguoi dung hay khong 
 		Boolean belongToUser=this.manageDebt_PrivilegeService.isWorksheetBelongToUser(worksheetID, username);
 		if(belongToUser)
