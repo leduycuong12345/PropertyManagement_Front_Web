@@ -224,7 +224,7 @@
 															</form>
 														  </div>
 														  <div class="modal-footer">
-														  		<p th:text="'Tổng nợ: '+${order.debtAmount}"></p>
+														  		Tổng nợ: <p class="VnFormatCurrency" th:text="${order.debtAmount}"></p> VND
 														        <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Đóng</button>
 																<input type="submit" value="Thu tiền" class="btn btn-primary" th:form="'receiptForm-'+${order.orderID}" />
 														  </div>
