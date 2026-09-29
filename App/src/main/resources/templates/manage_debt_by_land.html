@@ -13,7 +13,9 @@
 		            <div class="col-12">
 						<div style="align-items: center; justify-content: space-between; display: flex; position: relative;">
 							<form  th:action="@{/quan-ly-cong-no}" method="post">
-								Tìm kiếm <input type="text" id="searchDebt" name="searchKeyword" >
+								<input type="hidden" th:value="${pagination.currentPage}" name="selectedPage" />
+								<input type="hidden" th:value="${pagination.totalPage}" name="totalPage" />
+								Tìm kiếm <input type="text" id="searchDebt" name="searchKey"/>
 						        <button type="submit" class="btn btn-light" >Tìm kiếm</button>
 						    </form>
 						</div>
@@ -21,14 +23,14 @@
 							<form  th:action="@{/quan-ly-cong-no}" method="post" id="previousPaginationForm">
 								<input type="hidden" th:value="${pagination.currentPage}-1" name="selectedPage" />
 								<input type="hidden" th:value="${pagination.totalPage}" name="totalPage" />
-								<input type="hidden" name="searchKeyword">
+								<input type="hidden" name="searchKey"/>
 						        <button type="submit" class="btn btn-light" >Trang trước </button>
 						    </form>
 						    <p>Trang hiện tại:<p th:text="${pagination.currentPage}+1" ></p></p>
 						    <form  th:action="@{/quan-ly-cong-no}" method="post" id="nextPaginationForm">
 								<input type="hidden" th:value="${pagination.currentPage}+1" name="selectedPage" />
 								<input type="hidden" th:value="${pagination.totalPage}" name="totalPage" />
-						        <input type="hidden" name="searchKeyword">
+						        <input type="hidden" name="searchKey" />
 						        <button type="submit" class="btn btn-light" >Trang kế</button>
 						    </form>
 						</div>

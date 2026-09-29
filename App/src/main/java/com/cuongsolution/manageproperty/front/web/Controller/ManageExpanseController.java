@@ -120,22 +120,14 @@ public class ManageExpanseController {
 		return "redirect:/quan-ly-dich-vu";
 	}
 	@PostMapping("/quan-ly-dich-vu/chinh-sua-dich-vu")
-	public String editRecurringExpanse(/*@RequestParam(value = "recurringExpanseID") Long recurringExpanseID
-			,@RequestParam(value = "recurringExpanseName") String recurringExpanseName
-			,@RequestParam(value = "recurringExpanseUnitID") Long recurringExpanseUnitID
-			,@RequestParam(value = "recurringExpansePrice") Float recurringExpansePrice
-			@RequestParam(value = "selectedPropertyServiceIDList") List<Long> selectedPropertyServiceIDList,*/
+	public String editRecurringExpanse(
 			@ModelAttribute(value = "editRecurringExpanse") ManageExpanse_EditRecurringExpanseDTO editRecurringExpanse) {
 		//System.out.println("select expanse id list:"+selectedPropertyServiceIDList);
 		this.recurringExpanseService.manageExpanse_editExpanseDTO(editRecurringExpanse);
 		return "redirect:/quan-ly-dich-vu";
 	}
 	@PostMapping("/quan-ly-dich-vu/them-dich-vu")
-	public String createRecurringExpanse(/*@RequestParam(value = "recurringExpanseID") Long recurringExpanseID
-			,@RequestParam(value = "recurringExpanseName") String recurringExpanseName
-			,@RequestParam(value = "recurringExpanseUnitID") Long recurringExpanseUnitID
-			,@RequestParam(value = "recurringExpansePrice") Float recurringExpansePrice
-			@RequestParam(value = "selectedPropertyServiceIDList") List<Long> selectedPropertyServiceIDList,*/
+	public String createRecurringExpanse(
 			@ModelAttribute(value = "newExpanse") ManageExpanse_CreateRecurringExpanseDTO newExpanseDTO) {
 		//System.out.println("select expanse id list:"+selectedPropertyServiceIDList);
 		this.recurringExpanseService.manageExpanse_createRecurringExpanse(newExpanseDTO);

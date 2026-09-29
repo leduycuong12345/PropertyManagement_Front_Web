@@ -24,10 +24,12 @@ import com.cuongsolution.manageproperty.front.web.DTO.ManageDebt_ExpanseHeaderDT
 import com.cuongsolution.manageproperty.front.web.DTO.ManageDebt_OrderDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageDebt_PaginationDTO_ByLand;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageDebt_PaginationDTO_ByWorksheet;
+import com.cuongsolution.manageproperty.front.web.DTO.ManageDebt_Pagination_DebtListDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_EditLandDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageNavigation_FastCreateLandDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageOrder_ExpanseHeaderDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageOrder_ReceiptDTO;
+import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_EditFastRecurringExpanseListDTO;
 import com.cuongsolution.manageproperty.front.web.Service.Land.ManageNavigation_LandService_Production;
 import com.cuongsolution.manageproperty.front.web.Service.OrderInfo.ManageDebt_OrderInfoService;
 import com.cuongsolution.manageproperty.front.web.Service.Privileges.ManageDebt_PrivilegeService;
@@ -137,7 +139,10 @@ public class ManageDebtController {
 		}
 	}
 	@PostMapping(value="/quan-ly-cong-no")
-	public String manageDebtPageByLand_searchFunctionWithPageable( @RequestParam("selectedPage") Integer selectedPage, @RequestParam("totalPage") Integer totalPage,@RequestParam("searchKeyword") String  searchKeyword
+	public String manageDebtPageByLand_searchFunctionWithPageable( 
+			//@RequestParam(value="selectedPage") Integer selectedPage, @RequestParam(value="totalPage") Integer totalPage,
+			//@RequestParam(value="searchKeyword") String  searchKeyword
+			@ModelAttribute ManageDebt_Pagination_DebtListDTO manageDebt_Pagination_DebtListDTO
 			,HttpSession session,Model model  ,Authentication authentication){
 		
 			
@@ -152,28 +157,27 @@ public class ManageDebtController {
 		        logger.info("user access manageproperty by google_oauth gmail account with username:{},email:{}"
 		        		,oauthUsername,email);
 		        String realAppUsername=this.oauth_UserService.getRealUsernameByGmail_OAuth2(email);
-		        return extracted_manageDebtPageByLand_searchFunctionWithPageable(selectedPage,totalPage,searchKeyword,
+		        return extracted_manageDebtPageByLand_searchFunctionWithPageable(manageDebt_Pagination_DebtListDTO,
 		        		session, model,realAppUsername  );
 		        
 			} else {
 		        // local/form login
 		        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		        String username=userDetails.getUsername();
-		        return extracted_manageDebtPageByLand_searchFunctionWithPageable(selectedPage, totalPage, searchKeyword,
+		        return extracted_manageDebtPageByLand_searchFunctionWithPageable(manageDebt_Pagination_DebtListDTO,
 						session, model, username);
 		    }
 		
 		
     }
-	private String extracted_manageDebtPageByLand_searchFunctionWithPageable(Integer selectedPage, Integer totalPage,
-			String searchKeyword, HttpSession session, Model model, String username) {
-		if(selectedPage<0)
+	private String extracted_manageDebtPageByLand_searchFunctionWithPageable(ManageDebt_Pagination_DebtListDTO dto, HttpSession session, Model model, String username) {
+		if(dto.getSelectedPage()<0)
 		{
-			selectedPage=0;
+			dto.setSelectedPage(0);
 		}
-		if(selectedPage>=totalPage-1 )
+		if( (dto.getSelectedPage() >= dto.getTotalPage()-1 ) && (dto.getTotalPage()>0)  )
 		{
-			selectedPage=totalPage-1;
+			dto.setSelectedPage(dto.getTotalPage()-1);
 		}
 		if(this.landService.getDetailsLandList_ManageNavigation_Production(username).isEmpty())//kiem tra xem ng dung da khoi tao Land chua? chua thi khoi tao
 		{
@@ -182,9 +186,14 @@ public class ManageDebtController {
 		}
 		else
 		{
+			logger.info("manageDebtPageByLand_searchFunctionWithPageable selectedPage:{},totalPage:{},searchKeyword:{}"
+					,dto.getSelectedPage()
+					,dto.getTotalPage()
+					,dto.getSearchKey());
 			int totalRow=30;//we can make this edittable by admin later on
 			//check if currentPage is empty or not.If not pageable_function is working
-			int selectedPageResult = (selectedPage != null && !selectedPage.equals("")) ? selectedPage : 0;
+			//int selectedPageResult = (dto.getSelectedPage() != null && !dto.getSelectedPage().equals("")) ? dto.setSelectedPage(0);
+			
 			//Pageable currentPageWithThirtyElements = PageRequest.of(selectedPageResult, totalRow);
 			
 			
@@ -204,12 +213,12 @@ public class ManageDebtController {
 						model.addAttribute("selectedLand",land );//to display selected-land-name at layout-sidebar
 						
 						//check if searchKeyword is empty or not . If not empty search_function is working
-						if(searchKeyword != null && !searchKeyword.isEmpty())
+						if(dto.getSearchKey() != null && !dto.getSearchKey().isEmpty())
 						{
 
 							Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_PageableAndSorting(land.getLandID()
-									,selectedPageResult,totalRow,searchKeyword);
-							model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(selectedPageResult,debtList.getTotalPages()));//for pagination function
+									,dto.getSelectedPage(),totalRow,dto.getSearchKey());
+							model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(dto.getSelectedPage(),debtList.getTotalPages()));//for pagination function
 							model.addAttribute("debtList",debtList.toList() );
 
 							logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
@@ -221,8 +230,8 @@ public class ManageDebtController {
 						{
 
 							Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_Pageable(land.getLandID()
-									,selectedPageResult,totalRow);
-							model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(selectedPageResult,debtList.getTotalPages()));//for pagination function
+									,dto.getSelectedPage(),totalRow);
+							model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(dto.getSelectedPage(),debtList.getTotalPages()));//for pagination function
 							model.addAttribute("debtList",debtList.toList() );
 
 							logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
@@ -244,11 +253,11 @@ public class ManageDebtController {
 				model.addAttribute("selectedLand",landList.get(0));//to display selected-land-name at layout-sidebar
 				
 				//check if searchKeyword is empty or not . If not empty search_function is working
-				if(searchKeyword != null && !searchKeyword.isEmpty())
+				if(dto.getSearchKey() != null && !dto.getSearchKey().isEmpty())
 				{
 					Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_PageableAndSorting(landList.get(0).getLandID()
-							,selectedPageResult,totalRow,searchKeyword);
-					model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(selectedPageResult,debtList.getTotalPages()));//for pagination function
+							,dto.getSelectedPage(),totalRow,dto.getSearchKey());
+					model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(dto.getSelectedPage(),debtList.getTotalPages()));//for pagination function
 					model.addAttribute("debtList",debtList.toList() );
 
 					logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
@@ -260,8 +269,8 @@ public class ManageDebtController {
 				else
 				{
 					Page<ManageDebt_OrderDTO> debtList=this.manageDebt_OrderInfoService.getDebtList_BelongToLand_ManageDebt_Pageable(landList.get(0).getLandID()
-							,selectedPageResult,totalRow);
-					model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(selectedPageResult,debtList.getTotalPages()));//for pagination function
+							,dto.getSelectedPage(),totalRow);
+					model.addAttribute("pagination",new ManageDebt_PaginationDTO_ByLand(dto.getSelectedPage(),debtList.getTotalPages()));//for pagination function
 					model.addAttribute("debtList",debtList.toList() );
 
 					logger.info("pagination debt of land id:"+selectedLandID +" with debt list:"+debtList.toList());
@@ -356,7 +365,7 @@ public class ManageDebtController {
 		{
 			selectedPage=0;
 		}
-		if(selectedPage>=totalPage-1 )
+		if ( (selectedPage>=totalPage-1 ) && (totalPage>0))
 		{
 			selectedPage=totalPage-1;
 		}

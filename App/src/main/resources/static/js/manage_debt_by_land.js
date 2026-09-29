@@ -266,61 +266,13 @@ function formatTotalAmountWithComma()
     
 }
 
-function paginationDebtList()
-{
-	// Số trang hiện tại
-	let currentPage = 0;
-	
-	// Kiểm tra khi scroll
-	window.onscroll = function() {
-	    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-	        // Tăng số trang
-		    currentPage++;
-	        // Nếu scroll đến cuối trang
-	        loadMorePaginationData(currentPage);
-	        
-		    
-	    }
-	};
-}
-function loadMorePaginationData(currentPage) {
-    // Gửi yêu cầu đến server để lấy thêm dữ liệu
-    var pagination={
-					searchKeyword:$("#searchDebt").val(),
-					currentPage:currentPage,
-					totalPage:$("#totalPage").val()
-  	}
-    $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            url:"/quan-ly-cong-no/pagination", // Điều chỉnh URL tương ứng với Spring Boot
-            data: JSON.stringify(pagination),
-            success: function(response) {
-                displayPaginationData(response)
-            },
-            error: function(error) {
-                console.log("Lỗi khi phân trang: " + error);
-            }
-   });
-}
-
-function displayPaginationData(data) {
-    // Xử lý hiển thị dữ liệu trên trang web (thêm vào danh sách sản phẩm, v.v.)
-    // Ví dụ:
-    const productList = document.getElementById('product-list');
-    data.forEach(product => {
-        const productElement = document.createElement('div');
-        productElement.textContent = product.name; // Thay bằng các thông tin sản phẩm cần hiển thị
-        productList.appendChild(productElement);
-    });
-}
 function updateSearchKeywordForPaginationFunction()
 {
 	$(document).ready(function(){
-	  $("searchDebt").change(function(){
+	  $("#searchDebt").change(function(){
 	  	var keyword=$(this).val();
-	  	$("#previousPaginationForm input[name='searchKeyword']").val(keyword);
-	  	$("#nextPaginationForm input[name='searchKeyword']").val(keyword);
+	  	$("#previousPaginationForm input[name='searchKey']").val(keyword);
+	  	$("#nextPaginationForm input[name='searchKey']").val(keyword);
 	  });
 	});
 }
@@ -340,8 +292,6 @@ $(document).ready(function(){
     
     
     //pagination
-    let currentPage=0;
-    paginationDebtList(currentPage);
     updateSearchKeywordForPaginationFunction();
     //end of pagination
     
