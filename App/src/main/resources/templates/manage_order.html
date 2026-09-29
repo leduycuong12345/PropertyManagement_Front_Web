@@ -149,10 +149,7 @@
 								                <td name="totalDay" class="content-table-data">
 								                	<p th:text="${order.getTotalDay()}" />
 								                </td>
-								                <input type="hidden" name="propertyRentPrice" th:value="${order.getPropertyRentPrice()}"/>
-								                <!--  <td name="totalRentCost" class="content-table-data">
- 													<p></p>
- 								                </td>-->
+								                <input type="hidden" name="propertyRentPrice" th:value="${order.getPropertyRentPrice()}"/>							
  								                <td th:switch="${order.getOrderType()}"  class="content-table-data">
  								                	<div th:case="0">
  								                		<p></p>

@@ -91,6 +91,7 @@
 								                	Đã thu:<p th:text="${debt.totalAmount-debt.remainingAmount}"></p>
 								                </td>
 								                <td name="remainingAmount">
+								                	<input type="hidden" name="remainingAmount" th:value="${debt.remainingAmount}"/>
 								                	<p th:text="${debt.remainingAmount}"></p>
 								                </td>
 								                <td>
@@ -116,17 +117,28 @@
 								                	<p th:text="${debt.totalDay}" />
 								                </td>
 								                <input type="hidden" name="propertyRentPrice" th:value="${debt.propertyRentPrice}"/>
-								                <td name="totalRentCost" class="content-table-data">
- 													<p></p>
+ 								                <td th:switch="${debt.orderType}"  class="content-table-data">
+ 								                	<div th:case="0">
+ 								                		<p></p>
+ 								                	</div>
+ 								                	<div th:case="1">
+ 								                		<p name="totalRentCost"></p>
+ 								                	</div>
+ 													<div th:case="2">
+ 								                		<p name="totalRentCost"></p>
+ 								                	</div>
  								                </td>
 								                <th:block th:each="expanse : ${debt.expanseList}">
 								                	<td name="previousReadingValue" class="content-table-data">
+								                		<input type="hidden" name="previousReadingValue" th:value="${expanse.previousReadingValue}" />
 								                		<p th:text="${expanse.previousReadingValue}"></p>
 								                	</td>
 								                	<td name="currentReadingValue" class="content-table-data">
+								                		<input type="hidden" name="currentReadingValue" th:value="${expanse.currentReadingValue}" />
 								                		<p th:text="${expanse.currentReadingValue}"></p>
 								                	</td>
 								                	<td name="totalExpanseCost" class="content-table-data">
+								                		<input type="hidden" name="totalExpanseCost" th:value="${expanse.totalCost}"/>
 								                		<p th:text="${expanse.totalCost}"></p>
 								                	</td>
 								                	<input type="hidden" name="expanseQuantity" th:value="${expanse.quantity}" />
@@ -134,6 +146,7 @@
 								                </th:block>
 								                <td class="content-table-data">
 								                	<input type="hidden" name="expanseType" th:value="${debt.expanseType}" />
+								                	<input type="hidden" name="expanseCost" th:value="${debt.expanseCost}" />
 								                	<p name="expanseCost" th:text="${debt.expanseCost}"></p>
 								                </td>
 								                <td>
@@ -148,7 +161,7 @@
 																</div>
 														</li>
 														<li class="dropdown-item">
-														    	<div name="\">
+														    	<div name="printButton">
 																  	In phiếu thu tiền
 																</div>
 														</li>

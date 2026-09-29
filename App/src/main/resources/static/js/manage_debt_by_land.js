@@ -4,22 +4,32 @@ function parseToNewTabAndPrintOrder(orderHTML) {
 	      "<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.js'></script></head><body onload='window.print();'>" + orderHTML + "</body></html>");
 	document.close();
 }
-function printTenantList(){
-	$('div[name="printButton"]').click(function(){
+function safeLoadFloatValue(containerValue)
+{
+	return parseFloat(containerValue.replace(/,/g, ''));
+}
+function formatValuesToWithComma_PrintFunction(value)
+{
+	// Format the number with commas every 3 digits
+	      return formattedNumber = value.toLocaleString();
+}
+function printOrder(){
+	$('[name="printButton"]').click(function(){
+      var selectedMonth=$('li[name="selectedMonth"]').children("a").children("span").text();
+      var selectedYear=$('input[name="selectedYear"]').val();
       var propertyName=$(this).closest('tr').children('td[name="propertyName"]').children("p:eq(0)").text();
-      var propertyRentPrice=$(this).closest('tr').children('input[name="propertyRentPrice"]').val();//don gia tien phong
-      var totalRentCost=$(this).closest('tr').children('td[name="totalRentCost"]').children('p:eq(0)').text();// tong tien phong
-	  var totalAmount=$(this).closest('tr').children('td[name="totalAmount"]').children('p:eq(0)').text();//tong gia tri order
-	  var remainingAmount=$(this).closest('tr').children('td[name="remainingAmount"]').children('p:eq(0)').text();//tong tien can phai thanh toan cua phieu thu tien nay
-	  var totalDay=$(this).closest('tr').children('td[name="totalDay"]').children('p:eq(0)').text();
-      var totalMonth=$(this).closest('tr').children('td[name="totalMonth"]').children('p:eq(0)').text();
+      var propertyRentPrice=safeLoadFloatValue($(this).closest('tr').children('input[name="propertyRentPrice"]').val());//don gia tien phong
+      var totalRentCost=$(this).closest('tr').children('td').children('div').children('p[name="totalRentCost"]').text();// tong tien phong da duoc convert k can  parseFloat nua
+	  var totalAmount=$(this).closest('tr').children('td[name="totalAmount"]').children('p:eq(0)').text();//tong gia tri order da duoc convert k can parseFloat nua
+	  var remainingAmount=safeLoadFloatValue($(this).closest('tr').children('td').children('input[name="remainingAmount"]').val());//tong tien can phai thanh toan cua phieu thu tien nay
+	  var totalDay=safeLoadFloatValue($(this).closest('tr').children('td[name="totalDay"]').children('p:eq(0)').text());
+      var totalMonth=safeLoadFloatValue($(this).closest('tr').children('td[name="totalMonth"]').children('p:eq(0)').text());
 	  var deligatedTenantName=$(this).closest('tr').children('input[name="deligatedTenantName"]').val();
 	  var deligatedTenantPhoneNumber=$(this).closest('tr').children('input[name="deligatedTenantPhoneNumber"]').val();
 	  var expanseNote=$(this).closest('tr').children('input[name="expanseNote"]').val();
 	  var expanseType=$(this).closest('tr').children('td').children('input[name="expanseType"]').val();
-	  var expanseCost=$(this).closest('tr').children('td').children('p[name="expanseCost"]').text();
-	  var debtAmount=$(this).closest('tr').children('input[name="debtAmount"]').val();  
-	  var amount=parseFloat(debtAmount)+parseFloat(remainingAmount);                                
+	  var expanseCost=safeLoadFloatValue($(this).closest('tr').children('td').children('input[name="expanseCost"]').val());
+	  var amount=safeLoadFloatValue($(this).closest('tr').children('input[name="debtAmount"]').val());        
       //get expansePreviousReadingValue
       var recurringExpansePreviousReadingValueList=[];
       recurringExpansePreviousReadingValueList=$(this).closest('tr').children("td[name='previousReadingValue']");
@@ -39,11 +49,11 @@ function printTenantList(){
 	  // Now you can work with the selected elements expanseHeader
 	$("input[name='expanseHeader']").each(function(index, element) {
 	       var recurringExpanseName= $(element).val(); 
-	       var previousReadingValue=$(recurringExpansePreviousReadingValueList[index]).children("p:eq(0)").text();
-	       var currentReadingValue=$(recurringExpanseCurrentReadingValueList[index]).children("p:eq(0)").text();
-	       var totalExpanseCost=$(recurringExpanseTotalCostList[index]).children("p:eq(0)").text();
-	       var expansePrice=$(recurringExpansePriceList[index]).val();
-	       var expanseQuantity=$(recurringExpanseQuantityList[index]).val();
+	       var previousReadingValue=safeLoadFloatValue($(recurringExpansePreviousReadingValueList[index]).children('input[name="previousReadingValue"]').val());
+	       var currentReadingValue=safeLoadFloatValue($(recurringExpanseCurrentReadingValueList[index]).children('input[name="currentReadingValue"]').val());
+	       var totalExpanseCost=safeLoadFloatValue($(recurringExpanseTotalCostList[index]).children('input[name="totalExpanseCost"]').val());
+	       var expansePrice=safeLoadFloatValue($(recurringExpansePriceList[index]).val());
+	       var expanseQuantity=safeLoadFloatValue($(recurringExpanseQuantityList[index]).val());
 	       if(currentReadingValue!=0 && currentReadingValue>previousReadingValue)//this recurringExpanse s currently active.
 	       {
 			   var recurringExpanse={
@@ -61,7 +71,8 @@ function printTenantList(){
 	  //make order HTML 
 	  // Điền thông tin vào biểu mẫu
 	   var orderHtml= `
-	        <h2 style='text-align: center;'>Phiếu công nợ</h2>
+	    	<h3 style='text-align: center;'>Tháng ${selectedMonth}/${selectedYear}</h2>
+	        <h2 style='text-align: center;'>Phiếu thu tiền</h2>
 	        <h4 style='text-align: center;'>Phòng ${propertyName}</h4>
 	        <p>Tên khách hàng: ${deligatedTenantName}</p>
 	        <p>Số điện thoại khách hàng: ${deligatedTenantPhoneNumber}</p>
@@ -83,12 +94,12 @@ function printTenantList(){
 	    recurringExpanseList.forEach(function(recurringExpanse) {
 	        orderHtml += `
 	            <tr>
-	                <td>${recurringExpanse.recurringExpanseName}</td>
-	                <td>${recurringExpanse.expansePrice}</td>
-	                <td>${recurringExpanse.previousReadingValue}</td>
-	                <td>${recurringExpanse.currentReadingValue}</td>
-	                <td>${recurringExpanse.expanseQuantity}</td>
-	                <td>${recurringExpanse.totalExpanseCost}</td>
+	                <td>${formatValuesToWithComma_PrintFunction( recurringExpanse.recurringExpanseName )}</td>
+	                <td>${formatValuesToWithComma_PrintFunction( recurringExpanse.expansePrice )}</td>
+	                <td>${formatValuesToWithComma_PrintFunction( recurringExpanse.previousReadingValue )}</td>
+	                <td>${formatValuesToWithComma_PrintFunction( recurringExpanse.currentReadingValue )}</td>
+	                <td>${formatValuesToWithComma_PrintFunction( recurringExpanse.expanseQuantity )}</td>
+	                <td>${formatValuesToWithComma_PrintFunction( recurringExpanse.totalExpanseCost )}</td>
 	            </tr>
 	        `;
 	    });
@@ -102,7 +113,7 @@ function printTenantList(){
 	    		   <tr>
 	                   <td>Chi phí phát sinh</td>
 	                   <td colspan="4"> Chi tiết : ${expanseNote} </td>
-	                   <td>-${expanseCost}</td>
+	                   <td>-${formatValuesToWithComma_PrintFunction( expanseCost )}</td>
 	                   `;
 		 }
 		 else
@@ -111,7 +122,7 @@ function printTenantList(){
 	    		   <tr>
 	                   <td>Chi phí phát sinh</td>
 	                   <td colspan="4"> Chi tiết : ${expanseNote} </td>
-	                   <td>+${expanseCost}</td>
+	                   <td>+${formatValuesToWithComma_PrintFunction( expanseCost )}</td>
 	                   `;
 		 }
 	  	 
@@ -119,7 +130,7 @@ function printTenantList(){
 	               </tr>
 	               <tr>
 	                   <td>Giá phòng</td>
-	                   <td>${propertyRentPrice}</td>
+	                   <td>${formatValuesToWithComma_PrintFunction( propertyRentPrice )}</td>
 	                   <td colspan="3">Số tháng: ${totalMonth} + Số ngày: ${totalDay}  </td>
 	                   <td>${totalRentCost}</td>
 	               </tr>
@@ -129,11 +140,11 @@ function printTenantList(){
 	               </tr>
 	               <tr>
 	                   <td colspan="5">Tổng nợ</td>
-	                   <td>${debtAmount}</td>
+	                   <td>${parseInt(remainingAmount).toLocaleString()}</td>
 	               </tr>
 	               <tr>
 	                   <td colspan="5">Tổng tiền còn phải thanh toán</td>
-	                   <td>${amount}</td>
+	                   <td>${parseInt(amount).toLocaleString()}</td>
 	               </tr>
 	               
 	            </tbody>
@@ -403,7 +414,7 @@ function statisticAmount()
 }
 $(document).ready(function(){
 
-	printTenantList();
+	printOrder();
 	//calculate all rentPrice=totalTime*Price
 	calculateTotalPrice();
     
