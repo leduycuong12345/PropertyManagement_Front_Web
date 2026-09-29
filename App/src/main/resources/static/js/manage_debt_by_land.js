@@ -172,25 +172,27 @@ $(function () {
   });
 });
 
+
 function calculateTotalPrice() {
-  	var calculatePrice = $('td[name="totalRentCost"]');
+  	var calculatePrice = $('p[name="totalRentCost"]');
     
     // Now you can work with the selected input elements
     calculatePrice.each(function(index, element) {
         // Do something with each input element
         //console.log($(element).val()); // Print the value of the input element
-    	var totalDay=$(element).closest('tr').children('td[name="totalDay"]').children('p').text();
-    	var totalMonth=$(element).closest('tr').children('td[name="totalMonth"]').children('p').text();
-    	var propertyRentMonthPrice=$(element).closest('tr').children('input[name="propertyRentPrice"]').val();
+    	var totalDay= safeLoadFloatValue( $(element).closest('tr').children('td[name="totalDay"]').children('p').text());
+    	var totalMonth= safeLoadFloatValue( $(element).closest('tr').children('td[name="totalMonth"]').children('p').text());
+    	var propertyRentMonthPrice= safeLoadFloatValue($(element).closest('tr').children('input[name="propertyRentPrice"]').val());
     	
     	var propertyRentDayPrice=propertyRentMonthPrice/30;
     	var totalCost=(totalDay*propertyRentDayPrice)+(propertyRentMonthPrice*totalMonth);
     	
     	//round up to 3 digit decimal
     	var totalAmount=totalCost.toFixed(3);
-    	$(element).children('p').text(totalAmount);
+    	$(element).text(totalAmount);
     });
 }
+
 
 function statisticAmount()
 {
@@ -240,18 +242,18 @@ function formatRemainingAmountWithComma()
 function formatTotalRentCostWithComma()
 {
 	// Iterate through each <li> with name "remainingAmount"
-    $('td[name="totalRentCost"]').each(function() {
+    $('p[name="totalRentCost"]').each(function() {
       // Get the content of the <p> element
-      var content = $(this).find('p').text();
+      var content = $(this).text();
       
       // Convert the content to a number
-      var number = parseInt(content);
+      var number = safeLoadFloatValue(content);
 
       // Format the number with commas every 3 digits
       var formattedNumber = number.toLocaleString();
 
       // Replace the content of the <p> element with the formatted number
-      $(this).find('p').text(formattedNumber);
+      $(this).text(formattedNumber);
     });
     
 }
