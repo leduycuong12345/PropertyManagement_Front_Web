@@ -13,10 +13,16 @@ function formatValuesToWithComma_PrintFunction(value)
 	// Format the number with commas every 3 digits
 	      return formattedNumber = value.toLocaleString();
 }
+function convertDateToVnFormat(date)
+{
+	let arr=date.split("-");
+	[arr[0],arr[2]]=[arr[2],arr[0]];//swap index 0 and 2
+	arr.splice(0,1); //remove index 0
+	return arr.join("/");
+}
 function printOrder(){
 	$('[name="printButton"]').click(function(){
-      var selectedMonth=$('li[name="selectedMonth"]').children("a").children("span").text();
-      var selectedYear=$('input[name="selectedYear"]').val();
+      var orderStartChargeDate=convertDateToVnFormat($('#orderStartChargeDate').val());
       var propertyName=$(this).closest('tr').children('td[name="propertyName"]').children("p:eq(0)").text();
       var propertyRentPrice=safeLoadFloatValue($(this).closest('tr').children('input[name="propertyRentPrice"]').val());//don gia tien phong
       var totalRentCost=$(this).closest('tr').children('td').children('div').children('p[name="totalRentCost"]').text();// tong tien phong da duoc convert k can  parseFloat nua
@@ -71,7 +77,7 @@ function printOrder(){
 	  //make order HTML 
 	  // Điền thông tin vào biểu mẫu
 	   var orderHtml= `
-	    	<h3 style='text-align: center;'>Tháng ${selectedMonth}/${selectedYear}</h2>
+	    	<h3 style='text-align: center;'>Tháng ${orderStartChargeDate}</h2>
 	        <h2 style='text-align: center;'>Phiếu thu tiền</h2>
 	        <h4 style='text-align: center;'>Phòng ${propertyName}</h4>
 	        <p>Tên khách hàng: ${deligatedTenantName}</p>

@@ -70,6 +70,7 @@
 								                <input type="hidden" name="expanseNote" th:value="${debt.expanseNote}"/>
 								                <input type="hidden" name="orderStatus" th:value="${debt.orderStatus}" />
 								                <input type="hidden" name="debtAmount" th:value="${debt.debtAmount}" />
+								                <input type="hidden" id="orderStartChargeDate" th:value="${debt.orderStartChargeDate}" />
 								                <td name="propertyName" class="content-table-data">
 								                    <p th:text="${debt.propertyName}" />
 								                    <th:block th:switch="${debt.orderType}">
