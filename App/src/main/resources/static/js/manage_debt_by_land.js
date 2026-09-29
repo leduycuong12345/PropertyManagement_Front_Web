@@ -276,6 +276,99 @@ function updateSearchKeywordForPaginationFunction()
 	  });
 	});
 }
+function formatTotalExpanseCostWithComma()
+{
+	// Iterate through each <li> with name "totalExpanseCost"
+    $('td[name="totalExpanseCost"]').each(function() {
+      // Get the content of the <p> element
+      var content = $(this).find('p').text();
+      
+      // Convert the content to a number
+      var number = safeLoadFloatValue(content);
+
+      // Format the number with commas every 3 digits
+      var formattedNumber = number.toLocaleString();
+
+      // Replace the content of the <p> element with the formatted number
+      $(this).find('p').text(formattedNumber);
+    });
+    
+}
+function formatCurrentReadingValueWithComma()
+{
+	// Iterate through each <li> with name "currentReadingValue"
+    $('td[name="currentReadingValue"]').each(function() {
+      // Get the content of the <p> element
+      var content = $(this).find('p').text();
+      
+      // Convert the content to a number
+      var number = safeLoadFloatValue(content);
+
+      // Format the number with commas every 3 digits
+      var formattedNumber = number.toLocaleString();
+
+      // Replace the content of the <p> element with the formatted number
+      $(this).find('p').text(formattedNumber);
+    });
+    
+}
+function formatPreviousReadingValueWithComma()
+{
+	// Iterate through each <li> with name "previousReadingValue"
+    $('td[name="previousReadingValue"]').each(function() {
+		  $(this).find('p').each(function() {
+	      		 // Get the content of the <p> element
+	      var content = $(this).text();
+	      
+	      // Convert the content to a number
+	      var number = safeLoadFloatValue(content);
+	
+	      // Format the number with commas every 3 digits
+	      var formattedNumber = number.toLocaleString();
+	
+	      // Replace the content of the <p> element with the formatted number
+	      $(this).text(formattedNumber);
+      });
+     
+    });
+    
+}
+function formatExpanseCostWithComma()
+{
+	// Iterate through each <li> with name "expanseCost"
+    $('p[name="expanseCost"]').each(function() {
+	      var content = $(this).text();
+	      
+	      // Convert the content to a number
+	      var number = safeLoadFloatValue(content);
+	
+	      // Format the number with commas every 3 digits
+	      var formattedNumber = number.toLocaleString();
+	
+	      // Replace the content of the <p> element with the formatted number
+	      $(this).text(formattedNumber);
+     
+    });
+    
+}
+function formatVnFormatCurrency()
+{
+	// Iterate through each <li> with name "VnFormatCurrency"
+    $('.VnFormatCurrency').each(function() {
+	      var content = $(this).text();
+	      
+	      // Convert the content to a number
+	      var number = safeLoadFloatValue(content);
+	
+	      // Format the number with commas every 3 digits
+	      var formattedNumber = number.toLocaleString();
+	
+	      // Replace the content of the <p> element with the formatted number
+	      $(this).text(formattedNumber);
+     
+    });
+    
+}
 $(document).ready(function(){
 
 	printTenantList();
@@ -288,6 +381,12 @@ $(document).ready(function(){
     formatRemainingAmountWithComma();
     formatTotalRentCostWithComma();
     formatTotalAmountWithComma();
+  
+    formatTotalExpanseCostWithComma();
+    formatCurrentReadingValueWithComma();
+    formatPreviousReadingValueWithComma();  
+    formatExpanseCostWithComma();
+    formatVnFormatCurrency();
     //end formatting number zone
     
     
