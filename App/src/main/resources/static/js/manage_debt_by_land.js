@@ -5,7 +5,7 @@ function parseToNewTabAndPrintOrder(orderHTML) {
 	document.close();
 }
 function printTenantList(){
-	$('button[name="printButton"]').click(function(){
+	$('div[name="printButton"]').click(function(){
       var propertyName=$(this).closest('tr').children('td[name="propertyName"]').children("p:eq(0)").text();
       var propertyRentPrice=$(this).closest('tr').children('input[name="propertyRentPrice"]').val();//don gia tien phong
       var totalRentCost=$(this).closest('tr').children('td[name="totalRentCost"]').children('p:eq(0)').text();// tong tien phong
@@ -61,7 +61,7 @@ function printTenantList(){
 	  //make order HTML 
 	  // Điền thông tin vào biểu mẫu
 	   var orderHtml= `
-	        <h2 style='text-align: center;'>Phiếu công nợ/h2>
+	        <h2 style='text-align: center;'>Phiếu công nợ</h2>
 	        <h4 style='text-align: center;'>Phòng ${propertyName}</h4>
 	        <p>Tên khách hàng: ${deligatedTenantName}</p>
 	        <p>Số điện thoại khách hàng: ${deligatedTenantPhoneNumber}</p>
