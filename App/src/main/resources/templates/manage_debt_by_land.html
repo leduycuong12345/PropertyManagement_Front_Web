@@ -204,7 +204,7 @@
 													          		<input type="hidden"  name="orderID" th:value="${order.orderID}" />
 														      		<div class="form-floating mb-3 mt-3">
 																      <input type="hidden" name="receiptAmount" th:value="${order.remainingAmount}" />
-																      <textarea class="form-control formatNumberTextarea editable_receiptAmount_textarea" 
+																      <textarea class="form-control editable_receiptAmount_textarea" 
 																      	th:id="'receiptAmount-'+${order.orderID}" th:text="${order.remainingAmount}" required >
 																      </textarea>
 																      <label th:for="'receiptAmount-'+${order.orderID}">Nhập số tiền khách thuê thanh toán</label>

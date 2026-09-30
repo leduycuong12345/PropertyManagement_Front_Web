@@ -205,7 +205,10 @@
 														  	<form  th:action="@{/quan-ly-cong-no/thanh-toan}"  method="post" th:object="${newReceipt}" th:id="'receiptForm-'+${order.orderID}">
 													          		<input type="hidden"  name="orderID" th:value="${order.orderID}" />
 														      		<div class="form-floating mb-3 mt-3">
-																      <input type="number" class="form-control" name="receiptAmount" th:id="'receiptAmount-'+${order.orderID}" th:value="${order.remainingAmount}" required min="0" th:max="${order.remainingAmount}" step="any">
+																      <input type="hidden" name="receiptAmount" th:value="${order.remainingAmount}" />
+																      <textarea class="form-control editable_receiptAmount_textarea" 
+																      	th:id="'receiptAmount-'+${order.orderID}" th:text="${order.remainingAmount}" required >
+																      </textarea>
 																      <label th:for="'receiptAmount-'+${order.orderID}">Nhập số tiền khách thuê thanh toán</label>
 																	</div>
 																	<div class="form-floating mb-3 mt-3">
