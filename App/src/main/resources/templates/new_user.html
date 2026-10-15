@@ -35,7 +35,11 @@
 									<label th:for="newLandName">Tên nhà trọ</label>
 								</div>
 								<div class="form-floating mb-3 mt-3">
-									<input type="number" class="form-control"  th:field="*{propertyRentalPrice}" th:id="propertyRentalPrice" >
+									<input type="hidden" name="propertyRentalPrice" />
+									<textarea class="form-control editable_propertyRentalPrice_CreateNewLand_textarea"  
+										 id="propertyRentalPrice" required >
+										0
+									</textarea>
 									<label th:for="propertyRentalPrice">Giá cho thuê</label>
 								</div>
 								<div class="form-floating mb-3 mt-3">
