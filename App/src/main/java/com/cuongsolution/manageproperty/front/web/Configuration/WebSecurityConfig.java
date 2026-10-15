@@ -55,9 +55,10 @@ public class WebSecurityConfig  {
 		return http.build();
 		*/
 		//cors to send GET request to google geocode api
-		http.cors((cors) -> cors
+		/*http.cors((cors) -> cors
 				.configurationSource(myCORS_ConfigurationSource())
-			);
+			);*/
+		http.cors(cors -> {});
 		//csrf
         http
 		.csrf((csrf) -> csrf

@@ -155,8 +155,8 @@
 								<input type="checkbox" class="selectAllPropertyService" /> Chọn tất cả
 								<th:block th:if="${not #lists.isEmpty(recurringExpanse.propertyServiceList)}">
 												    	<div th:each="propertyService: ${recurringExpanse.propertyServiceList}"  class="propertyServiceContainer" >
-												    		 <input type="checkbox" th:if="${propertyService.isPropertyServiceIsDelete()}" name="selectedPropertyServiceIDList" th:value="${propertyService.getPropertyServiceID()}" />
-												    		 <input type="checkbox" th:unless="${propertyService.isPropertyServiceIsDelete()}" checked name="selectedPropertyServiceIDList" th:value="${propertyService.getPropertyServiceID()}" />
+												    		 <input type="checkbox" th:if="${propertyService.isPropertyServiceIsDelete()}" name="selectedPropertyServiceIDList" class="selectAllCheckboxPropertyService" th:value="${propertyService.getPropertyServiceID()}" />
+												    		 <input type="checkbox" th:unless="${propertyService.isPropertyServiceIsDelete()}" checked name="selectedPropertyServiceIDList" class="selectAllCheckboxPropertyService" th:value="${propertyService.getPropertyServiceID()}" />
 												    		 <p th:text="${propertyService.getPropertyName()}"></p>
 												    	</div>
 								</th:block>
@@ -226,10 +226,11 @@
 											Chọn tài sản muốn áp dụng
 											<i style="font-size: 14px;font-weight: normal;color: #444444;">Danh sách tài sản chọn áp dụng</i>
 								</h5>
+								
 								<input type="checkbox" class="selectAllPropertyService" /> Chọn tất cả
 								<th:block th:if="${not #lists.isEmpty(propertyList)}">
 												    	<div th:each="property: ${propertyList}"  class="propertyServiceContainer" >
-												    		 <input type="checkbox"  name="selectedPropertyIDList" th:value="${property.getPropertyID()}" />
+												    		 <input type="checkbox"  name="selectedPropertyIDList" class="selectAllCheckboxPropertyService" th:value="${property.getPropertyID()}" />
 												    		 <p th:text="${property.getPropertyName()}"></p>
 												    	</div>
 								</th:block>
