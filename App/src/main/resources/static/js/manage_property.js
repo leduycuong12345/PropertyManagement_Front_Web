@@ -130,7 +130,7 @@ function calculateTotalCost_CreateOrder_ManageProperty()
 	  //set value for detailsOrder so user know what they entered.
 	  $(this).closest('form').children('textarea[name="orderDetails"]').val(orderDetails);
   	  //set value to totalCost and display it as totalCostText
-  	  $(this).closest('form').children('div').children('input[name="totalCost"]').val(totalCost);
+  	  $(this).closest('form').children('input[name="totalCost"]').val(totalCost);
   	  $(this).closest('form').children('textarea[name="orderDetailsText"]').val(orderDetails);
   	  $(this).closest('.modal-content').children('.modal-footer').children('input[name="totalCostText"]').val(totalCost);
   	});
@@ -607,7 +607,6 @@ function calculateTotalCost_CreateFastOrderList_ManageProperty()
       sumRecurringExpanse_calculateTotalCost(this,totalCost);
       //end calculate repeatedExpanse
 	  
-  	  //set value to totalCost and display it as totalCostText
   	 
   	  
   	 
