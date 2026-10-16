@@ -741,11 +741,7 @@ function createFastOrderList() {
 			    {
 					if(expanseType==2)
 					{
-						let currentReading=safeLoadFloatValue( $(container).children('div').children('input[name="currentReading"]').val());
-						if(isNaN(currentReading))
-						{
-								currentReading=-1;
-						}
+						let currentReading=-1;
 						expanse={
 							propertyServiceID:propertyServiceID,
 							expanseType:expanseType,
