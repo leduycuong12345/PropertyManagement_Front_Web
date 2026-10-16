@@ -677,7 +677,9 @@
 														       </form> 
 														      </div>
 														      <div class="modal-footer">
-														      	<p>Tổng số tiền:</p><input type="number" disabled name="totalCostText" th:value="${property.getPropertyRentalPrice()}"/>
+														      	<input type="hidden" name="totalCostText" th:value="${property.getPropertyRentalPrice()}"/>
+														      	<p>Tổng số tiền:</p><textarea class="totalCost_CreateOrder_textarea"
+														      	 disabled name="totalCostText" th:text="${property.getPropertyRentalPrice()}" ></textarea>
 														        <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Đóng</button>
 																<input type="submit" value="Thêm phiếu thu tiền mới" class="btn btn-primary" th:form="'orderForm-'+${property.getPropertyID()}" />
 														      </div>
