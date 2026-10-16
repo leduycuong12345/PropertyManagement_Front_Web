@@ -123,6 +123,12 @@ public class ManageExpanseController {
 	public String editRecurringExpanse(
 			@ModelAttribute(value = "editRecurringExpanse") ManageExpanse_EditRecurringExpanseDTO editRecurringExpanse) {
 		//System.out.println("select expanse id list:"+selectedPropertyServiceIDList);
+		for(UUID id:editRecurringExpanse.getSelectedPropertyServiceIDList())
+		{
+
+			logger.info("ManageExpanseController editRecurringExpanse selectedPropertyServiceID:{} "
+					,id);
+		}
 		this.recurringExpanseService.manageExpanse_editExpanseDTO(editRecurringExpanse);
 		return "redirect:/quan-ly-dich-vu";
 	}

@@ -1,8 +1,15 @@
 function parseToNewTabAndPrintOrder(orderHTML) {
-  	document.open();
-  	document.write("<html><head><link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.css' rel='stylesheet'>" +
+	const printWindow = window.open('', '_blank');
+
+    if (!printWindow) {
+        alert('Please allow pop-ups for this website.');
+        return;
+    }
+    
+  	printWindow.document.open();
+  	printWindow.document.write("<html><head><link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.css' rel='stylesheet'>" +
 	      "<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.js'></script></head><body onload='window.print();'>" + orderHTML + "</body></html>");
-	document.close();
+	printWindow.document.close();
 }
 function safeLoadFloatValue(containerValue)
 {
