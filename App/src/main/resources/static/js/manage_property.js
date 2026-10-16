@@ -1200,6 +1200,13 @@ function updateNumberFormat_totalCost_CreateFastOrder()
 	updateValueToHiddenInputField_editableTextarea_totalCost_CreateFastOrder();
 } 
 //UI update number format of propertyRentalPrice in create_property ending
+function selectAllCheckbox_ActiveWorksheet_createFastOrderList()
+{
+	$("#selectAllCheckbox_ActiveWorksheet").change(function(x){
+      var isChecked=$(this).prop('checked');
+	  $('#fastCreateOrderListForm').children('div').children('div').children('div').children("input.selectedAllCheckbox_ActiveWorksheet").prop("checked",isChecked);
+  	});
+}
 $(document).ready(function(){
 
 	//create-worksheet
@@ -1244,6 +1251,7 @@ $(document).ready(function(){
     updateNumberFormat_totalCost_CreateFastOrder();
     //ending update numberformat
     
+    selectAllCheckbox_ActiveWorksheet_createFastOrderList();
 });
 
 

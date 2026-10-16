@@ -852,8 +852,11 @@
 																<h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
 													       		Danh sách tài sản đang cho thuê
 													       		<i style="font-size: 14px;font-weight: normal;color: #444444;">Danh sách các tài sản đang có hợp đồng cho thuê</i>
-													       		<input class="form-control" id="searchWorksheet_createFastOrderList" type="text" placeholder="Tìm tài sản ...">
+													       		<input class="form-control" id="searchWorksheet_createFastOrderList" type="text" placeholder="Tìm tài sản ..." />
 													       		</h5>
+													       		<div>
+													       			<input type="checkbox" id="selectAllCheckbox_ActiveWorksheet" /> Chọn tất cả hợp đồng
+																</div>
 																<div th:each="property: ${propertyList}" style="padding:5px;">
 																	<div th:switch="${property.getRentStatus()}" >
 												                		<div th:case="0">
@@ -861,7 +864,7 @@
 												                		</div>
 												                		<div name="fastCreateOrder" th:case="*" style="background-color: #bbb;display: inline-block;">
 																			
-																			<input type="checkbox" name="worksheetIsSelected" checked />
+																			<input type="checkbox" name="worksheetIsSelected"  class="selectedAllCheckbox_ActiveWorksheet" /><!-- dont checked all checkbox, not all client want to generate all -->
 																			
 																			<p th:text="${property.getPropertyName()}"></p>( Giá theo hợp đồng: <span th:text="${property.getPropertyRentalPrice()}"></span>đ)
 																			<input type="hidden" name="worksheetID" th:value="${property.getWorksheetID()}"  />
