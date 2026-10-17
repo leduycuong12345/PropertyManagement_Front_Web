@@ -736,7 +736,11 @@
 																					        	 <input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}" />
 																					        	 <input type="hidden" name="recurringExpanseType" th:value="${item.recurringExpanseType}" />
 																								 <div class="input-group mb-3">
-																								 	  <input type="number"  name="currentReading" th:value="${item.lastRecord.readingValue}" class="form-control updateValue_FastEditExpanseList"  aria-describedby="'fastEditExpanse_CurrentReading-'+${property.getPropertyID()}+${item.propertyServiceID}"/>
+																								 	  <input type="hidden" name="currentReading" th:value="${item.lastRecord.readingValue}"/>
+																								      <textarea   name="currentReading" th:text="${item.lastRecord.readingValue}" rows="1"  
+																								 	  class="form-control updateValue_EditExpanse_textarea updateValue_FastEditExpanseList" 
+																								 	  aria-describedby="'fastEditExpanse_CurrentReading-'+${property.getPropertyID()}+${item.propertyServiceID}">
+																								      </textarea>
 																								      <div class="input-group-append" style="width:70px;">
 																									    <span class="input-group-text" th:id="'fastEditExpanse_CurrentReading-'+${property.getPropertyID()}+${item.propertyServiceID}">
 																									    	<span th:text="${item.recurringExpanseUnitCount}"></span>

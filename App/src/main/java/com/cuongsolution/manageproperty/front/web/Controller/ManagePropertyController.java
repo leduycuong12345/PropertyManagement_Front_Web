@@ -172,8 +172,12 @@ public class ManagePropertyController {
     }
 	
 	@PostMapping(value="/quan-ly/chinh-sua-dich-vu")
-	public String postEditProperty( HttpSession session, @ModelAttribute("editFastExpanseList") ManageProperty_EditFastRecurringExpanseListDTO editFastExpanseList
+	public String postEditRecurringExpanseOfProperty( HttpSession session, @ModelAttribute("editFastExpanseList") ManageProperty_EditFastRecurringExpanseListDTO editFastExpanseList
 			,Model model)  {
+		for(String expanse:editFastExpanseList.getEditExpanseList())
+		{
+			logger.info("postEditRecurringExpanseOfProperty expanse:{}",expanse);
+		}
 		this.propertyServiceSer.fastEditExpanseList(editFastExpanseList);
 		return "redirect:/quan-ly";
     }
