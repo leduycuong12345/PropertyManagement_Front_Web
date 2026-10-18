@@ -715,7 +715,7 @@
 																        		<div name="expanseContainer" style="border-style:outset;padding:5px;">
 																			        	 <input type="checkbox" class="updateValue_FastEditExpanseList" name="selectExpanse" checked/>
 																				        	 <span th:text="${item.recurringExpanseName}"></span>( <span th:text="${item.recurringExpansePrice}"></span>d/<span th:text="${item.recurringExpanseUnitCount}"></span> )
-																				        	 <input type="hidden"  th:field="*{editExpanseList}" /> 		        	 
+																				        	 <input type="hidden"  name="editExpanseList" /> 		        	 
 																				        	 <input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}"/>
 																				        	 <input type="hidden" name="recurringExpanseType" th:value="${item.recurringExpanseType}"/>
 																							 <div class="input-group mb-3">
@@ -732,7 +732,7 @@
 																	        		<div name="expanseContainer" style="border-style:outset;padding:5px;">
 																				        	 <input type="checkbox" class="updateValue_FastEditExpanseList" name="selectExpanse" checked/>
 																					        	 <span th:text="${item.recurringExpanseName}"></span>( <span th:text="${item.recurringExpansePrice}"></span>d/<span th:text="${item.recurringExpanseUnitCount}"></span> )
-																					        	 <input type="hidden"  th:field="*{editExpanseList}" /> 		        	 
+																					        	 <input type="hidden"  name="editExpanseList" /> 		        	 
 																					        	 <input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}" />
 																					        	 <input type="hidden" name="recurringExpanseType" th:value="${item.recurringExpanseType}" />
 																								 <div class="input-group mb-3">

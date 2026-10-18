@@ -37,7 +37,6 @@ import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_FastCreateO
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_FastCreateOrderList_RecurringExpanseDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_FastCreateOrderList_WorksheetDTO;
 import com.cuongsolution.manageproperty.front.web.DTO.ManageProperty_PropertyDTO;
-import com.cuongsolution.manageproperty.front.web.DTO.Oauth_UserDTO;
 import com.cuongsolution.manageproperty.front.web.Service.Land.ManageNavigation_LandService_Production;
 import com.cuongsolution.manageproperty.front.web.Service.OrderInfo.ManageProperty_OrderInfoService;
 import com.cuongsolution.manageproperty.front.web.Service.Property.ManageProperty_PropertySer;

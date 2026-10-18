@@ -189,7 +189,7 @@ function callFunctionFor_CreateOrder_Sequences()
 
 //start fast-edit-expanse-list
 function generateValue_IDwithLastReading_FastEditExpanseList() {
-	$("textarea.updateValue_FastEditExpanseList").change(function(x){
+	$(".updateValue_FastEditExpanseList").change(function(x){
 	  let expanseType=parseInt($(this).closest('div[name="expanseContainer"]').children('input[name="recurringExpanseType"]').val());
 	  if(isNaN(expanseType))
 	  {
