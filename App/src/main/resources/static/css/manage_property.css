@@ -35,6 +35,12 @@ li.dropdown-item{
 .updateValue_EditExpanse_textarea{
 	border:none;outline: none;resize:none;
 }
+.editable_recurringExpanseValue_textarea{
+	outline: none;resize:none;
+}
+.editable_unexpectedExpanseCost_textarea{
+	outline: none;resize:none;
+}
 .form-check{
 	justify-content: center; /* Centers horizontally */
     align-items: center;     /* Centers vertically */

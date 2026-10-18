@@ -6,20 +6,20 @@ public class ManageOrder_ExpanseDTO {
 	private UUID detailsExpanseID;
 	private double expansePrice;
 	private double totalCost;
-	private float previousReadingValue;
-	private float currentReadingValue;
-	private float quantity;
+	private double previousReadingValue;
+	private double currentReadingValue;
+	private double quantity;
 	
-	public float getQuantity() {
+	public double getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(float quantity) {
+	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
-	public void setPreviousReadingValue(float previousReadingValue) {
+	public void setPreviousReadingValue(double previousReadingValue) {
 		this.previousReadingValue = previousReadingValue;
 	}
-	public void setCurrentReadingValue(float currentReadingValue) {
+	public void setCurrentReadingValue(double currentReadingValue) {
 		this.currentReadingValue = currentReadingValue;
 	}
 	public UUID getDetailsExpanseID() {
@@ -40,17 +40,17 @@ public class ManageOrder_ExpanseDTO {
 	public void setTotalCost(double totalCost) {
 		this.totalCost = totalCost;
 	}
-	public float getPreviousReadingValue() {
+	public double getPreviousReadingValue() {
 		return previousReadingValue;
 	}
-	public float getCurrentReadingValue() {
+	public double getCurrentReadingValue() {
 		return currentReadingValue;
 	}
 	public ManageOrder_ExpanseDTO() {
 		super();
 	}
 	public ManageOrder_ExpanseDTO(UUID detailsExpanseID, double expansePrice, double totalCost,
-			float previousReadingValue, float currentReadingValue,float quantity) {
+			double previousReadingValue, double currentReadingValue,double quantity) {
 		super();
 		this.detailsExpanseID = detailsExpanseID;
 		this.expansePrice = expansePrice;

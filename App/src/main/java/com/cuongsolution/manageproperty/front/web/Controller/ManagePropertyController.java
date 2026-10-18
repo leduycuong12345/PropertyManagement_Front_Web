@@ -245,6 +245,10 @@ public class ManagePropertyController {
 	public String createWorksheet_PropertyManagePage(@ModelAttribute("newWorksheet") ManageProperty_CreateWorksheetDTO newWorksheet) {
 	        // Process the submitted form data
 	        // ...
+		for(String expanse: newWorksheet.getSelectedExpanseList())
+		{
+			logger.info("createWorksheet_PropertyManagePage expanse:{}",expanse);
+		}
 		this.worksheetService.createWorksheet_At_ManageProperty(newWorksheet);
 	    return "redirect:/quan-ly";
 	}

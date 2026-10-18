@@ -5,8 +5,8 @@ import java.util.UUID;
 public class ManageProperty_FastCreateOrderList_RecurringExpanseDTO {
 	private UUID propertyServiceID;
 	private int expanseType;
-	private float previousReadingValue;
-	private float currentReadingValue;
+	private double previousReadingValue;
+	private double currentReadingValue;
 	
 	public UUID getPropertyServiceID() {
 		return propertyServiceID;
@@ -20,16 +20,16 @@ public class ManageProperty_FastCreateOrderList_RecurringExpanseDTO {
 	public void setExpanseType(int expanseType) {
 		this.expanseType = expanseType;
 	}
-	public float getPreviousReadingValue() {
+	public double getPreviousReadingValue() {
 		return previousReadingValue;
 	}
-	public float getCurrentReadingValue() {
+	public double getCurrentReadingValue() {
 		return currentReadingValue;
 	}
-	public void setCurrentReadingValue(float currentReadingValue) {
+	public void setCurrentReadingValue(double currentReadingValue) {
 		this.currentReadingValue = currentReadingValue;
 	}
-	public void setPreviousReadingValue(float previousReadingValue) {
+	public void setPreviousReadingValue(double previousReadingValue) {
 		this.previousReadingValue = previousReadingValue;
 	}
 	

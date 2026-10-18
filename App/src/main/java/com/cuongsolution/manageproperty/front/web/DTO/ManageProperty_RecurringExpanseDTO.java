@@ -5,7 +5,7 @@ import java.util.UUID;
 public class ManageProperty_RecurringExpanseDTO {
 	private UUID propertyServiceID;
 	private String recurringExpanseName;
-	private float recurringExpansePrice;	
+	private double recurringExpansePrice;	
 	private ManageProperty_ReadingDTO lastRecord; 
 	private String recurringExpanseUnitCount;
 	private int recurringExpanseType;
@@ -30,10 +30,10 @@ public class ManageProperty_RecurringExpanseDTO {
 	public void setRecurringExpanseName(String recurringExpanseName) {
 		this.recurringExpanseName = recurringExpanseName;
 	}
-	public float getRecurringExpansePrice() {
+	public double getRecurringExpansePrice() {
 		return recurringExpansePrice;
 	}
-	public void setRecurringExpansePrice(float recurringExpansePrice) {
+	public void setRecurringExpansePrice(double recurringExpansePrice) {
 		this.recurringExpansePrice = recurringExpansePrice;
 	}
 	public boolean isEnabled() {
@@ -62,7 +62,7 @@ public class ManageProperty_RecurringExpanseDTO {
 	// luồng sequences create-worksheet: dành cho chức năng tính theo-số-ghi-đồng-hồ (số trước và số sau )
 	//luồng sequences create-worksheet dành cho chức năng tính theo đầu người hoặc theo tổng-dùng
 	public ManageProperty_RecurringExpanseDTO(UUID propertyServiceID, String recurringName,
-			float recurringExpansePrice, String recurringExpanseUnitCount
+			double recurringExpansePrice, String recurringExpanseUnitCount
 			,int recurringExpanseType) {
 		super();
 		this.propertyServiceID = propertyServiceID;
@@ -74,7 +74,7 @@ public class ManageProperty_RecurringExpanseDTO {
 		this.recurringExpanseType= recurringExpanseType;
 	}
 	public ManageProperty_RecurringExpanseDTO(UUID propertyServiceID, String recurringName,
-			float recurringExpansePrice,ManageProperty_ReadingDTO lastRecord,String recurringExpanseUnitCount
+			double recurringExpansePrice,ManageProperty_ReadingDTO lastRecord,String recurringExpanseUnitCount
 			,int recurringExpanseType) {
 		super();
 		this.propertyServiceID = propertyServiceID;

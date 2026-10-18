@@ -6,7 +6,7 @@ import java.util.UUID;
 public class ManageExpanse_RecurringExpanseDTO {
 	private UUID recurringExpanseID;
 	private String recurringExpanseName;
-	private float recurringExpansePrice;
+	private double recurringExpansePrice;
 	private int recurringExpanseType;
 	private UUID recurringExpanseUnitID;
 	private String recurringExpanseUnitName;
@@ -34,11 +34,11 @@ public class ManageExpanse_RecurringExpanseDTO {
 		this.recurringExpanseName = recurringExpanseName;
 	}
 
-	public float getRecurringExpansePrice() {
+	public double getRecurringExpansePrice() {
 		return recurringExpansePrice;
 	}
 
-	public void setRecurringExpansePrice(float recurringExpansePrice) {
+	public void setRecurringExpansePrice(double recurringExpansePrice) {
 		this.recurringExpansePrice = recurringExpansePrice;
 	}
 
@@ -85,7 +85,7 @@ public class ManageExpanse_RecurringExpanseDTO {
 	}
 
 	public ManageExpanse_RecurringExpanseDTO(UUID recurringExpanseID, String recurringExpanseName,
-			float recurringExpansePrice, int recurringExpanseType, UUID recurringExpanseUnitID,
+			double recurringExpansePrice, int recurringExpanseType, UUID recurringExpanseUnitID,
 			String recurringExpanseUnitName, int totalAppliedProperty,
 			List<ManageExpanse_PropertyServiceDTO> propertyServiceList) {
 		super();
