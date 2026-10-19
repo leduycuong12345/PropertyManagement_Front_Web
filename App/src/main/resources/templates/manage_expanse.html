@@ -124,7 +124,8 @@
 					        			<div class="col-md">
 					        				<div class="form-floating">
 					        					<input type="hidden" name="recurringExpansePrice" th:value="${recurringExpanse.getRecurringExpansePrice()}" />
-					        					<textarea  class="form-control editable_recurringExpansePrice_textarea"  th:id="'recurringExpansePrice-'+${recurringExpanse.getRecurringExpanseID()}" 
+					        					<textarea  class="form-control editable_recurringExpansePrice_textarea" 
+					        					 th:id="'recurringExpansePrice-'+${recurringExpanse.getRecurringExpanseID()}" 
 					        					th:text="${recurringExpanse.getRecurringExpansePrice()}"  required>
 					        					</textarea>
 												<label th:for="'recurringExpansePrice-'+${recurringExpanse.getRecurringExpanseID()}">Đơn giá dịch vụ</label>
@@ -205,6 +206,7 @@
 					        				<div class="form-floating">
 												<input type="hidden" name="recurringExpansePrice" />
 												<textarea class="form-control editable_recurringExpansePrice_CreateNewExpanse_textarea"  
+													style="resize:none!important;"
 													  id="newRecurringExpansePrice" required >
 													0
 												</textarea>

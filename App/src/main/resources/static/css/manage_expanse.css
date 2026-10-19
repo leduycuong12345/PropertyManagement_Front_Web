@@ -46,3 +46,6 @@
 .propertyServiceContainer{
 	border-style:outset;padding:5px;
 }
+.editable_recurringExpansePrice_CreateNewExpanse_textarea{
+	outline: none;
+}
