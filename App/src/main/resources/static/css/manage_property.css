@@ -20,6 +20,12 @@ li.dropdown-item{
   display: block;
   item-align:middle;
 }
+.editable_depositAmount_textarea{
+	outline: none;resize:none;
+}
+.editable_worksheetRentalPrice_textarea{
+	outline: none;resize:none;
+}
 .editable_propertyRentalPrice_CreateProperty_textarea{
 	border:none;outline: none;resize:none;
 }
