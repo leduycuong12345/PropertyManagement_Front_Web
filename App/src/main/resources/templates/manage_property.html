@@ -553,11 +553,11 @@
 	    </div>
 	    <!-- END modal for create-worksheet in property-lít -->
 	    
-	    <!-- modal for cder in property-list -->
+	    <!-- modal for create-order in property-list -->
 	    <div th:each="property: ${propertyList}">
 	     	<div th:switch="${property.getRentStatus()}" >
 	     		<div th:case="0">
-	     			<!-- this case for create-worksheet -->
+	     			<!-- this case for create-order -->
 	     		</div>
 			 	<div th:case="*">
 					<div class="modal fade" th:id="'orderModal-'+${property.getPropertyID()}" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
@@ -618,11 +618,23 @@
 																		        	 <input type="hidden" name="recurringExpansePrice" th:value="${item.recurringExpansePrice}" />
 																		        	 <input type="hidden" name="recurringExpanseType" th:value="${item.recurringExpanseType}" />
 																		        	 <div class="form-floating mb-3 mt-3">
-																					      <input type="number" name="lastReading" th:value="${item.lastRecord.readingValue}" class="form-control calculateTotalCost_CreateOrder updateReadingWithID" th:id="'lastReading-'+${property.getPropertyID()}+${item.propertyServiceID}">
+																					      <input type="hidden" name="lastReading" th:value="${item.lastRecord.readingValue}" />
+																					      <textarea 
+																					      class="form-control calculateTotalCost_CreateOrder updateReadingWithID_createOrder lastReading_createOrder_textarea"
+																					       th:text="${item.lastRecord.readingValue}" 
+																					        th:id="'lastReading-'+${property.getPropertyID()}+${item.propertyServiceID}" >
+																					      0
+																					      </textarea>
 																					      <label th:for="'lastReading-'+${property.getPropertyID()}+${item.propertyServiceID}">Số cũ</label>
 																					</div>	
 																					<div class="form-floating mb-3 mt-3">
-																					      <input type="number"  name="currentReading" th:value="${item.lastRecord.readingValue}" class="form-control calculateTotalCost_CreateOrder updateReadingWithID" th:id="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}">
+																					      <input type="hidden" name="currentReading" th:value="${item.lastRecord.readingValue}" />
+																					      <textarea 
+																					      class="form-control calculateTotalCost_CreateOrder updateReadingWithID_createOrder currentReading_createOrder_textarea"
+																					       th:text="${item.lastRecord.readingValue}" 
+																					        th:id="'lastReading-'+${property.getPropertyID()}+${item.propertyServiceID}" >
+																					      0
+																					      </textarea>
 																					      <label th:for="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}">Số mới</label>
 																					</div>	
 																		        </div>
