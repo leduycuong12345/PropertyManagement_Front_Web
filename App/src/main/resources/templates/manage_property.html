@@ -907,12 +907,20 @@
 																					        	 <input type="hidden" name="recurringExpansePrice" th:value="${item.recurringExpansePrice}" />
 																					        	 <input type="hidden" name="recurringExpanseType" th:value="${item.recurringExpanseType}" />
 																					        	 <div class="form-floating mb-3 mt-3">
-																								      <input type="number" name="lastReading" th:value="${item.lastRecord.readingValue}" class="form-control calculateOrderList" th:id="'lastReading-'+${property.getPropertyID()}+${item.propertyServiceID}" >
-																								      <label th:for="'lastReading-'+${property.getPropertyID()}+${item.propertyServiceID}">Số cũ</label>
+																								      <input type="hidden" name="lastReading" th:value="${item.lastRecord.readingValue}" />
+																								      <textarea class="form-control calculateOrderList lastReading_CreateFastOrder_textarea"
+																								       th:id="'lastReading-'+${property.getPropertyID()}+${item.propertyServiceID}"
+																								      th:text="${item.lastRecord.readingValue}" required>
+																								      </textarea>
+																								      <label th:for="'lastReading-'+${item.propertyServiceID}">Số mới</label>
 																								</div>	
 																								<div class="form-floating mb-3 mt-3">
-																								      <input type="number"  name="currentReading" th:value="${item.lastRecord.readingValue}" class="form-control calculateOrderList" th:id="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}" >
-																								      <label th:for="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}">Số mới</label>
+																									  <input type="hidden" name="currentReading" th:value="${item.lastRecord.readingValue}" />
+																								      <textarea class="form-control calculateOrderList currentReading_CreateFastOrder_textarea"
+																								       th:id="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}"
+																								      th:text="${item.lastRecord.readingValue}" required>
+																								      </textarea>
+																								      <label th:for="'currentReading-'+${item.propertyServiceID}">Số mới</label>
 																								</div>	
 																					        </div>
 																				        </div>
@@ -925,9 +933,16 @@
 																					        	 <input type="hidden" name="recurringExpansePrice" th:value="${item.recurringExpansePrice}" />
 																					        	 <input type="hidden" name="recurringExpanseType" th:value="${item.recurringExpanseType}" />
 																					        	 <div class="form-floating mb-3 mt-3">
-																								      <input type="number"  name="currentReading" class="form-control calculateOrderList" th:id="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}" th:value="${item.lastRecord.readingValue}" />
+																								 	  <input type="hidden" name="currentReading" th:value="${item.lastRecord.readingValue}" />
+																								      <textarea class="form-control calculateOrderList currentReading_CreateFastOrder_textarea"
+																								       th:id="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}"
+																								      th:text="${item.lastRecord.readingValue}" required>
+																								      </textarea>
 																								      <label th:for="'currentReading-'+${item.propertyServiceID}">Số mới</label>
-																								 </div>		
+																									
+																								 </div>	
+																								 
+																								 							 	
 																					        </div>
 																				        </div>
 																				        <div th:case="2">
