@@ -17,7 +17,7 @@ public interface RecurringExpanseService {
 	public abstract List<ManageExpanse_RecurringExpanseDTO> manageExpanse_findRecurringExpanseBelongToLand(UUID landID); 
 	public abstract void manageExpanse_deleteByID(UUID recurringExpanseID);
 	public abstract void manageExpanse_editExpanseDTO(ManageExpanse_EditRecurringExpanseDTO editRecurringExpanseDTO);
-	public abstract void manageExpanse_createRecurringExpanse(ManageExpanse_CreateRecurringExpanseDTO newExpanseDTO);
+	public abstract String manageExpanse_createRecurringExpanse(ManageExpanse_CreateRecurringExpanseDTO newExpanseDTO);
 	public abstract List<ManageDebt_ExpanseHeaderDTO> manageDebt_findRecurringExpanseBelongToLand(UUID selectedLandID);
 
 

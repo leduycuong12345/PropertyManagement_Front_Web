@@ -136,8 +136,15 @@ public class ManageExpanseController {
 	public String createRecurringExpanse(
 			@ModelAttribute(value = "newExpanse") ManageExpanse_CreateRecurringExpanseDTO newExpanseDTO) {
 		//System.out.println("select expanse id list:"+selectedPropertyServiceIDList);
-		this.recurringExpanseService.manageExpanse_createRecurringExpanse(newExpanseDTO);
-		return "redirect:/quan-ly-dich-vu";
+		String response=this.recurringExpanseService.manageExpanse_createRecurringExpanse(newExpanseDTO);
+		if(response.equals("Recurring expanse is created."))
+		{
+			return "redirect:/quan-ly-dich-vu";
+		}
+		else
+		{
+			return "redirect:/";
+		}
 	}
 
 }

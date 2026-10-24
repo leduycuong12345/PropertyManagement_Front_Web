@@ -72,7 +72,7 @@ public class RecurringExpanseServiceImpl implements RecurringExpanseService {
 	}
 
 	@Override
-	public void manageExpanse_createRecurringExpanse(ManageExpanse_CreateRecurringExpanseDTO newExpanseDTO) {
+	public String manageExpanse_createRecurringExpanse(ManageExpanse_CreateRecurringExpanseDTO newExpanseDTO) {
 		String fullPostURL = kafkaBaseURL+"/manageexpanse/createrecurringexpanse";
 		// Create a WebClient instance
 		WebClient webClient = WebClient.create(kafkaBaseURL);
@@ -84,9 +84,10 @@ public class RecurringExpanseServiceImpl implements RecurringExpanseService {
                 .bodyToMono(String.class);
 
         // Subscribe to get the response
-        responseMono.subscribe(response -> {
+        /*responseMono.subscribe(response -> {
             System.out.println("Response from server: " + response);
-        });
+        });*/
+        return responseMono.block();
 	}
 
 	@Override
