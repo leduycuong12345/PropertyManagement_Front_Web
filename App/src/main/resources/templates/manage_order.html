@@ -77,7 +77,7 @@
 					        			<th class="content-table-header" rowspan="2">Trạng thái</th>
 					        			<th class="content-table-header" colspan="3">Giá cho thuê</th>
 					        			<th:block th:each="expanse : ${expanseHeaderList}">
-				                        	<th class="content-table-header" colspan="3" th:text="${expanse.expanseName}+' ( '+${expanse.expansePrice}+'đ )'"></th>
+				                        	<th class="content-table-header" colspan="3" th:text="${expanse.expanseName}+' ( '+${#numbers.formatDecimal(expanse.expansePrice, 0, 'COMMA', 0, 'POINT')}+'VNĐ )'"></th>
 				                        	<input type="hidden" name="expanseHeader" th:value="${expanse.expanseName}"/>
 				                        </th:block>
 					        			<th class="content-table-header" rowspan="2">Cộng thêm/Giảm trừ</th>
