@@ -237,7 +237,7 @@
 								<th:block th:if="${not #lists.isEmpty(propertyList)}">
 												    	<div th:each="property: ${propertyList}"  class="propertyServiceContainer" >
 												    		 <input type="checkbox"  name="selectedPropertyIDList" class="selectAllCheckboxPropertyService" th:value="${property.getPropertyID()}" />
-												    		 <p th:text="${property.getPropertyName()}"></p>
+												    		 <span th:text="${property.getPropertyName()}"></span>
 												    	</div>
 								</th:block>
 					          </form>	
