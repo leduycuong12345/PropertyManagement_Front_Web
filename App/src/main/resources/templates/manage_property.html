@@ -885,19 +885,20 @@
 												                		<div th:case="0">
 																			<!---->
 												                		</div>
-												                		<div name="fastCreateOrder" th:case="*" style="background-color: #bbb;display: inline-block;">
+												                		<div name="fastCreateOrder" th:case="*" style="border-style: double;padding: 5px;">
 																			
 																			<input type="checkbox" name="worksheetIsSelected"  class="selectedAllCheckbox_ActiveWorksheet" /><!-- dont checked all checkbox, not all client want to generate all -->
 																			
-																			<p th:text="${property.getPropertyName()}"></p>( Giá theo hợp đồng: <span th:text="${property.getPropertyRentalPrice()}"></span>đ)
+																			<span th:text="${property.getPropertyName()}"></span>( Giá theo hợp đồng: <span th:text="${#numbers.formatDecimal(property.getPropertyRentalPrice(), 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></span> )
 																			<input type="hidden" name="worksheetID" th:value="${property.getWorksheetID()}"  />
 												                			<th:block th:if="${not #lists.isEmpty(property.recurringExpanseList)}">
 																		        <div th:each="item, itemStat : ${property.recurringExpanseList}">
 																		           <div th:switch="${item.recurringExpanseType}">
 																						<div th:case="3">
-																							<div name="expanseContainer" style="border-style:outset;padding:5px;">
+																							<div name="expanseContainer" style="border-style:dashed;padding:5px;margin-bottom: 5px;">
 																					        	 <p>
-																					        	 	<span th:text="${item.recurringExpanseName}"></span>( <span th:text="${item.recurringExpansePrice}"></span>d/<span th:text="${item.recurringExpanseUnitCount}"></span> )
+																					        	 	<span>Tên chi phí: </span>
+																					        	 	<span style="font-weight: bold;" th:text="${item.recurringExpanseName}"></span> ( <span  th:text="${#numbers.formatDecimal(item.recurringExpansePrice, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'" ></span>/<span th:text="${item.recurringExpanseUnitCount}"></span> )
 																					        	 </p>
 																					        	 <input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}"/>
 																					        	 <input type="hidden" name="recurringExpansePrice" th:value="${item.recurringExpansePrice}" />
@@ -921,9 +922,10 @@
 																					        </div>
 																				        </div>
 																				        <div th:case="1">
-																							<div name="expanseContainer" style="border-style:outset;padding:5px;">
+																							<div name="expanseContainer" style="border-style:dashed;padding:5px;margin-bottom: 5px;">
 																					        	 <p>
-																					        	 	<span th:text="${item.recurringExpanseName}"></span>( <span th:text="${item.recurringExpansePrice}"></span>d/<span th:text="${item.recurringExpanseUnitCount}"></span> )( Số cũ: <span th:text="${item.lastRecord.readingValue}"></span> )
+																					        	 	<span>Tên chi phí: </span>
+																					        	 	<span style="font-weight: bold;" th:text="${item.recurringExpanseName}"></span> ( <span th:text="${#numbers.formatDecimal(item.recurringExpansePrice, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></span>/<span th:text="${item.recurringExpanseUnitCount}"></span> )( Số cũ: <span th:text="${item.lastRecord.readingValue}"></span> )
 																					        	 </p>
 																					        	 <input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}" />
 																					        	 <input type="hidden" name="recurringExpansePrice" th:value="${item.recurringExpansePrice}" />
@@ -942,9 +944,10 @@
 																					        </div>
 																				        </div>
 																				        <div th:case="2">
-																							<div name="expanseContainer" style="border-style:outset;padding:5px;">
+																							<div name="expanseContainer" style="border-style:dashed;padding:5px;margin-bottom: 5px;">
 																								<p>
-																						        	 	<span th:text="${item.recurringExpanseName}"></span>( <span th:text="${item.recurringExpansePrice}"></span>d/<span th:text="${item.recurringExpanseUnitCount}"></span> )
+																						        	 <span>Tên chi phí: </span>
+																						        	 <span style="font-weight: bold;" th:text="${item.recurringExpanseName}"></span> ( <span th:text="${#numbers.formatDecimal(item.recurringExpansePrice, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></span>/<span th:text="${item.recurringExpanseUnitCount}"></span> )
 																						        </p>
 																								<input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}" />
 																								<input type="hidden" name="recurringExpanseType" th:value="${item.recurringExpanseType}" />
