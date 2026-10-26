@@ -502,10 +502,6 @@
 																			        	 	<span th:text="'Giá '+${item.recurringExpansePrice}+' đ/'+${item.recurringExpanseUnitCount}"></span>
 																			        	 </p>
 																			        	 <div class="input-group mb-3">
-																			        	 <!--  
-																						   <input type="number" class="form-control" name="recurringExpanseValue" th:value="${item.lastRecord.readingValue}">
-																						   <span class="input-group-text" th:text="${item.recurringExpanseUnitCount}+'(Chỉ số hiện tại)'"></span>
-																						 -->
 																						   <input type="hidden" name="recurringExpanseValue" th:value="${item.lastRecord.readingValue}" />
 																					       <textarea class="form-control editable_recurringExpanseValue_textarea"   rows="1"
 																					       		th:id="'recurringExpanseValue-'+${item.propertyServiceID}"  name="recurringExpanseValue"

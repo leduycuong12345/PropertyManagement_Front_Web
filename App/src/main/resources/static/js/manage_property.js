@@ -1296,7 +1296,7 @@ function formatNumberTextarea_recurringExpanseValue_CreateWorksheet_FocusOn_Blur
 	    $(this).val(formattedNumber);
 	    $(this).text(formattedNumber);
 	    
-	    
+	    updateValueWithID_RecurringExpanse_CreateWorksheet(this,number);
     });
     
 }
