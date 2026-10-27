@@ -1653,15 +1653,7 @@ $(document).ready(function(){
 		
     });
     
-    //calculate totalcost each order
-    calculateTotalCost_CreateFastOrderList_ManageProperty();
-    updateTotalCostWhileEditTotalMonthAndTotalDay_FastCreateOrderList_ManageProperty();
-    searchWorksheet_createFastOrderList();
-    renderStateCalculateTotalCost_FastCreateOrderList_ManageProperty();//first calculate at render_stage
-    //fast craete order-list function
-    $("#fastCreateOrderListButton").click(function() {
-		createFastOrderList();
-    });
+    
     
     //update numberformat 
     updateNumberFormat_depositAmount_CreateContact();
@@ -1685,6 +1677,16 @@ $(document).ready(function(){
     
 	//create order function	
 	callFunctionFor_CreateOrder_Sequences();
+	
+	//calculate totalcost each order
+    calculateTotalCost_CreateFastOrderList_ManageProperty();
+    updateTotalCostWhileEditTotalMonthAndTotalDay_FastCreateOrderList_ManageProperty();
+    searchWorksheet_createFastOrderList();
+    renderStateCalculateTotalCost_FastCreateOrderList_ManageProperty();//first calculate at render_stage
+    //fast craete order-list function
+    $("#fastCreateOrderListButton").click(function() {
+		createFastOrderList();
+    });
 });
 
 
