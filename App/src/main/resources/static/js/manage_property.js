@@ -175,6 +175,7 @@ function generate_IDwithReading_RecurringExpanse_CreateOrder() {
 }
 function callFunctionFor_CreateOrder_Sequences()
 {
+	//this autoCalculateTotalOrder should be call after autoFormatNumber if u dont want things to be delay-calculate-1step-behind
 	generate_IDwithReading_RecurringExpanse_CreateOrder();
 	calculateTotalCost_CreateOrder_ManageProperty();
 }
@@ -1636,8 +1637,6 @@ $(document).ready(function(){
 
 	//edit expanse list 
 	callFunctionFor_FastEditExpanseList_Sequences();
-	//create order function	
-	callFunctionFor_CreateOrder_Sequences();
 	
 	//filter function
 	filter_propertyList_manageProperty();
@@ -1682,6 +1681,10 @@ $(document).ready(function(){
     //ending update numberformat
     
     selectAllCheckbox_ActiveWorksheet_createFastOrderList();
+    
+    
+	//create order function	
+	callFunctionFor_CreateOrder_Sequences();
 });
 
 
