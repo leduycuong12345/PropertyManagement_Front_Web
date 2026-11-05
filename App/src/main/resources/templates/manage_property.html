@@ -68,9 +68,9 @@
 				                <td>
 				                	<div>
 					                	<input type="hidden" class="updatePropertyRentalPrice" th:value="${property.getPropertyRentalPrice()}" />
-					                    <!--  <textarea  onchange="allowToSave(this)" class="editable_property_textarea updatePropertyRentalPrice h-100 w-auto d-inline-block" th:name="propertyRentalPrice" th:text="${#numbers.formatDecimal(property.getPropertyRentalPrice(), 0, 'COMMA', 1, 'POINT')}" ></textarea>-->
-					                	 <textarea class="editable_property_textarea updatePropertyRentalPrice editable_updatePropertyRentalPrice_EditProperty_textarea h-100 w-auto d-inline-block"  
-					                	 th:text="${property.getPropertyRentalPrice()}"  onchange="allowToSave(this)"  >
+					                     <textarea class="editable_property_textarea updatePropertyRentalPrice editable_updatePropertyRentalPrice_EditProperty_textarea h-100 w-auto d-inline-block"  
+					                	 th:text="${property.getPropertyRentalPrice()}"  onchange="allowToSave(this)"
+					                	 name="editable_updatePropertyRentalPrice_EditProperty_textareaName"  >
 					                	 </textarea>
 				                	</div>
 				                </td>
@@ -78,13 +78,14 @@
 				                	<div th:switch="${property.getRentStatus()}" >
 				                		<div th:case="0">
 				                			<input type="hidden" class="updateWorksheetTotalDeposit" th:value="0" />
-				                			<textarea name="worksheetTotalDeposit" style="color:red;" class="editable_property_textarea_withString h-100 w-auto d-inline-block" data-value="-1" readonly>Chưa lập hợp đồng</textarea>
+				                			<textarea name="worksheetTotalDeposit" style="color:red;" class="editable_property_textarea_withString h-100 w-auto d-inline-block" data-value="-1" readonly
+				                			>Chưa lập hợp đồng</textarea>
 				                		</div>
 				                		<div th:case="*">
 				                			<input type="hidden" class="updateWorksheetTotalDeposit" th:value="${property.getWorksheetTotalDeposit()}" />
-				                			<!--  <textarea  onchange="allowToSave(this)" class="editable_property_textarea updateWorksheetTotalDeposit h-100 w-auto d-inline-block" th:name="worksheetTotalDeposit" th:text="${#numbers.formatDecimal(property.getWorksheetTotalDeposit(), 0, 'COMMA', 1, 'POINT')}" ></textarea>-->
 				                			<textarea  class="editable_property_textarea updateWorksheetTotalDeposit editable_updateWorksheetTotalDeposit_EditProperty_textarea h-100 w-auto d-inline-block"
-				                			th:text="${property.getWorksheetTotalDeposit()}" onchange="allowToSave(this)" >
+				                			th:text="${property.getWorksheetTotalDeposit()}" onchange="allowToSave(this)"
+				                			name="editable_updateWorksheetTotalDeposit_EditProperty_textareaName" >
 				                			</textarea>
 				                			
 				                		</div>
@@ -558,14 +559,14 @@
 			 	<div th:case="*">
 					<div class="modal fade" th:id="'orderModal-'+${property.getPropertyID()}" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
 													  <div class="modal-dialog modal-dialog-scrollable">
-													    <div class="modal-content">
+													    <div class="modal-content"   name="createOrderForm">
 													      <div class="modal-header">
 													        <h5 class="modal-title" id="orderModalLabel">Thêm hóa đơn mới <span th:text="${property.getPropertyName()}"></span></h5> 
 													        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 													      </div>
 														  <div class="modal-body">
 														  
-														  	<form  th:action="@{/hoa-don/them}"  method="post" th:object="${newOrder}" th:id="'orderForm-'+${property.getPropertyID()}" >
+														  	<div >
 													          	<input type="hidden" name="worksheetID" th:value="${property.getWorksheetID()}" />
 														        <input type="hidden" name="currentPropertyRentalPrice" th:value="${property.getPropertyRentalPrice()}"  />
 														        <h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
@@ -573,15 +574,15 @@
 													       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Nhập thời gian bắt đầu và kết thúc hóa đơn để thống kê</i>
 													       		</h5>
 													       		<div class="form-floating mb-3 mt-3">
-																      <input type="month" class="form-control" th:field="*{orderBelongMonth}" th:id="'orderBelongMonth-'+${property.getPropertyID()}" required>
+																      <input type="month" class="form-control" name="orderBelongMonth" th:id="'orderBelongMonth-'+${property.getPropertyID()}" required>
 																      <label th:for="'orderBelongMonth-'+${property.getPropertyID()}">Tháng lập phiếu</label>
 																</div>
 														        <div class="form-floating mb-3 mt-3">
-																      <input type="date" class="form-control" th:field="*{orderCreateDate}" th:id="'orderCreateDate-'+${property.getPropertyID()}" required>
+																      <input type="date" class="form-control" name="orderCreateDate" th:id="'orderCreateDate-'+${property.getPropertyID()}" required>
 																      <label th:for="'orderCreateDate-'+${property.getPropertyID()}">Ngày bắt đầu hóa đơn</label>
 																</div>
 																<div class="form-floating mb-3 mt-3">
-																      <input type="date" class="form-control" th:field="*{orderExpireDate}" th:id="'orderExpireDate-'+${property.getPropertyID()}" required>
+																      <input type="date" class="form-control" name="orderExpireDate" th:id="'orderExpireDate-'+${property.getPropertyID()}" required>
 																      <label th:for="'orderExpireDate-'+${property.getPropertyID()}">Ngày kết thúc hóa đơn</label>
 																</div>
 														        <h5 style="position: relative;padding-left: 15px;margin-top: 20px;display: inline-grid;">
@@ -589,11 +590,11 @@
 													       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Nhập số tháng và số ngày lẻ (nếu có).</i>
 													       		</h5>
 														        <div class="form-floating mb-3 mt-3">
-																      <input type="number" class="form-control calculateTotalCost_CreateOrder" th:field="*{totalMonth}" name="totalMonth" th:id="'totalMonth-'+${property.getPropertyID()}"  required min="0">
+																      <input type="number" class="form-control calculateTotalCost_CreateOrder" name="totalMonth" th:id="'totalMonth-'+${property.getPropertyID()}"  required min="0">
 																      <label th:for="'totalMonth-'+${property.getPropertyID()}">Số tháng</label>
 																</div>
 														        <div class="form-floating mb-3 mt-3">
-																      <input type="number" class="form-control calculateTotalCost_CreateOrder" th:field="*{totalDay}" name="totalDay" th:id="'totalDay-'+${property.getPropertyID()}"  min="0">
+																      <input type="number" class="form-control calculateTotalCost_CreateOrder"  name="totalDay" th:id="'totalDay-'+${property.getPropertyID()}"  min="0">
 																      <label th:for="'totalDay-'+${property.getPropertyID()}">Số ngày lẻ </label>
 																</div>
 														     
@@ -608,9 +609,8 @@
 	     																		<div name="expanseContainer" style="border-style:outset;padding:5px;">
 																		        	 <p>
 																		        	 	<span th:text="${item.recurringExpanseName}"></span>( <span th:text="${item.recurringExpansePrice}"></span>d/<span th:text="${item.recurringExpanseUnitCount}"></span> )
-																		        	 </p>
-																		        	 <input type="hidden"  th:field="*{recurringExpanseList_withCurrentReading}" /> 		        	 
-																		        	 <input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}+'_'+${item.recurringExpanseType}" />
+																		        	 </p>        	 
+																		        	 <input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}" />
 																		        	 <input type="hidden" name="recurringExpansePrice" th:value="${item.recurringExpansePrice}" />
 																		        	 <input type="hidden" name="recurringExpanseType" th:value="${item.recurringExpanseType}" />
 																		        	 <div class="form-floating mb-3 mt-3">
@@ -618,20 +618,20 @@
 																					      <textarea 
 																					      class="form-control calculateTotalCost_CreateOrder updateReadingWithID_createOrder lastReading_createOrder_textarea"
 																					       th:text="${item.lastRecord.readingValue}" 
-																					        th:id="'lastReading-'+${property.getPropertyID()}+${item.propertyServiceID}" >
+																					        th:id="'lastReading-'+${item.propertyServiceID}" >
 																					      0
 																					      </textarea>
-																					      <label th:for="'lastReading-'+${property.getPropertyID()}+${item.propertyServiceID}">Số cũ</label>
+																					      <label th:for="'lastReading-'+${item.propertyServiceID}">Số cũ</label>
 																					</div>	
 																					<div class="form-floating mb-3 mt-3">
 																					      <input type="hidden" name="currentReading" th:value="${item.lastRecord.readingValue}" />
 																					      <textarea 
 																					      class="form-control calculateTotalCost_CreateOrder updateReadingWithID_createOrder currentReading_createOrder_textarea"
 																					       th:text="${item.lastRecord.readingValue}" 
-																					        th:id="'lastReading-'+${property.getPropertyID()}+${item.propertyServiceID}" >
+																					        th:id="'currentReading-'+${item.propertyServiceID}" >
 																					      0
 																					      </textarea>
-																					      <label th:for="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}">Số mới</label>
+																					      <label th:for="'currentReading-'+${item.propertyServiceID}">Số mới</label>
 																					</div>	
 																		        </div>
 	     																	</div>
@@ -639,14 +639,13 @@
 	     																		<div name="expanseContainer" style="border-style:outset;padding:5px;">
 																		        	 <p>
 																		        	 	<span th:text="${item.recurringExpanseName}"></span>( <span th:text="${item.recurringExpansePrice}"></span>d/<span th:text="${item.recurringExpanseUnitCount}"></span> )( Số cũ: <span th:text="${item.lastRecord.readingValue}"></span> )
-																		        	 </p>
-																		        	 <input type="hidden"  th:field="*{recurringExpanseList_withCurrentReading}" /> 		        	 
-																		        	 <input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}+'_'+${item.recurringExpanseType}" />
+																		        	 </p>	        	 
+																		        	 <input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}" />
 																		        	 <input type="hidden" name="recurringExpansePrice" th:value="${item.recurringExpansePrice}" />
 																		        	 <input type="hidden" name="recurringExpanseType" th:value="${item.recurringExpanseType}" />
 																		        	 <div class="form-floating mb-3 mt-3">
-																					      <input type="number"  name="currentReading" class="form-control calculateTotalCost_CreateOrder updateReadingWithID" th:id="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}" th:value="${item.lastRecord.readingValue}">
-																					      <label th:for="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}">Số mới</label>
+																					      <input type="number"  name="currentReading" class="form-control calculateTotalCost_CreateOrder updateReadingWithID" th:id="'currentReading-'+${item.propertyServiceID}" th:value="${item.lastRecord.readingValue}">
+																					      <label th:for="'currentReading-'+${item.propertyServiceID}">Số mới</label>
 																					 </div>		
 																		        </div>
 	     																	</div>
@@ -655,13 +654,12 @@
 																		        	 <p>
 																		        	 	<span th:text="${item.recurringExpanseName}"></span>( <span th:text="${item.recurringExpansePrice}"></span>d/<span th:text="${item.recurringExpanseUnitCount}"></span> )
 																		        	 </p>
-																		        	 <input type="hidden"  id="recurringExpanseList_withCurrentReading" name="recurringExpanseList_withCurrentReading" th:value="${item.propertyServiceID}+'_'+${item.recurringExpanseType}+'_1'"/> 		        	 
-																		        	 <input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}+'_'+${item.recurringExpanseType}" />
+																		        	 <input type="hidden" name="propertyServiceID" th:value="${item.propertyServiceID}" />
 																		        	 <input type="hidden" name="recurringExpansePrice" th:value="${item.recurringExpansePrice}" />
 																		        	 <input type="hidden" name="recurringExpanseType" th:value="${item.recurringExpanseType}" />
 																		        	 <div class="form-floating mb-3 mt-3">
-																					      <input type="number" readonly name="currentReading" value="1" class="form-control calculateTotalCost_CreateOrder updateReadingWithID" th:id="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}">
-																					      <label th:for="'currentReading-'+${property.getPropertyID()}+${item.propertyServiceID}">Chi phí áp dụng cho cả tài sản</label>
+																					      <input type="number" readonly name="currentReading" value="1" class="form-control calculateTotalCost_CreateOrder updateReadingWithID" th:id="'currentReading-'+${item.propertyServiceID}">
+																					      <label th:for="'currentReading-'+${item.propertyServiceID}">Chi phí áp dụng cho cả tài sản</label>
 																					 </div>		
 																		        </div>
 	     																	</div>
@@ -674,8 +672,8 @@
 													       		Cộng thêm / Giảm trừ:
 													       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Thường dành cho các trường hợp đặc biệt. Ví dụ cộng thêm ngày tết, giảm trừ covid...</i>
 													       		</h5>
-															  	<p>Cộng thêm: </p><input type="radio" class="calculateTotalCost_CreateOrder" th:field="*{expanseType}" value="true" checked>
-														      	<p>Giảm trừ : </p><input type="radio" class="calculateTotalCost_CreateOrder" th:field="*{expanseType}" value="false">
+															  	<p>Cộng thêm: </p><input type="radio" class="calculateTotalCost_CreateOrder" name="expanseType" value="true" checked>
+														      	<p>Giảm trừ : </p><input type="radio" class="calculateTotalCost_CreateOrder" name="expanseType" value="false">
 														         
 													       		<div class="form-floating mb-3 mt-3">
 													       			  <input type="hidden" name="expanseCost" value="0" min="0"/>
@@ -687,18 +685,18 @@
 																</div>
 															 	
 														      	<div class="form-floating mb-3 mt-3">
-																      <input type="text" class="form-control calculateTotalCost_CreateOrder" th:field="*{expanseDetails}"  th:id="'expanseDetails-'+${property.getPropertyID()}" >
+																      <input type="text" class="form-control calculateTotalCost_CreateOrder" name="expanseDetails"  th:id="'expanseDetails-'+${property.getPropertyID()}" >
 																      <label th:for="'expanseDetails-'+${property.getPropertyID()}">Lý do</label>
 																</div>
 														      	<input type="hidden" name="totalCost" th:value="${property.getPropertyRentalPrice()}"/>
-														       </form> 
+														       </div> 
 														      </div>
 														      <div class="modal-footer">
 														      	<input type="hidden" name="totalCostText" th:value="${property.getPropertyRentalPrice()}"/>
 														      	<p>Tổng số tiền:</p><textarea class="totalCost_CreateOrder_textarea"
 														      	 disabled name="totalCostText" th:text="${property.getPropertyRentalPrice()}" ></textarea>
 														        <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Đóng</button>
-																<input type="submit" value="Thêm phiếu thu tiền mới" class="btn btn-primary" th:form="'orderForm-'+${property.getPropertyID()}" />
+																<input type="button" value="Thêm phiếu thu tiền mới" class="btn btn-primary" name="createOrderButton" />
 														      </div>
 														  
 													    </div>

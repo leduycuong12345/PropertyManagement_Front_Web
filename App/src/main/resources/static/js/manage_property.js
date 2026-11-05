@@ -22,15 +22,15 @@ function calculateTotalCost_CreateOrder_ManageProperty()
 	//all input ve class="calculateTotalCost_CreateOrder" ll trigger this function when change value.
 	$(".calculateTotalCost_CreateOrder").change(function(x){
 	  let currentWorksheetPrice=0;
-	  currentWorksheetPrice=parseFloat($(this).closest('form').children('input[name="currentPropertyRentalPrice"]').val());//find the id of reccuringExpanse
+	  currentWorksheetPrice=parseFloat($(this).closest('div[name="createOrderForm"]').children('div').children('div').children('input[name="currentPropertyRentalPrice"]').val());//find the id of reccuringExpanse
 	  let averageCostPerDay=0;
 	  averageCostPerDay=currentWorksheetPrice/30;
 	  let totalMonth=0;
-	  totalMonth=parseInt($(this).closest('form').children('div').children('input[name="totalMonth"]').val());
+	  totalMonth=parseInt($(this).closest('div[name="createOrderForm"]').children('div').children('div').children('div').children('input[name="totalMonth"]').val());
 	  let totalDay=0;
-	  totalDay=parseInt($(this).closest('form').children('div').children('input[name="totalDay"]').val());
+	  totalDay=parseInt($(this).closest('div[name="createOrderForm"]').children('div').children('div').children('div').children('input[name="totalDay"]').val());
 	  let unexpectedExpanseCost=0;
-	  unexpectedExpanseCost=safeLoadFloatValue($(this).closest('form').children('div').children('input[name="expanseCost"]').val());
+	  unexpectedExpanseCost=safeLoadFloatValue($(this).closest('div[name="createOrderForm"]').children('div').children('div').children('div').children('input[name="expanseCost"]').val());
 	  if(isNaN(currentWorksheetPrice))
 	  {
 		currentWorksheetPrice=0;
@@ -50,7 +50,7 @@ function calculateTotalCost_CreateOrder_ManageProperty()
 	  let totalCost=(totalMonth*currentWorksheetPrice)+(totalDay*averageCostPerDay);
 	  
 	  //calculate unexpectedExpanse
-	  let isPlus=$(this).closest('form').children('input[name="expanseType"]:checked').val();
+	  let isPlus=$(this).closest('div[name="createOrderForm"]').children('div').children('div').children('input[name="expanseType"]:checked').val();
       if(isPlus==='true')
       {
         totalCost=totalCost+unexpectedExpanseCost;
@@ -61,7 +61,7 @@ function calculateTotalCost_CreateOrder_ManageProperty()
       }
       
       //calculate repeatedExpanse
-      $(this).closest('form').children('div').children('div').children('div').children('div[name="expanseContainer"]').each(function(key,container) { // we ve to tag as "tbody tr" becauce thead_included_tr too. If u call only ll be redundant one ( tr sum from thead and tbody)
+      $(this).closest('div[name="createOrderForm"]').children('div').children('div').children('div').children('div').children('div').children('div[name="expanseContainer"]').each(function(key,container) { // we ve to tag as "tbody tr" becauce thead_included_tr too. If u call only ll be redundant one ( tr sum from thead and tbody)
 			
 		    let expanseType=parseInt($(container).children('input[name="recurringExpanseType"]').val());
 			if(isNaN(expanseType))
@@ -122,10 +122,10 @@ function calculateTotalCost_CreateOrder_ManageProperty()
 	  let orderDetails="";
 	  orderDetails=""+totalMonth+" tháng," +totalDay+" ngày x"+currentWorksheetPrice+" = "+totalCost;
 	  //set value for detailsOrder so user know what they entered.
-	  $(this).closest('form').children('textarea[name="orderDetails"]').val(orderDetails);
+	  $(this).closest('div[name="createOrderForm"]').children('div').children('div').children('textarea[name="orderDetails"]').val(orderDetails);
   	  //set value to totalCost and display it as totalCostText
-  	  $(this).closest('form').children('input[name="totalCost"]').val(totalCost);
-  	  $(this).closest('form').children('textarea[name="orderDetailsText"]').val(orderDetails);
+  	  $(this).closest('div[name="createOrderForm"]').children('div').children('div').children('input[name="totalCost"]').val(totalCost);
+  	  $(this).closest('div[name="createOrderForm"]').children('div').children('div').children('textarea[name="orderDetailsText"]').val(orderDetails);
   	  
   	  //input for form post
   	  $(this).closest('.modal-content').children('.modal-footer').children('input[name="totalCostText"]').val(totalCost);
@@ -133,7 +133,9 @@ function calculateTotalCost_CreateOrder_ManageProperty()
   	  
   	  var formattedNumber = formatNumberFromInput(totalCost);
 	  $(this).closest('.modal-content').children('.modal-footer').children('textarea[name="totalCostText"]').val(formattedNumber);
-
+	  
+	  
+	  return totalCost;
   	});
   	
 }
@@ -144,7 +146,7 @@ function formatNumberFromInput(input)
 	var formattedNumber = number.toLocaleString();
 	return formattedNumber;
 }
-function generate_IDwithReading_RecurringExpanse_CreateOrder() {
+/*function generate_IDwithReading_RecurringExpanse_CreateOrder() {
 	$(".updateReadingWithID_createOrder").on('blur',function(x){
 	  let expanseType=parseInt($(this).closest('div[name="expanseContainer"]').children('input[name="recurringExpanseType"]').val());
 	  if(isNaN(expanseType))
@@ -172,12 +174,136 @@ function generate_IDwithReading_RecurringExpanse_CreateOrder() {
 		 }
 	  }
     });
+}*/
+function createOrderRequest(tag)
+{ 
+  //console.log(tag);
+  let totalMonth=0;
+  totalMonth=parseInt($(tag).closest('div[name="createOrderForm"]').children('div').children('div').children('div').children('input[name="totalMonth"]').val());
+  let totalDay=0;
+  totalDay=parseInt($(tag).closest('div[name="createOrderForm"]').children('div').children('div').children('div').children('input[name="totalDay"]').val());
+  let orderBelongMonth=$(tag).closest('div[name="createOrderForm"]').children('div').children('div').children('div').children('input[name="orderBelongMonth"]').val();
+  let orderCreateDate=$(tag).closest('div[name="createOrderForm"]').children('div').children('div').children('div').children('input[name="orderCreateDate"]').val();
+  let orderExpireDate=$(tag).closest('div[name="createOrderForm"]').children('div').children('div').children('div').children('input[name="orderExpireDate"]').val();
+  let worksheetID=$(tag).closest('div[name="createOrderForm"]').children('div').children('div').children('input[name="worksheetID"]').val();
+
+  let totalCost=0;
+  totalCost=$(tag).closest('div[name="createOrderForm"]').children('div').children('div').children('input[name="totalCost"]').val();
+
+  if(isNaN(totalMonth))
+  {
+		totalMonth=0;
+  }
+  if(isNaN(totalDay))
+  {
+		totalDay=0;
+  }
+  
+  var recurringExpanseList_withCurrentReading=[];
+  $(tag).closest('div[name="createOrderForm"]').children('div').children('div').children('div').children('div').children('div').children('div[name="expanseContainer"]').each(function(key,container) {
+				let expanseType=parseInt($(container).children('input[name="recurringExpanseType"]').val());
+				const propertyServiceID=$(container).children('input[name="propertyServiceID"]').val();
+				if(propertyServiceID === undefined || propertyServiceID === "")
+				{
+						propertyServiceID=-1;
+				}
+				
+				if(expanseType === undefined || expanseType === "")
+				{
+					expanseType=0;
+				}
+				var expanse;
+				if(expanseType==3)
+		  		{
+			     	let currentReading=safeLoadFloatValue( $(container).children('div').children('input[name="currentReading"]').val());
+					if(isNaN(currentReading))
+					{
+							currentReading=-1;
+					}
+					let lastReading=safeLoadFloatValue( $(container).children('div').children('input[name="lastReading"]').val());
+					if(isNaN(lastReading))
+					{
+						lastReading=-1;
+					}
+					
+					expanse={
+						propertyServiceID:propertyServiceID,
+						expanseType:expanseType,
+						previousReadingValue:lastReading,
+						currentReadingValue:currentReading
+					}
+			    }
+			    else
+			    {
+					if(expanseType==2)
+					{
+						let currentReading=1;
+						expanse={
+							propertyServiceID:propertyServiceID,
+							expanseType:expanseType,
+							currentReadingValue:currentReading
+						}
+					}
+					if( expanseType==1)
+					{
+						let currentReading=safeLoadFloatValue( $(container).children('div').children('input[name="currentReading"]').val());
+						if(isNaN(currentReading))
+						{ 
+								currentReading=-1;
+						}
+						expanse={
+							propertyServiceID:propertyServiceID,
+							expanseType:expanseType,
+							currentReadingValue:currentReading
+						}
+					}
+				}
+	 recurringExpanseList_withCurrentReading.push(expanse);
+  });
+  
+  let unexpected_expanseType=$(tag).closest('div[name="createOrderForm"]').children('div').children('div').children('input[name="expanseType"]').is(':checked');
+  let unexpected_expanseCost=$(tag).closest('div[name="createOrderForm"]').children('div').children('div').children('div').children('input[name="expanseCost"]').val();
+  let unexpected_expanseDetails=$(tag).closest('div[name="createOrderForm"]').children('div').children('div').children('div').children('input[name="expanseDetails"]').val();
+  
+  
+  var createOrderDTO={
+		 orderBelongMonth:orderBelongMonth,
+		 orderCreateDate:orderCreateDate,
+		 orderExpireDate:orderExpireDate,
+		 totalMonth:totalMonth,
+		 totalDay:totalDay,
+		 worksheetID:worksheetID,
+		 recurringExpanseList_withCurrentReading:recurringExpanseList_withCurrentReading,
+		 totalCost:totalCost,
+		 expanseType:unexpected_expanseType,
+		 expanseCost:unexpected_expanseCost,
+		 expanseDetails:unexpected_expanseDetails
+	 }
+	
+  $.ajax({   
+            type: "POST",
+            contentType: "application/json",
+            url:"/hoa-don/them", 
+            data: JSON.stringify(createOrderDTO),
+            success: function(response) {
+                console.log("Đã gửi đối tượng thành công.");
+                // Xử lý phản hồi từ máy chủ nếu cần
+                window.location.href ="/quan-ly";
+            },
+            error: function(error) {
+                console.log("Lỗi khi gửi đối tượng: " + error);
+            }
+   	});
 }
 function callFunctionFor_CreateOrder_Sequences()
 {
 	//this autoCalculateTotalOrder should be call after autoFormatNumber if u dont want things to be delay-calculate-1step-behind
-	generate_IDwithReading_RecurringExpanse_CreateOrder();
-	calculateTotalCost_CreateOrder_ManageProperty();
+	//generate_IDwithReading_RecurringExpanse_CreateOrder();
+	
+	
+	$('input[name="createOrderButton"]').click(function() {
+	    createOrderRequest(this);
+	});
 }
 
 //end calculateTotalCost CreateOrder ManageProperty
@@ -296,7 +422,7 @@ function postChangedPropertyToAPI(item, index) {
   $.ajax({
             type: "POST",
             contentType: "application/json",
-            url:"/quan-ly/sua-tai-san", // Điều chỉnh URL tương ứng với Spring Boot
+            url:"/quan-ly/sua-tai-san", 
             data: JSON.stringify(property),
             success: function(response) {
                 console.log("Đã gửi đối tượng thành công.");
@@ -796,7 +922,7 @@ function createFastOrderList() {
   $.ajax({
             type: "POST",
             contentType: "application/json",
-            url:"/quan-ly/tao-nhanh-danh-sach-hoa-don", // Điều chỉnh URL tương ứng với Spring Boot
+            url:"/quan-ly/tao-nhanh-danh-sach-hoa-don", 
             data: JSON.stringify(fastCreateOrderList),
             success: function(response) {
                 console.log("Đã gửi đối tượng thành công.");
@@ -1366,7 +1492,7 @@ function formatNumberTextarea_lastReading_CreateOrder_BlurOut()
 	    
 	    
     	//update_recurringExpanseValue first then update_selectedExpanseList ! or u will be missing value
-		updateValueWithID_RecurringExpanse_CreateOrder(this,number);
+		//updateValueWithID_RecurringExpanse_CreateOrder(this,number);
     });
     
 }
@@ -1435,7 +1561,7 @@ function formatNumberTextarea_currentReading_CreateOrder_BlurOut()
 	    
 	    
     	//update_recurringExpanseValue first then update_selectedExpanseList ! or u will be missing value
-		updateValueWithID_RecurringExpanse_CreateOrder(this,number);
+		//updateValueWithID_RecurringExpanse_CreateOrder(this,number);
     });
     
 }
@@ -1676,6 +1802,7 @@ $(document).ready(function(){
     
     
 	//create order function	
+	calculateTotalCost_CreateOrder_ManageProperty();
 	callFunctionFor_CreateOrder_Sequences();
 	
 	//calculate totalcost each order

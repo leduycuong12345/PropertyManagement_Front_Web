@@ -203,9 +203,13 @@ public class ManagePropertyController {
 		return "redirect:/quan-ly";
 	}
 	@PostMapping(value="/hoa-don/them")
-	public String createOrder_ManageProperty( @ModelAttribute("newOrder") ManageProperty_CreateOrderDTO newOrder) throws Exception {
-
-		logger.info("ManagePropertyController createOrder_ManageProperty OrderBelongMonth:{}",newOrder.getOrderBelongMonth());
+	//public String createOrder_ManageProperty( @ModelAttribute("newOrder") ManageProperty_CreateOrderDTO newOrder) throws Exception {
+	public String createOrder_ManageProperty( @Validated @RequestBody ManageProperty_CreateOrderDTO newOrder)  {
+		//ManageProperty_CreateOrderDTO dto=new ManageProperty_CreateOrderDTO(newOrder);
+		
+		
+		logger.info("ManagePropertyController createOrder_ManageProperty OrderBelongMonth:{}"
+				+ ",recurringExpanseSize:{}",newOrder.getOrderBelongMonth(),newOrder.getRecurringExpanseList_withCurrentReading().size());
 		manageProperty_OrderInfoService.createOrder_ManageProperty(newOrder);
 		//System.out.println("i was here: "+newOrder.getOrderBelongMonth());
 		return "redirect:/quan-ly";
