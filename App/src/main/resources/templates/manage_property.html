@@ -672,9 +672,18 @@
 													       		Cộng thêm / Giảm trừ:
 													       		<i style="font-size: 14px;font-weight: normal;color: #444444;"> Thường dành cho các trường hợp đặc biệt. Ví dụ cộng thêm ngày tết, giảm trừ covid...</i>
 													       		</h5>
-															  	<p>Cộng thêm: </p><input type="radio" class="calculateTotalCost_CreateOrder" name="expanseType" value="true" checked>
-														      	<p>Giảm trừ : </p><input type="radio" class="calculateTotalCost_CreateOrder" name="expanseType" value="false">
-														         
+													       		<div class="form-check">
+																  <input class="form-check-input" type="radio" name="expanseType" th:id="'expansePlusType-'+${property.getPropertyID()}" value="true" checked>
+																  <label class="form-check-label" th:for="'expansePlusType-'+${property.getPropertyID()}">
+																    Cộng thêm: 
+																  </label>
+																</div>
+																<div class="form-check">
+																  <input class="form-check-input" type="radio" name="expanseType" th:id="'expanseMinusType-'+${property.getPropertyID()}" value="false">
+																  <label class="form-check-label" th:for="'expanseMinusType-'+${property.getPropertyID()}">
+																    Giảm trừ :
+																  </label>
+																</div>
 													       		<div class="form-floating mb-3 mt-3">
 													       			  <input type="hidden" name="expanseCost" value="0" min="0"/>
 																      <textarea class="form-control calculateTotalCost_CreateOrder editable_unexpectedExpanseCost_textarea" 

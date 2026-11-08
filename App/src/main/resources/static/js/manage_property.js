@@ -50,7 +50,7 @@ function calculateTotalCost_CreateOrder_ManageProperty()
 	  let totalCost=(totalMonth*currentWorksheetPrice)+(totalDay*averageCostPerDay);
 	  
 	  //calculate unexpectedExpanse
-	  let isPlus=$(this).closest('div[name="createOrderForm"]').children('div').children('div').children('input[name="expanseType"]:checked').val();
+	  let isPlus=$(this).closest('div[name="createOrderForm"]').children('div').children('div').children('div').children('input[name="expanseType"]:checked').val();
       if(isPlus==='true')
       {
         totalCost=totalCost+unexpectedExpanseCost;
