@@ -8,6 +8,29 @@ public class ManageProperty_FastCreateOrderList_WorksheetDTO {
 	private UUID worksheetID;
 	private double totalCost;
 	private List<ManageProperty_FastCreateOrderList_RecurringExpanseDTO> expanseList=new ArrayList<ManageProperty_FastCreateOrderList_RecurringExpanseDTO>();
+	private Boolean expanseType=true;// Cong-them hoac /tru-vao
+	private Double expanseCost=(double)0;
+	private String expanseDetails="";
+	
+	
+	public Boolean getExpanseType() {
+		return expanseType;
+	}
+	public void setExpanseType(Boolean expanseType) {
+		this.expanseType = expanseType;
+	}
+	public Double getExpanseCost() {
+		return expanseCost;
+	}
+	public void setExpanseCost(Double expanseCost) {
+		this.expanseCost = expanseCost;
+	}
+	public String getExpanseDetails() {
+		return expanseDetails;
+	}
+	public void setExpanseDetails(String expanseDetails) {
+		this.expanseDetails = expanseDetails;
+	}
 	public UUID getWorksheetID() {
 		return worksheetID;
 	}

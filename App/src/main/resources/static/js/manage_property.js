@@ -146,35 +146,6 @@ function formatNumberFromInput(input)
 	var formattedNumber = number.toLocaleString();
 	return formattedNumber;
 }
-/*function generate_IDwithReading_RecurringExpanse_CreateOrder() {
-	$(".updateReadingWithID_createOrder").on('blur',function(x){
-	  let expanseType=parseInt($(this).closest('div[name="expanseContainer"]').children('input[name="recurringExpanseType"]').val());
-	  if(isNaN(expanseType))
-	  {
-		 expanseType=0;
-	  }
-	  if(expanseType==3)
-	  {
-			var reccuringExpanseID=$(this).closest('div[name="expanseContainer"]').children('input[name="propertyServiceID"]').val();//find the id of reccuringExpanse
-			var currentReading=safeLoadFloatValue($(this).closest('div[name="expanseContainer"]').children('div').children('input[name="currentReading"]').val());
-			var lastReading=safeLoadFloatValue($(this).closest('div[name="expanseContainer"]').children('div').children('input[name="lastReading"]').val());
-			var result=reccuringExpanseID+"_"+lastReading+"_"+currentReading;
-			//add value to input type=checkbox th:field="selectedExpanseList" which s init as List<String> selectedExpanseList=new ArrayList<String>();
-			$(this).closest('div[name="expanseContainer"]').children('input[name="recurringExpanseList_withCurrentReading"]').val(result);
-	  }
-	  else
-	  {
-		if(expanseType==2 || expanseType ==1)
-		{
-			var reccuringExpanseID=$(this).closest('div[name="expanseContainer"]').children('input[name="propertyServiceID"]').val();//find the id of reccuringExpanse
-			var readingValue=	safeLoadFloatValue( $(this).val());
-			var result=reccuringExpanseID+"_"+readingValue;
-			//add value to input type=checkbox th:field="selectedExpanseList" which s init as List<String> selectedExpanseList=new ArrayList<String>();
-			$(this).closest('div[name="expanseContainer"]').children('input[name="recurringExpanseList_withCurrentReading"]').val(result);
-		 }
-	  }
-    });
-}*/
 function createOrderRequest(tag)
 { 
   //console.log(tag);
@@ -298,9 +269,7 @@ function createOrderRequest(tag)
 function callFunctionFor_CreateOrder_Sequences()
 {
 	//this autoCalculateTotalOrder should be call after autoFormatNumber if u dont want things to be delay-calculate-1step-behind
-	//generate_IDwithReading_RecurringExpanse_CreateOrder();
-	
-	
+
 	$('input[name="createOrderButton"]').click(function() {
 	    createOrderRequest(this);
 	});
@@ -901,14 +870,15 @@ function createFastOrderList() {
 		
 			
 		});	
-	 } 
-	 var worksheet={
+		var worksheet={
 		 worksheetID:$(bigContainer).children("input[name='worksheetID']").val(),
 		 totalCost:$(bigContainer).children("div").children("input[name='totalCost']").val(),
 		 expanseList:expanseList
-	 }
+		 }
+		 
+		 worksheetList_withCurrentReading.push(worksheet);
+	 } 
 	 
-	 worksheetList_withCurrentReading.push(worksheet);
   });
   
   var fastCreateOrderList={
