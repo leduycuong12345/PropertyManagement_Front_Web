@@ -845,7 +845,7 @@ function createFastOrderList() {
 			    {
 					if(expanseType==2)
 					{
-						let currentReading=-1;
+						let currentReading=1;
 						expanse={
 							propertyServiceID:propertyServiceID,
 							expanseType:expanseType,
