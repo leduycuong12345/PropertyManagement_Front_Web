@@ -705,7 +705,20 @@ function calculateTotalCost_CreateFastOrderList_ManageProperty()
 	  }
 	  let totalCost=(totalMonth*currentWorksheetPrice)+(totalDay*averageCostPerDay);
 	  
-	  
+	  //calculate expanse
+	  let expanseType=true;
+	  expanseType=$(this).closest('div[name="fastCreateOrder"]').children('div').children('div').children('input[name="expanseType"]:checked').val();
+	  let expanseCost=0;
+	  expanseCost=safeLoadFloatValue( $(this).closest('div[name="fastCreateOrder"]').children('div').children('div').children('input[name="expanseCost"]').val() );
+	  if(expanseType==='true')
+	  {
+		 totalCost=totalCost+expanseCost;
+	  }
+	  else
+	  {
+		 totalCost=totalCost-expanseCost;
+	  }
+	  //ending calculate expanse
       
       //calculate repeatedExpanse
       sumRecurringExpanse_calculateTotalCost(this,totalCost);
@@ -870,9 +883,20 @@ function createFastOrderList() {
 		
 			
 		});	
+		
+		//expanse cost
+		let expanseType=$(this).closest('div[name="fastCreateOrder"]').children('div').children('div').children('input[name="expanseType"]').is(':checked');
+  		let expanseCost=$(this).closest('div[name="fastCreateOrder"]').children('div').children('div').children('input[name="expanseCost"]').val();
+  		let expanseDetails=$(this).closest('div[name="fastCreateOrder"]').children('div').children('div').children('input[name="expanseDetails"]').val();
+  
+		//ending expanse cost
+		
 		var worksheet={
 		 worksheetID:$(bigContainer).children("input[name='worksheetID']").val(),
 		 totalCost:$(bigContainer).children("div").children("input[name='totalCost']").val(),
+		 expanseType:expanseType,
+		 expanseCost:expanseCost,
+		 expanseDetails:expanseDetails,
 		 expanseList:expanseList
 		 }
 		 
@@ -1710,6 +1734,73 @@ function updateNumberFormat_currentReading_CreateFastOrder()
 	formatNumber_currentReading_CreateFastOrder_editableTextarea_firstTimeRender();
 }
 //UI update number format of currentReading in create-fast-order  ending
+//UI update number format of expanse in create-fast-order
+function formatNumberTextarea_expanseCost_CreateFastOrder_BlurOut()
+{
+	 // On focus: convert UI display from "1.500.500" -> "1500500"
+    $('textarea.editable_expanseCost_createFastOrder_textarea').on('focus', function() {
+        var text = $(this).val().trim(); 
+        var raw = text.replace(/\./g, ""); // remove all dot 
+        $(this).text(raw);
+        $(this).val(raw);
+    });
+
+    // On blur: convert display back "1500500,5" -> "1.500.500,5"
+    $('textarea.editable_expanseCost_createFastOrder_textarea').on('blur', function() {
+    	var content =  $(this).closest('div').children('input[name="expanseCost"]').val() ;
+        // Convert the content to a number
+	    var number = safeLoadFloatValue(content);
+	    // Format the number with commas every 3 digits
+	    var formattedNumber = number.toLocaleString();
+	    //parse to textarea display UI
+	    $(this).val(formattedNumber);
+	    $(this).text(formattedNumber);
+	    
+	    
+    });
+    
+}
+function updateValueToHiddenInputField_editableTextarea_expanseCost_CreateFastOrder()
+{
+	$(".editable_expanseCost_createFastOrder_textarea").change(function (e) {
+           var content=$(this).val();
+           
+           //update value of hidden input after edit at textarea to submit post form if needed be.
+           $(this).closest('div').children('input[name="expanseCost"]').val(content);
+     });
+}
+function numberInputrOnly_expanseCost_CreateFastOrder_editableTextarea()
+{
+	$(".editable_expanseCost_createFastOrder_textarea").keypress(function (e) {
+	    var allowedCharacters = []; // Mã ký tự của dấu d0t và các số từ 0 đến 9 
+	    //"." (dot) = 46"," (comma) = 44
+	    var keyCode = e.which;
+	    
+	    if (!(allowedCharacters.includes(keyCode) || (keyCode >= 48 && keyCode <= 57))) {
+	        e.preventDefault();
+	    }
+	});
+}
+function formatNumber_expanseCost_CreateFastOrder_editableTextarea_firstTimeRender()
+{
+	$('.editable_expanseCost_createFastOrder_textarea').each(function() {
+        var content = $(this).val();
+        // Convert the content to a number
+	    var number = safeLoadFloatValue(content);
+	    // Format the number with commas every 3 digits
+	    var formattedNumber = number.toLocaleString();
+	    // Replace the content of the <p> element with the formatted number
+	    $(this).text(formattedNumber);
+    });
+}
+function updateNumberFormat_expanseCost_CreateFastOrder()
+{
+	formatNumberTextarea_expanseCost_CreateFastOrder_BlurOut();
+	updateValueToHiddenInputField_editableTextarea_expanseCost_CreateFastOrder()
+	numberInputrOnly_expanseCost_CreateFastOrder_editableTextarea();
+	formatNumber_expanseCost_CreateFastOrder_editableTextarea_firstTimeRender();
+}
+//UI update number format of expanse in create-fast-order ending
 function selectAllCheckbox_ActiveWorksheet_createFastOrderList()
 {
 	$("#selectAllCheckbox_ActiveWorksheet").change(function(x){
@@ -1766,6 +1857,7 @@ $(document).ready(function(){
     updateNumberFormat_currentReading_CreateOrder();
     updateNumberFormat_lastReading_CreateFastOrder();
     updateNumberFormat_currentReading_CreateFastOrder();
+    updateNumberFormat_expanseCost_CreateFastOrder();
     //ending update numberformat
     
     selectAllCheckbox_ActiveWorksheet_createFastOrderList();

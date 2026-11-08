@@ -965,6 +965,38 @@
 																			    </div>
 												                			</th:block>
 												                			
+												                			<!-- new stuff -->
+												                			<div style="border-style:dashed;padding:5px;margin-bottom: 5px;">
+																                <h5>Chí phí phát sinh:</h5>
+																                <div class="form-check">
+																				  <input class="form-check-input" type="radio" name="expanseType" th:id="'expansePlusType-'+${property.getWorksheetID()}" value="true" checked>
+																				  <label class="form-check-label" th:for="'expansePlusType-'+${property.getWorksheetID()}">
+																				    Cộng thêm: 
+																				  </label>
+																				</div>
+																				<div class="form-check">
+																				  <input class="form-check-input" type="radio" name="expanseType" th:id="'expanseMinusType-'+${property.getWorksheetID()}" value="false">
+																				  <label class="form-check-label" th:for="'expanseMinusType-'+${property.getWorksheetID()}">
+																				    Giảm trừ :
+																				  </label>
+																				</div>
+																	       		<div class="form-floating mb-3 mt-3">
+																	       			  <input type="hidden" name="expanseCost" value="0" min="0"/>
+																				      <textarea class="form-control calculateOrderList editable_expanseCost_createFastOrder_textarea" 
+																				        th:id="'expanseCost-'+${property.getWorksheetID()}"
+																				        >
+																				      0
+																				      </textarea>
+																				      <label th:for="'expanseCost-'+${property.getWorksheetID()}">Số tiền</label>
+																				</div>
+																			 	
+																		      	<div class="form-floating mb-3 mt-3">
+																				      <input type="text" class="form-control calculateOrderList" name="expanseDetails"  th:id="'expanseDetails-'+${property.getWorksheetID()}" >
+																				      <label th:for="'expanseDetails-'+${property.getWorksheetID()}">Lý do</label>
+																				</div>
+																			</div>
+																			<!-- new stuff -->
+																			
 																		    <input type="hidden" name="currentPropertyRentalPrice" th:value="${property.getPropertyRentalPrice()}"  />
 												                			<div class="form-floating mb-3 mt-3">
 																		    	<input type="hidden" name="totalCost" value="0"  />
