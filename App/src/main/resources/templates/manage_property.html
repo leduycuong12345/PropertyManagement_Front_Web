@@ -971,13 +971,15 @@
 												                			<div style="border-style:dashed;padding:5px;margin-bottom: 5px;">
 																                <h5>Chí phí phát sinh:</h5>
 																                <div class="form-check">
-																				  <input class="form-check-input" type="radio" name="expanseType" th:id="'expansePlusType-'+${property.getWorksheetID()}" value="true" checked>
+																				  <input class="form-check-input calculateOrderList" type="radio" name="expanseType" 
+																				  th:id="'expansePlusType-'+${property.getWorksheetID()}" value="true" checked>
 																				  <label class="form-check-label" th:for="'expansePlusType-'+${property.getWorksheetID()}">
 																				    Cộng thêm: 
 																				  </label>
 																				</div>
 																				<div class="form-check">
-																				  <input class="form-check-input" type="radio" name="expanseType" th:id="'expanseMinusType-'+${property.getWorksheetID()}" value="false">
+																				  <input class="form-check-input calculateOrderList" type="radio" name="expanseType" 
+																				  th:id="'expanseMinusType-'+${property.getWorksheetID()}" value="false">
 																				  <label class="form-check-label" th:for="'expanseMinusType-'+${property.getWorksheetID()}">
 																				    Giảm trừ :
 																				  </label>
