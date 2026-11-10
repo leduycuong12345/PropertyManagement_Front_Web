@@ -232,7 +232,7 @@ function createOrderRequest(tag)
 	 recurringExpanseList_withCurrentReading.push(expanse);
   });
   
-  let unexpected_expanseType=$(tag).closest('div[name="createOrderForm"]').children('div').children('div').children('input[name="expanseType"]').is(':checked');
+  let unexpected_expanseType=$(tag).closest('div[name="createOrderForm"]').children('div').children('div').children('div').children('input[name="expanseType"]:checked').val();
   let unexpected_expanseCost=$(tag).closest('div[name="createOrderForm"]').children('div').children('div').children('div').children('input[name="expanseCost"]').val();
   let unexpected_expanseDetails=$(tag).closest('div[name="createOrderForm"]').children('div').children('div').children('div').children('input[name="expanseDetails"]').val();
   
