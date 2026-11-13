@@ -177,6 +177,7 @@ public class ManagePropertyController {
 		{
 			logger.info("postEditRecurringExpanseOfProperty expanse:{}",expanse);
 		}
+		logger.info("postEditRecurringExpanseOfProperty propertyId:{}",editFastExpanseList.getPropertyID());
 		this.propertyServiceSer.fastEditExpanseList(editFastExpanseList);
 		return "redirect:/quan-ly";
     }
