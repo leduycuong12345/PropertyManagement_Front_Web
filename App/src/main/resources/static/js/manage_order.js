@@ -36,7 +36,8 @@ function printOrderFunction(){
 	  var expanseNote=$(this).closest('tr').children('input[name="expanseNote"]').val();
 	  var expanseType=$(this).closest('tr').children('td').children('input[name="expanseType"]').val();
 	  var expanseCost=safeLoadFloatValue($(this).closest('tr').children('td').children('input[name="expanseCost"]').val());
-	  var amount=safeLoadFloatValue($(this).closest('tr').children('input[name="debtAmount"]').val());        
+	  var amountFinal=safeLoadFloatValue($(this).closest('tr').children('input[name="debtAmount"]').val());
+	  var previousDebtAmount=(amountFinal-remainingAmount)  ;      
       //get expansePreviousReadingValue
       var recurringExpansePreviousReadingValueList=[];
       recurringExpansePreviousReadingValueList=$(this).closest('tr').children("td[name='previousReadingValue']");
@@ -147,11 +148,11 @@ function printOrderFunction(){
 	               </tr>
 	               <tr>
 	                   <td colspan="5">Tổng nợ</td>
-	                   <td>${parseInt(remainingAmount).toLocaleString()}</td>
+	                   <td>${parseInt(previousDebtAmount).toLocaleString()}</td>
 	               </tr>
 	               <tr>
 	                   <td colspan="5">Tổng tiền còn phải thanh toán</td>
-	                   <td>${parseInt(amount).toLocaleString()}</td>
+	                   <td>${parseInt(amountFinal).toLocaleString()}</td>
 	               </tr>
 	               
 	            </tbody>
